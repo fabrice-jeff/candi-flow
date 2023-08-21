@@ -14,7 +14,6 @@ class Domaine
     use EntityUniqueIdTrait;
     use EntityTimestampableTrait;
     use EntityUserOperation;
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

@@ -12,10 +12,10 @@ use Doctrine\ORM\Mapping as ORM;
 class RegleProcedure
 {
 
+
     use EntityUniqueIdTrait;
     use EntityTimestampableTrait;
     use EntityUserOperation;
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

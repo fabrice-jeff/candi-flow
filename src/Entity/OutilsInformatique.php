@@ -16,7 +16,6 @@ class OutilsInformatique
     use EntityTimestampableTrait;
     use EntityUserOperation;
 
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

@@ -1,0 +1,42 @@
+{{ form_start(form) }}
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+            {{ form_row(form.libelle) }}
+        </div>
+    
+        <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+            {{ form_row(form.domaine) }}
+        </div>
+    
+        <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+            {{ form_row(form.niveauEtude) }}
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+            {{ form_row(form.ageExige) }}
+        </div>
+        
+        
+        <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+            {{ form_row(form.anneeExperiance) }}
+        </div>
+        
+        <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+            {{ form_row(form.outilInformatique) }}
+        </div>
+        
+        <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+            {{ form_row(form.atoutLangue) }}
+        </div>
+        
+        <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+            {{ form_row(form.atoutExperiance) }}
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+            {{ form_row(form.description) }}
+        </div>
+        <div class="mt-5 float-end">
+            <button class="btn btn-primary">{{ button_label|default('Enregistrer') }}</button>
+        </div>
+    </div>
+    
+{{ form_end(form) }}

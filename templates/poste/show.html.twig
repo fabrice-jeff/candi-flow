@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Poste{% endblock %}
+
+{% block body %}
+    <h1>Poste</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ poste.id }}</td>
+            </tr>
+            <tr>
+                <th>Libelle</th>
+                <td>{{ poste.libelle }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ poste.description }}</td>
+            </tr>
+            <tr>
+                <th>AgeExige</th>
+                <td>{{ poste.ageExige }}</td>
+            </tr>
+            <tr>
+                <th>AnneeExperiance</th>
+                <td>{{ poste.anneeExperiance }}</td>
+            </tr>
+            <tr>
+                <th>OutilInformatique</th>
+                <td>{{ poste.outilInformatique }}</td>
+            </tr>
+            <tr>
+                <th>AtoutLangue</th>
+                <td>{{ poste.atoutLangue }}</td>
+            </tr>
+            <tr>
+                <th>AtoutExperiance</th>
+                <td>{{ poste.atoutExperiance }}</td>
+            </tr>
+            <tr>
+                <th>Code</th>
+                <td>{{ poste.code }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ poste.createdAt ? poste.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ poste.updatedAt ? poste.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Deleted</th>
+                <td>{{ poste.deleted ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_poste_index') }}">back to list</a>
+
+    <a href="{{ path('app_poste_edit', {'id': poste.id}) }}">edit</a>
+
+    {{ include('poste/_delete_form.html.twig') }}
+{% endblock %}

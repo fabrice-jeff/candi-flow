@@ -43,6 +43,14 @@ class Poste
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $atoutExperiance = null;
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?NiveauEtude $niveauEtude = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Domaine $domaine = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -128,6 +136,30 @@ class Poste
     public function setAtoutExperiance(?string $atoutExperiance): static
     {
         $this->atoutExperiance = $atoutExperiance;
+
+        return $this;
+    }
+
+    public function getNiveauEtude(): ?NiveauEtude
+    {
+        return $this->niveauEtude;
+    }
+
+    public function setNiveauEtude(?NiveauEtude $niveauEtude): static
+    {
+        $this->niveauEtude = $niveauEtude;
+
+        return $this;
+    }
+
+    public function getDomaine(): ?Domaine
+    {
+        return $this->domaine;
+    }
+
+    public function setDomaine(?Domaine $domaine): static
+    {
+        $this->domaine = $domaine;
 
         return $this;
     }

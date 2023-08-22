@@ -9600,6 +9600,25 @@ progress {
     .text-wrap .table-responsive-sm>table {
         border: 0;
     }
+
+
+    /* Personnaliser l'apparence de la barre de défilement */
+    .table-responsive::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    .table-responsive::-webkit-scrollbar-thumb {
+        background-color: #888;
+        border-radius: 5px;
+    }
+
+    .table-responsive::-webkit-scrollbar-thumb:hover {
+        background-color: #555;
+    }
+
+    .table-responsive::-webkit-scrollbar-track {
+        background-color: #f5f5f5;
+    }
 }
 
 @media (max-width: 767.98px) {
@@ -9617,6 +9636,24 @@ progress {
 
     .text-wrap .table-responsive-md>table {
         border: 0;
+    }
+
+    /* Personnaliser l'apparence de la barre de défilement */
+    .table-responsive::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    .table-responsive::-webkit-scrollbar-thumb {
+        background-color: #888;
+        border-radius: 5px;
+    }
+
+    .table-responsive::-webkit-scrollbar-thumb:hover {
+        background-color: #555;
+    }
+
+    .table-responsive::-webkit-scrollbar-track {
+        background-color: #f5f5f5;
     }
 }
 
@@ -9636,6 +9673,24 @@ progress {
     .text-wrap .table-responsive-lg>table {
         border: 0;
     }
+
+    /* Personnaliser l'apparence de la barre de défilement */
+    .table-responsive::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    .table-responsive::-webkit-scrollbar-thumb {
+        background-color: #888;
+        border-radius: 5px;
+    }
+
+    .table-responsive::-webkit-scrollbar-thumb:hover {
+        background-color: #555;
+    }
+
+    .table-responsive::-webkit-scrollbar-track {
+        background-color: #f5f5f5;
+    }
 }
 
 @media (max-width: 1279.98px) {
@@ -9654,14 +9709,51 @@ progress {
     .text-wrap .table-responsive-xl>table {
         border: 0;
     }
+
+    /* Personnaliser l'apparence de la barre de défilement */
+    .table-responsive::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    .table-responsive::-webkit-scrollbar-thumb {
+        background-color: #888;
+        border-radius: 5px;
+    }
+
+    .table-responsive::-webkit-scrollbar-thumb:hover {
+        background-color: #555;
+    }
+
+    .table-responsive::-webkit-scrollbar-track {
+        background-color: #f5f5f5;
+    }
 }
 
 .table-responsive {
     display: block;
     width: 100%;
     overflow-x: auto;
+    overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
     -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+/* Personnaliser l'apparence de la barre de défilement */
+.table-responsive::-webkit-scrollbar {
+    width: 10px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 5px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+}
+
+.table-responsive::-webkit-scrollbar-track {
+    background-color: #f5f5f5;
 }
 
 .table-responsive>.table-bordered {
@@ -9706,7 +9798,7 @@ progress {
 .table th,
 .text-wrap table th {
     color: #2e3138;
-    text-transform: uppercase;
+    /*text-transform: uppercase;*/
     font-size: 0.875rem;
     font-weight: 400;
 }

@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}NiveauEtude index{% endblock %}
+
+
+{% block breadcrumb_title %}
+    <div class="page-header">
+        <h1 class="page-title">Niveau Etude</h1>
+        <div>
+            <ol class="breadcrumb">
+                <a href="{{ path('app_niveau_etude_new') }}" class="table-hover btn btn-primary">Ajouter un niveau d'étude</a>
+            </ol>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
+            <div class="card">
+                <div class="card-body">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>Libelle</th>
+                            <th>Date de création</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for niveau_etude in niveau_etudes %}
+                            <tr>
+                                <td>{{ niveau_etude.libelle }}</td>
+                                <td>{{ niveau_etude.createdAt ? niveau_etude.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                                <td>
+                                    <a href="{{ path('app_niveau_etude_show', {'id': niveau_etude.id}) }}">show</a>
+                                    <a href="{{ path('app_niveau_etude_edit', {'id': niveau_etude.id}) }}">edit</a>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="7">no records found</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+{% endblock %}

@@ -9,9 +9,6 @@
 namespace App\EventListener;
 
 
-use App\Entity\Etat;
-use App\Entity\Inscription;
-use App\Entity\TravauxValide;
 use App\Services\AppServices;
 use App\Services\RandomStringGeneratorServices;
 use Doctrine\ORM\EntityManagerInterface;

@@ -43,9 +43,8 @@
                                             </button>
                                             <ul class="dropdown-menu">
                                                 <li><a class="dropdown-item " href="{{ path('app_outils_informatique', {code:poste.code}) }}" data-code="{{ poste.code }}">Outils informatiques</a></li>
-                                                <li><a class="dropdown-item " data-code="{{ poste.code }}">Expériances</a></li>
-                                                <li><a class="dropdown-item " data-code="{{ poste.code }}">Règles et procédures</a></li>
-                                                <li><a class="dropdown-item " data-code="{{ poste.code }}">Formations</a></li>
+                                                <li><a class="dropdown-item " href="{{ path('app_formations', {code : poste.code}) }}">Formations</a></li>
+                                                <li><a class="dropdown-item " href="{{ path('app_regle_procedure', {code : poste.code}) }}">Règles et procédures</a></li>
                                             </ul>
                                         </div>
                                     </td>

@@ -32,6 +32,7 @@ class FormationsController extends AbstractController
             ->setLibelle($request->get('form')['libelle'])
             ->setPoste($poste);
             $manager->persist($formation);
+            $this->addFlash('success', "Formation enregistré avec succès");
             $manager->flush();
             return $this->redirectToRoute('app_formations',[
                 'code' => $poste->getCode()

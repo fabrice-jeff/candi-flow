@@ -68,3 +68,26 @@
 
 <!-- CUSTOM JS -->
 <script src="{{ asset('assets/js/custom.js') }}"></script>
+
+
+<!-- INTERNAL Notifications js -->
+<script src="{{ asset('assets/plugins/notify/js/rainbow.js') }}"></script>
+<script src="{{ asset('assets/plugins/notify/js/sample.js') }}"></script>
+<script src="{{ asset('assets/plugins/notify/js/jquery.growl.js') }}"></script>
+<script src="{{ asset('assets/plugins/notify/js/notifIt.js') }}"></script>
+<script>
+    $(document).ready(function () {
+		{% for message in app.session.flashbag.get('warning') %}
+        warning_noti('{{ message }}')
+		{% endfor %}
+		
+		{% for message in app.session.flashbag.get('error') %}
+        error_noti('{{ message }}')
+		{% endfor %}
+		
+		{% for message in app.session.flashbag.get('success') %}
+        success_noti('{{ message }}');
+		{% endfor %}
+    });
+
+</script>

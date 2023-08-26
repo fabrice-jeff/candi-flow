@@ -31,6 +31,7 @@ class RegleProcedureController extends AbstractController
                 ->setPoste($poste)
                 ->setLibelle($request->get('form')['libelle']);
             $manager->persist($regleProcedure);
+            $this->addFlash('success', "Règles et procédures enregistré avec succès");
             $manager->flush();
             return $this->redirectToRoute('app_regle_procedure',[
                 'code' => $poste->getCode()

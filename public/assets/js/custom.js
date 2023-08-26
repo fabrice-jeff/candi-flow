@@ -152,9 +152,7 @@
         $card.remove();
         e.preventDefault();
         return false;
-    });
-
-
+    })
     // FUNCTIONS FOR COLLAPSED CARD
     $(document).on('click', '[data-bs-toggle="card-collapse"]', function (e) {
         let $card = $(this).closest(DIV_CARD);

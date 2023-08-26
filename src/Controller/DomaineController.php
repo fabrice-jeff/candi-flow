@@ -31,6 +31,7 @@ class DomaineController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($domaine);
+            $this->addFlash('success', "Domaine enregistré avec succès");
             $entityManager->flush();
 
             return $this->redirectToRoute('app_domaine_index', [], Response::HTTP_SEE_OTHER);

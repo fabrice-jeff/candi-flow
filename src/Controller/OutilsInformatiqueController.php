@@ -40,6 +40,7 @@ class OutilsInformatiqueController extends AbstractController
                 ->setPoste($poste);
             $this->manager->persist($outilsInformatique);
             $this->manager->flush();
+            $this->addFlash('success', "Outils informatique enregistré avec succès");
             return  $this->redirectToRoute('app_outils_informatique', ['code' => $poste->getCode()] );
         }
         return $this->render('outils_informatique/index.html.twig', [

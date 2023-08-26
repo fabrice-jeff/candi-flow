@@ -31,7 +31,7 @@ class NiveauEtudeController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($niveauEtude);
-//            dd($niveauEtude);
+            $this->addFlash('success', "Niveau d'étude enregistré avec succès");
             $entityManager->flush();
 
             return $this->redirectToRoute('app_niveau_etude_index', [], Response::HTTP_SEE_OTHER);

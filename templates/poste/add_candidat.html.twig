@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Poste index{% endblock %}
+
+
+{% block breadcrumb_title %}
+	<div class="page-header">
+		<h1 class="page-title">Ajouter un candidat</h1>
+		<div>
+			<ol class="breadcrumb">
+				<a href="{{ path('app_poste_liste') }}" class="table-hover btn btn-primary">Retour</a>
+			</ol>
+		</div>
+	</div>
+{% endblock %}
+
+{% block content %}
+	
+	<div class="row">
+		<div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
+			<div class="card">
+				<div class="card-body">
+					{{ form_start(form) }}
+					<div class="row">
+						<div class="form-group col-lg-6 col-xl-6 col-sm-12 col-md-12">
+							{{ form_row(form.nom) }}
+						</div>
+						<div class="form-group col-lg-6 col-xl-6 col-sm-12 col-md-12">
+							{{ form_row(form.prenom) }}
+						</div>
+						<div class="form-group col-lg-6 col-xl-6 col-sm-12 col-md-12">
+							{{ form_row(form.dateNaissance) }}
+						</div>
+						<div class="form-group col-lg-6 col-xl-6 col-sm-12 col-md-12">
+							{{ form_row(form.sexe) }}
+						</div>
+						<div class="form-group col-lg-6 col-xl-6 col-sm-12 col-md-12">
+							{{ form_row(form.domaine) }}
+						</div>
+						<div class="form-group col-lg-6 col-xl-6 col-sm-12 col-md-12">
+							{{ form_row(form.niveauEtude) }}
+						</div>
+					</div>
+					{{ form_end(form) }}
+					<button class="btn btn-primary error">Danger</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
+
+{% block javascripts %}
+{% endblock %}

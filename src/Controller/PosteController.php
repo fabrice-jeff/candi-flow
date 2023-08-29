@@ -36,6 +36,7 @@ class PosteController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            dd("Bonjour");
             $entityManager->persist($poste);
             $entityManager->flush();
             $this->addFlash('success', "Poste enregistrée avec succès");

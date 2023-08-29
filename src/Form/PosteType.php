@@ -15,51 +15,57 @@ class PosteType extends AbstractType
             ->add('libelle', null,[
                 'attr' =>[
                     'class' => 'form-control'
-                ]
+                ],
+                'label' => "Nom du poste",
+                'required' => false
             ])
-            ->add('description',null,[
+            ->add('age',null,[
                 'attr' =>[
-                    'class' => 'form-control'
-                ]
+                    'class' => 'form-control',
+                    'placeholder' => "Entrer l'age"
+                ],
+                'label' => false,
+                'required' => false
             ])
-            ->add('ageExige',null,[
+            ->add('dateFin',null,[
                 'attr' =>[
-                    'class' => 'form-control'
-                ]
-            ])
-            ->add('anneeExperiance',null,[
-                'attr' =>[
-                    'class' => 'form-control'
-                ]
-            ])
-            ->add('outilInformatique',null,[
-                'attr' =>[
-                    'class' => 'form-control'
-                ]
-            ])
-            ->add('atoutLangue', null,[
-                'attr' =>[
-                    'class' => 'form-control'
-                ]
-            ])
-            ->add('atoutExperiance',null,[
-                'attr' =>[
-                    'class' => 'form-control'
-                ]
+                    'class' => 'form-control',
+                    'placeholder' => "Entrer la date de fin"
+                ],
+                'label' => false,
+                'required' => false
             ])
             ->add('niveauEtude',null,[
                 'attr' =>[
-                    'class' => 'form-control select_simple'
+                    'class' => 'form-control form-select select2',
                 ],
-                'placeholder' => "Sélectionner un niveau d'étude"
-
+                'label' => false,
+                'placeholder' => "Sélectionner un niveau d'étude",
+                'required' => false
             ])
             ->add('domaine',null,[
                 'attr' =>[
-                    'class' => 'form-control select_simple'
+                    'class' => 'form-control',
+                    'placeholder' => "Entrer le domaine"
                 ],
-                'placeholder' => "Sélectionner un domaine de formation"
-
+                'label' => false,
+                'required' => false
+            ])
+            ->add('nombreFormation',null,[
+                'attr' =>[
+                    'class' => 'form-control',
+                    'placeholder' => "Entrer le nombre de formation"
+                ],
+                'label' => false,
+                'required' => false
+            ])
+            ->add('logicielSpecifique',null,[
+                'attr' =>[
+                    'class' => 'form-control',
+                    'placeholder' => "Entrer le nom du logiciel spécifique"
+                ],
+                'label' => false,
+                'required' => false
             ])
         ;
     }

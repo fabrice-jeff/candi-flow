@@ -22,8 +22,8 @@ class OutilsInformatiqueController extends AbstractController
         $this->manager = $manager;
     }
 
-    #[Route('/outils/informatique/{code}', name: 'app_outils_informatique')]
-    public function index(Poste $poste, Request $request,): Response
+    #[Route('/outils/informatique', name: 'app_outils_informatique')]
+    public function index(Request $request): Response
     {
         $form = $this->createFormBuilder()
             ->add('libelle', null, [
@@ -33,20 +33,16 @@ class OutilsInformatiqueController extends AbstractController
             ])
             ->getForm();
         $form->handleRequest($request);
-        $outilsInformatiques =  $this->outilsInformatiqueRepository->findBy(['deleted' => false, 'poste' => $poste]);
         if($form->isSubmitted()){
             $outilsInformatique = (new OutilsInformatique())
-                ->setLibelle($request->get('form')['libelle'])
-                ->setPoste($poste);
+                ->setLibelle($request->get('form')['libelle']);
             $this->manager->persist($outilsInformatique);
             $this->manager->flush();
             $this->addFlash('success', "Outils informatique enregistré avec succès");
-            return  $this->redirectToRoute('app_outils_informatique', ['code' => $poste->getCode()] );
+            return  $this->redirectToRoute('app_outils_informatique',);
         }
-        return $this->render('outils_informatique/index.html.twig', [
+        return $this->render('outils_informatique/new.html.twig', [
             'form' => $form->createView(),
-            'outils_informatiques' => $outilsInformatiques,
-            'poste' => $poste
         ]);
     }
 }

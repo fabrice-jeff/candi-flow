@@ -1,27 +1,575 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Poste{% endblock %}
-
+{% block title %}
+    New Poste
+{% endblock %}
 
 {% block breadcrumb_title %}
     <div class="page-header">
-        <h1 class="page-title">Ajouter un poste</h1>
+        <h1 class="page-title">
+            Ajouter un poste
+        </h1>
         <div>
             <ol class="breadcrumb">
-                <a href="{{ path('app_poste_index') }}" class="table-hover btn btn-primary">Retour</a>
+                <a href="{{ path('app_poste_index') }}" class="table-hover btn btn-primary">
+                    Retour
+                </a>
             </ol>
         </div>
     </div>
 {% endblock %}
 
 {% block content %}
+    {{ form_start(form) }}
+
     <div class="row">
-        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
+        <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    {{ include('poste/_form.html.twig') }}
+                        {{ form_row(form.libelle) }}
                 </div>
             </div>
         </div>
     </div>
+    {# Etat civil #}
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Etat civil</div>
+                </div>
+                <div class="card-body">
+                    <div class="form-group mg-b-10">
+                        <label class="custom-switch ps-0">
+                            <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input" checked="">
+                            <span class="custom-switch-indicator me-3"></span>
+                            <span class="custom-switch-description mg-l-10">Nom et prénom</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="form-group mg-b-10">
+                        <label class="custom-switch ps-0">
+                            <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input" checked="">
+                            <span class="custom-switch-indicator me-3"></span>
+                            <span class="custom-switch-description mg-l-10">Nationalité</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="form-group mg-b-10">
+                        <label class="custom-switch ps-0">
+                            <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input" checked="">
+                            <span class="custom-switch-indicator me-3"></span>
+                            <span class="custom-switch-description mg-l-10">Date de Naissance</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="form-group mg-b-10">
+                        <label class="custom-switch ps-0">
+                            <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input" checked>
+                            <span class="custom-switch-indicator me-3"></span>
+                            <span class="custom-switch-description mg-l-10">Contact</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="form-group mg-b-10">
+                        <label class="custom-switch ps-0">
+                            <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input" checked>
+                            <span class="custom-switch-indicator me-3"></span>
+                            <span class="custom-switch-description mg-l-10">Email</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="form-group mg-b-10" >
+                        <label class="custom-switch ps-0">
+                            <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input">
+                            <span class="custom-switch-indicator me-3"></span>
+                            <span class="custom-switch-description mg-l-10">Sexe</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="form-group mg-b-10" >
+                        <label class="custom-switch ps-0">
+                            <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input" id="age">
+                            <span class="custom-switch-indicator me-3"></span>
+                            <span class="custom-switch-description mg-l-10">Age exigé</span>
+                        </label>
+                        <div class=" d-none mt-3" id="formaAge">
+                            <div class="row">
+                                <div class="col-6">
+                                    {{form_row(form.age)}}
+                                </div>
+                                <div class="col-6">
+                                    {{form_row(form.dateFin)}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-lg-6">
+            {# Diplômes et formations #}
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Diplômes et Formations</div>
+                </div>
+                <div class="card-body">
+                    <div class="form-group mg-b-10" >
+                        <label class="custom-switch ps-0">
+                            <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input" id="diplome">
+                            <span class="custom-switch-indicator me-3"></span>
+                            <span class="custom-switch-description mg-l-10">Diplôme</span>
+                        </label>
+
+                        <div class=" d-none mt-3" id="formDiplome">
+                            <div class="row">
+                                <div class="col-6">
+                                    {{form_row(form.niveauEtude)}}
+                                </div>
+                                <div class="col-6">
+                                    {{form_row(form.domaine)}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="form-group mg-b-10" >
+                        <label class="custom-switch ps-0">
+                            <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input" id="formations">
+                            <span class="custom-switch-indicator me-3"></span>
+                            <span class="custom-switch-description mg-l-10">Autres Formations</span>
+                        </label>
+
+                        <div class=" d-none mt-3" id="formFormations">
+                            <div class="row">
+                                <div class="col-12">
+                                    {{ form_row(form.nombreFormation) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {# Outils informatiques #}
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Outils informatiques</div>
+                </div>
+                <div class="card-body">
+                    <div class="form-group mg-b-10" >
+                        <label class="custom-switch ps-0">
+                            <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input" id="outilInformatique">
+                            <span class="custom-switch-indicator me-3"></span>
+                            <span class="custom-switch-description mg-l-10">Logiciels spécifiques</span>
+                        </label>
+
+                        <div class=" d-none mt-3" id="formOutilInformatique">
+                            <div class="row">
+                                <div class="col-12">
+                                    {{ form_row(form.logicielSpecifique) }}
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="form-group mg-b-10" >
+                        <label class="custom-switch ps-0">
+                            <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input" id="formations">
+                            <span class="custom-switch-indicator me-3"></span>
+                            <span class="custom-switch-description mg-l-10">Autres outils informatiques</span>
+                        </label>
+
+                        <div class=" d-none mt-3" id="formFormations">
+                            <div class="row">
+                                <div class="col-12">
+                                    <input type="text" class="form-control ml-4" placeholder="Nombre de formations limites">
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# Expérience  sur CV#}
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Expériences</div>
+                </div>
+                <div class="card-body">
+                    <div class="form-group mg-b-10">
+                        <label class="custom-switch ps-0">
+                            <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input">
+                            <span class="custom-switch-indicator me-3"></span>
+                            <span class="custom-switch-description mg-l-10">Total expérience sur CV</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="form-group mg-b-10">
+                        <label class="custom-switch ps-0">
+                            <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input" id="parcours-global" >
+                            <span class="custom-switch-indicator me-3"></span>
+                            <span class="custom-switch-description mg-l-10">Pacours profesionnel global prouvés</span>
+                        </label>
+
+
+                        <div class=" d-none mt-3" id="form-parcours-global">
+                            <div class="row">
+                                <div class="col-5">
+                                    <input type="text" class="form-control ml-4"  placeholder="Durée" id="dureeParcoursGlobal">
+                                </div>
+                                <div class="col-5">
+                                    <input type="text" class="form-control ml-4"  placeholder="Domaine" id="domaineParcoursGlobal">
+                                </div>
+                                <div class="col-2">
+                                    <button type="button"  class="btn btn-primary p-1" id="add-parcours-global">
+                                        <i class="fa fa-plus"></i>
+                                    </button>
+                                </div>
+                                <div class="p-5">
+                                    <table class="table table-bordered" id="table-parcours-global">
+                                        <thead>
+                                            <th>Durées</th>
+                                            <th>Domaines</th>
+                                            <th class="btn-action">Actions</th>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="form-group mg-b-10">
+                        <label class="custom-switch ps-0">
+                            <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input" id="parcours-specifique" >
+                            <span class="custom-switch-indicator me-3"></span>
+                            <span class="custom-switch-description mg-l-10">Parcours profesionnels spécifiques prouvés</span>
+                        </label>
+
+                        <div class=" d-none mt-3" id="form-parcours-specifique">
+                            <div class="row">
+                                <div class="col-5">
+                                    <input type="text" class="form-control ml-4"  placeholder="Durée" id="dureeParcoursSpecifique">
+                                </div>
+                                <div class="col-5">
+                                    <input type="text" class="form-control ml-4"  placeholder="Domaine" id="domaineParcoursSpecifique">
+                                </div>
+                                <div class="col-2">
+                                    <button type="button"  class="btn btn-primary p-1" id="add-parcours-specifique">
+                                        <i class="fa fa-plus"></i>
+                                    </button>
+                                </div>
+                                <div class="p-5">
+                                    <table class="table table-bordered" id="table-parcours-specifique">
+                                        <thead>
+                                            <th>Durées</th>
+                                            <th>Domaines</th>
+                                            <th class="btn-action">Actions</th>
+                                        </thead>
+                                        <tbody>
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        {# Connaissance  et atouts #}
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Connaissances et atouts</div>
+                </div>
+                <div class="card-body">
+                    <div class="form-group mg-b-10" >
+                        <label cl                                                                               ass="custom-switch ps-0">
+                            <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input" id="connaissance">
+                            <span class="custom-switch-indicator me-3"></span>
+                            <span class="custom-switch-description mg-l-10">Autres connaissances</span>
+                        </label>
+
+                        <div class=" d-none mt-3" id="form-connaissance">
+                            <div class="row">
+                                <div class="col-5">
+                                    <input type="text" class="form-control ml-4"  placeholder="Nom de la connaissance" id="nomConnaissance">
+                                </div>
+                                <div class="col-5">
+                                    <input type="text" class="form-control ml-4"  placeholder="Entrer le domaine" id="domaineConnaissance">
+                                </div>
+                                <div class="col-2">
+                                    <button type="button" class="btn btn-primary p-1" id="add-connaissance">
+                                        <i class="fa fa-plus"></i>
+                                    </button>
+                                </div>
+                                <div class="p-5">
+                                    <table class="table table-bordered" id="table-connaissance">
+                                    <thead>
+                                        <th>Connaissance</th>
+                                        <th>Domaine</th>
+                                        <th class="btn-action">Actions</th>
+                                    </thead>
+                                    <tbody>
+
+                                    </tbody>
+                                </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="form-group mg-b-10" >
+                        <label class="custom-switch ps-0">
+                            <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input" id="atout">
+                            <span class="custom-switch-indicator me-3"></span>
+                            <span class="custom-switch-description mg-l-10">Autres atouts</span>
+                        </label>
+
+                        <div class=" d-none mt-3" id="form-atout">
+                            <div class="row">
+                                <div class="col-10">
+                                    <input type="text" class="form-control ml-4"  placeholder="Nom de l'atout" id="nomAtout">
+                                </div>
+                                
+                                <div class="col-2">
+                                    <button type="button" class="btn btn-primary p-1" id="add-atout">
+                                        <i class="fa fa-plus"></i>
+                                    </button>
+                                </div>
+                                <div class="p-5">
+                                    <table class="table table-bordered" id="table-atout">
+                                    <thead>
+                                        <th>Atouts</th>
+                                        <th class="btn-action">Actions</th>
+                                    </thead>
+                                    <tbody>
+                                        
+                                    </tbody>
+                                </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# Décision #}
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Décision</div>
+                </div>
+                <div class="card-body">
+                    <div class="form-group mg-b-10" >
+                        <label class="custom-switch ps-0">
+                            <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input">
+                            <span class="custom-switch-indicator me-3"></span>
+                            <span class="custom-switch-description mg-l-10">Décision</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="form-group mg-b-10" >
+                        <label class="custom-switch ps-0">
+                            <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input">
+                            <span class="custom-switch-indicator me-3"></span>
+                            <span class="custom-switch-description mg-l-10">Dossier complet</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="form-group mg-b-10" >
+                        <label class="custom-switch ps-0">
+                            <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input">
+                            <span class="custom-switch-indicator me-3"></span>
+                            <span class="custom-switch-description mg-l-10">Justification de la décision</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="d-flex justify-content-around mb-3">
+        <button class="btn btn-primary" id="enregistrer">{{ button_label|default('Enregistrer') }}</button>
+    </div>
+    {{ form_end(form) }}
 {% endblock %}
+
+ {% block javascripts %}
+    <script>
+
+        $("#age").on('click', function(){
+            if($("#age").is(":checked")){
+                $('#formaAge').removeClass('d-none')
+            }else{
+                $('#formaAge').addClass('d-none')
+            }
+        })
+        $("#diplome").on('click', function(){
+            if($("#diplome").is(":checked")){
+                $('#formDiplome').removeClass('d-none')
+            }else{
+                $('#formDiplome').addClass('d-none')
+            }
+        })
+        $("#formations").on('click', function(){
+            if($("#formations").is(":checked")){
+                $('#formFormations').removeClass('d-none')
+            }else{
+                $('#formFormations').addClass('d-none')
+            }
+        })
+        
+        $("#outilInformatique").on('click', function(){
+            if($("#outilInformatique").is(":checked")){
+                $('#formOutilInformatique').removeClass('d-none')
+            }else{
+                $('#formOutilInformatique').addClass('d-none')
+            }
+        })
+        $("#connaissance").on('click', function(){
+            if($("#connaissance").is(":checked")){
+                $('#form-connaissance').removeClass('d-none')
+            }else{
+                $('#form-connaissance').addClass('d-none')
+            }
+        }) 
+        
+        $("#atout").on('click', function(){
+            if($("#atout").is(":checked")){
+                $('#form-atout').removeClass('d-none')
+            }else{
+                $('#form-atout').addClass('d-none')
+            }
+        }) 
+        
+        $("#parcours-global").on('click', function(){
+            if($("#parcours-global").is(":checked")){
+                $('#form-parcours-global').removeClass('d-none')
+            }else{
+                $('#form-parcours-global').addClass('d-none')
+            }
+        })
+        $("#parcours-specifique").on('click', function(){
+            if($("#parcours-specifique").is(":checked")){
+                $('#form-parcours-specifique').removeClass('d-none')
+            }else{
+                $('#form-parcours-specifique').addClass('d-none')
+            }
+        })
+
+        {# Ajouter des connaissances #}
+        $('#add-connaissance').on('click', function(){
+            var nomConnaissance = $('#nomConnaissance').val();
+            var domaineConnaissance= $('#domaineConnaissance').val()
+            var html = "<tr class='line'><td class='nomConnaissance'>"+ nomConnaissance +"</td><td class='domaineConnaissance'>"+domaineConnaissance+"</td><td><button type='button' class='btn btn-danger p-1 delete-connaissance'><i class='fa fa-minus'></i></td></tr>";
+            $('#table-connaissance tbody .line').each(function(i){
+                if($(this).find('.nomConnaissance').text() === nomConnaissance && $(this).find('.domaineConnaissance').text() === domaineConnaissance){
+                    warning_noti("Vous ne pouvez plus ajouter cette ligne")
+                    system.stop()
+                    return  false;
+                }
+            })
+            $('#table-connaissance tbody').append(html)
+        })
+
+        {# Ajouter des atouts #}
+        $('#add-atout').on('click', function(){
+            var nomAtout = $('#nomAtout').val();
+            var html = "<tr class='line'><td class='nom-atout'>"+ nomAtout +"</td><td><button type='button' class='btn btn-danger p-1 delete-atout'><i class='fa fa-minus'></i></td></tr>";
+            $('#table-atout tbody .line').each(function(i){
+                if($(this).find('.nom-atout').text() === nomAtout){
+                    warning_noti("Vous ne pouvez plus ajouter cette ligne")
+                    system.stop()
+                    return  false;
+                }
+            })
+            $('#table-atout tbody').append(html)
+        })
+
+        {# Ajouter des parcours profesionnel Global #}
+        $('#add-parcours-global').on('click', function(){
+            var dureeParcoursGlobal = $('#dureeParcoursGlobal').val();
+            var domaineParcoursGlobal = $('#domaineParcoursGlobal').val();
+
+            var html = "<tr class='line'><td class='duree-parcours-global'>"+ dureeParcoursGlobal +"<td class='domaine-parcours-global'>"+domaineParcoursGlobal+"</td></td><td><button type='button' class='btn btn-danger p-1 delete-parcours-global'><i class='fa fa-minus'></i></td></tr>";
+            $('#table-parcours-global tbody .line').each(function(i){
+                if($(this).find('.duree-parcours-global').text() === dureeParcoursGlobal && $(this).find('.domaine-parcours-global').text() === domaineParcoursGlobal){
+                    warning_noti("Vous ne pouvez plus ajouter cette ligne")
+                    system.stop()
+                    return  false;
+                }
+            })
+            $('#table-parcours-global tbody').append(html)
+        })
+
+        {# Ajouter des parcours profesionnel Global #}
+        $('#add-parcours-specifique').on('click', function(){
+            var dureeParcoursSpecifique = $('#dureeParcoursSpecifique').val();
+            var domaineParcoursSpecifique = $('#domaineParcoursSpecifique').val();
+
+            var html = "<tr class='line'><td class='duree-parcours-specifique'>"+ dureeParcoursSpecifique +"<td class='domaine-parcours-specifique'>"+domaineParcoursSpecifique+"</td></td><td><button type='button' class='btn btn-danger p-1 delete-parcours-specifique'><i class='fa fa-minus'></i></td></tr>";
+            $('#table-parcours-specifique tbody .line').each(function(i){
+                if($(this).find('.duree-parcours-specifique').text() === dureeParcoursSpecifique && $(this).find('.domaine-parcours-specifique').text() === domaineParcoursSpecifique){
+                    warning_noti("Vous ne pouvez plus ajouter cette ligne")
+                    system.stop()
+                    return  false;
+                }
+            })
+            $('#table-parcours-specifique tbody').append(html)
+        })
+
+        {#  Supprimer des lignes dans les tableaux #}
+        $('body').on('click', '.delete-connaissance', function(){
+            var tr = $(this).closest('tr')
+            tr.remove()
+        })
+        $('body').on('click', '.delete-atout', function(){
+            var tr = $(this).closest('tr')
+            tr.remove()
+        })
+        $('body').on('click', '.delete-parcours-global', function(){
+            var tr = $(this).closest('tr')
+            tr.remove()
+        })
+        $('body').on('click', '.delete-parcours-specifique', function(){
+            var tr = $(this).closest('tr')
+            tr.remove()
+        })
+
+        {# Enresgitrer le poste #}
+        $('#enregistrer').on('click', function(e){
+            
+        })
+    </script>
+ {% endblock %}

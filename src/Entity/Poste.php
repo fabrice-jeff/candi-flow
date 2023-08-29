@@ -25,31 +25,24 @@ class Poste
     #[ORM\Column(length: 255)]
     private ?string $libelle = null;
 
-    #[ORM\Column(type: Types::TEXT)]
-    private ?string $description = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?int $ageExige = null;
-
-    #[ORM\Column]
-    private ?int $anneeExperiance = null;
+    #[ORM\Column(length: 255)]
+    private ?string $age = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $outilInformatique = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $atoutLangue = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $atoutExperiance = null;
+    private ?string $dateFin = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?NiveauEtude $niveauEtude = null;
 
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Domaine $domaine = null;
+    #[ORM\Column(length: 255)]
+    private ?string $domaine = null;
+
+    #[ORM\Column]
+    private ?int $nombreFormation = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $logicielSpecifique = null;
 
     public function getId(): ?int
     {
@@ -68,74 +61,26 @@ class Poste
         return $this;
     }
 
-    public function getDescription(): ?string
+    public function getAge(): ?string
     {
-        return $this->description;
+        return $this->age;
     }
 
-    public function setDescription(string $description): static
+    public function setAge(string $age): static
     {
-        $this->description = $description;
+        $this->age = $age;
 
         return $this;
     }
 
-    public function getAgeExige(): ?int
+    public function getDateFin(): ?string
     {
-        return $this->ageExige;
+        return $this->dateFin;
     }
 
-    public function setAgeExige(?int $ageExige): static
+    public function setDateFin(string $dateFin): static
     {
-        $this->ageExige = $ageExige;
-
-        return $this;
-    }
-
-    public function getAnneeExperiance(): ?int
-    {
-        return $this->anneeExperiance;
-    }
-
-    public function setAnneeExperiance(int $anneeExperiance): static
-    {
-        $this->anneeExperiance = $anneeExperiance;
-
-        return $this;
-    }
-
-    public function getOutilInformatique(): ?string
-    {
-        return $this->outilInformatique;
-    }
-
-    public function setOutilInformatique(string $outilInformatique): static
-    {
-        $this->outilInformatique = $outilInformatique;
-
-        return $this;
-    }
-
-    public function getAtoutLangue(): ?string
-    {
-        return $this->atoutLangue;
-    }
-
-    public function setAtoutLangue(string $atoutLangue): static
-    {
-        $this->atoutLangue = $atoutLangue;
-
-        return $this;
-    }
-
-    public function getAtoutExperiance(): ?string
-    {
-        return $this->atoutExperiance;
-    }
-
-    public function setAtoutExperiance(?string $atoutExperiance): static
-    {
-        $this->atoutExperiance = $atoutExperiance;
+        $this->dateFin = $dateFin;
 
         return $this;
     }
@@ -152,15 +97,40 @@ class Poste
         return $this;
     }
 
-    public function getDomaine(): ?Domaine
+    public function getDomaine(): ?string
     {
         return $this->domaine;
     }
 
-    public function setDomaine(?Domaine $domaine): static
+    public function setDomaine(string $domaine): static
     {
         $this->domaine = $domaine;
 
         return $this;
     }
+
+    public function getNombreFormation(): ?int
+    {
+        return $this->nombreFormation;
+    }
+
+    public function setNombreFormation(int $nombreFormation): static
+    {
+        $this->nombreFormation = $nombreFormation;
+
+        return $this;
+    }
+
+    public function getLogicielSpecifique(): ?string
+    {
+        return $this->logicielSpecifique;
+    }
+
+    public function setLogicielSpecifique(string $logicielSpecifique): static
+    {
+        $this->logicielSpecifique = $logicielSpecifique;
+
+        return $this;
+    }
+
 }

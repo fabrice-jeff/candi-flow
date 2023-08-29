@@ -24,10 +24,6 @@ class OutilsInformatique
     #[ORM\Column(length: 255)]
     private ?string $libelle = null;
 
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Poste $poste = null;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -41,18 +37,6 @@ class OutilsInformatique
     public function setLibelle(string $libelle): static
     {
         $this->libelle = $libelle;
-
-        return $this;
-    }
-
-    public function getPoste(): ?Poste
-    {
-        return $this->poste;
-    }
-
-    public function setPoste(?Poste $poste): static
-    {
-        $this->poste = $poste;
 
         return $this;
     }

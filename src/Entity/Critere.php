@@ -73,7 +73,7 @@ class Critere
     private ?bool $atout = null;
 
     #[ORM\Column]
-    private ?bool $dicision = null;
+    private ?bool $decision = null;
 
     #[ORM\Column]
     private ?bool $dossierComplet = null;
@@ -290,14 +290,14 @@ class Critere
         return $this;
     }
 
-    public function isDicision(): ?bool
+    public function isDecision(): ?bool
     {
-        return $this->dicision;
+        return $this->decision;
     }
 
-    public function setDicision(bool $dicision): static
+    public function setDecision(bool $dicision): static
     {
-        $this->dicision = $dicision;
+        $this->decision = $dicision;
 
         return $this;
     }

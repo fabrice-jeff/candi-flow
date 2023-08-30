@@ -25,24 +25,28 @@ class Poste
     #[ORM\Column(length: 255)]
     private ?string $libelle = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable:true)]
     private ?string $age = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable:true)]
     private ?string $dateFin = null;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?NiveauEtude $niveauEtude = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable:true)]
     private ?string $domaine = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable:true)]
     private ?int $nombreFormation = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable:true)]
     private ?string $logicielSpecifique = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Critere $critere = null;
 
     public function getId(): ?int
     {
@@ -129,6 +133,18 @@ class Poste
     public function setLogicielSpecifique(string $logicielSpecifique): static
     {
         $this->logicielSpecifique = $logicielSpecifique;
+
+        return $this;
+    }
+
+    public function getCritere(): ?Critere
+    {
+        return $this->critere;
+    }
+
+    public function setCritere(?Critere $critere): static
+    {
+        $this->critere = $critere;
 
         return $this;
     }

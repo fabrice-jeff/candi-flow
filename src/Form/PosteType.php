@@ -30,7 +30,7 @@ class PosteType extends AbstractType
             ->add('dateFin',null,[
                 'attr' =>[
                     'class' => 'form-control',
-                    'placeholder' => "Entrer la date de fin"
+                    'placeholder' => "Date de fin"
                 ],
                 'label' => false,
                 'required' => false

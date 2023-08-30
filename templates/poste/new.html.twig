@@ -20,7 +20,7 @@
 {% endblock %}
 
 {% block content %}
-    {{ form_start(form) }}
+    {{ form_start(form, {'attr': { 'id' : 'form-poste'}}) }}
 
     <div class="row">
         <div class="col-lg-12">
@@ -41,7 +41,7 @@
                 <div class="card-body">
                     <div class="form-group mg-b-10">
                         <label class="custom-switch ps-0">
-                            <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input" checked="">
+                            <input type="checkbox" name="nomPrenom" class="custom-switch-input" checked="">
                             <span class="custom-switch-indicator me-3"></span>
                             <span class="custom-switch-description mg-l-10">Nom et prénom</span>
                         </label>
@@ -50,7 +50,7 @@
                 <div class="card-body">
                     <div class="form-group mg-b-10">
                         <label class="custom-switch ps-0">
-                            <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input" checked="">
+                            <input type="checkbox" name="nationalite" class="custom-switch-input" checked="">
                             <span class="custom-switch-indicator me-3"></span>
                             <span class="custom-switch-description mg-l-10">Nationalité</span>
                         </label>
@@ -59,7 +59,7 @@
                 <div class="card-body">
                     <div class="form-group mg-b-10">
                         <label class="custom-switch ps-0">
-                            <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input" checked="">
+                            <input type="checkbox" name="date-naissance" class="custom-switch-input" checked="">
                             <span class="custom-switch-indicator me-3"></span>
                             <span class="custom-switch-description mg-l-10">Date de Naissance</span>
                         </label>
@@ -68,7 +68,7 @@
                 <div class="card-body">
                     <div class="form-group mg-b-10">
                         <label class="custom-switch ps-0">
-                            <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input" checked>
+                            <input type="checkbox" name="contact" class="custom-switch-input" checked>
                             <span class="custom-switch-indicator me-3"></span>
                             <span class="custom-switch-description mg-l-10">Contact</span>
                         </label>
@@ -77,7 +77,7 @@
                 <div class="card-body">
                     <div class="form-group mg-b-10">
                         <label class="custom-switch ps-0">
-                            <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input" checked>
+                            <input type="checkbox" name="email" class="custom-switch-input" checked>
                             <span class="custom-switch-indicator me-3"></span>
                             <span class="custom-switch-description mg-l-10">Email</span>
                         </label>
@@ -87,7 +87,7 @@
                 <div class="card-body">
                     <div class="form-group mg-b-10" >
                         <label class="custom-switch ps-0">
-                            <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input">
+                            <input type="checkbox" name="sexe" class="custom-switch-input">
                             <span class="custom-switch-indicator me-3"></span>
                             <span class="custom-switch-description mg-l-10">Sexe</span>
                         </label>
@@ -97,7 +97,7 @@
                 <div class="card-body">
                     <div class="form-group mg-b-10" >
                         <label class="custom-switch ps-0">
-                            <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input" id="age">
+                            <input type="checkbox" name="ageExige" class="custom-switch-input" id="age">
                             <span class="custom-switch-indicator me-3"></span>
                             <span class="custom-switch-description mg-l-10">Age exigé</span>
                         </label>
@@ -126,7 +126,7 @@
                 <div class="card-body">
                     <div class="form-group mg-b-10" >
                         <label class="custom-switch ps-0">
-                            <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input" id="diplome">
+                            <input type="checkbox" name="diplome" class="custom-switch-input" id="diplome">
                             <span class="custom-switch-indicator me-3"></span>
                             <span class="custom-switch-description mg-l-10">Diplôme</span>
                         </label>
@@ -147,7 +147,7 @@
                 <div class="card-body">
                     <div class="form-group mg-b-10" >
                         <label class="custom-switch ps-0">
-                            <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input" id="formations">
+                            <input type="checkbox" name="autre-formations" class="custom-switch-input" id="formations">
                             <span class="custom-switch-indicator me-3"></span>
                             <span class="custom-switch-description mg-l-10">Autres Formations</span>
                         </label>
@@ -171,7 +171,7 @@
                 <div class="card-body">
                     <div class="form-group mg-b-10" >
                         <label class="custom-switch ps-0">
-                            <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input" id="outilInformatique">
+                            <input type="checkbox" name="logiciel-specifique" class="custom-switch-input" id="outilInformatique">
                             <span class="custom-switch-indicator me-3"></span>
                             <span class="custom-switch-description mg-l-10">Logiciels spécifiques</span>
                         </label>
@@ -190,7 +190,7 @@
                 <div class="card-body">
                     <div class="form-group mg-b-10" >
                         <label class="custom-switch ps-0">
-                            <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input" id="formations">
+                            <input type="checkbox" name="autre-outils" class="custom-switch-input" id="formations">
                             <span class="custom-switch-indicator me-3"></span>
                             <span class="custom-switch-description mg-l-10">Autres outils informatiques</span>
                         </label>
@@ -217,7 +217,7 @@
                 <div class="card-body">
                     <div class="form-group mg-b-10">
                         <label class="custom-switch ps-0">
-                            <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input">
+                            <input type="checkbox" name="total-experience-cv" class="custom-switch-input">
                             <span class="custom-switch-indicator me-3"></span>
                             <span class="custom-switch-description mg-l-10">Total expérience sur CV</span>
                         </label>
@@ -226,9 +226,10 @@
                 <div class="card-body">
                     <div class="form-group mg-b-10">
                         <label class="custom-switch ps-0">
-                            <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input" id="parcours-global" >
+                            <input type="checkbox" name="parcours-global" class="custom-switch-input" id="parcours-global" >
                             <span class="custom-switch-indicator me-3"></span>
                             <span class="custom-switch-description mg-l-10">Pacours profesionnel global prouvés</span>
+                            <input type="text" hidden name="poste_parcours_global" id="poste_parcours_global">
                         </label>
 
 
@@ -263,9 +264,10 @@
                 <div class="card-body">
                     <div class="form-group mg-b-10">
                         <label class="custom-switch ps-0">
-                            <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input" id="parcours-specifique" >
+                            <input type="checkbox" name="parcours-specifique" class="custom-switch-input" id="parcours-specifique" >
                             <span class="custom-switch-indicator me-3"></span>
                             <span class="custom-switch-description mg-l-10">Parcours profesionnels spécifiques prouvés</span>
+                            <input type="text" hidden name="poste_parcours_specifique" id="poste_parcours_specifique">
                         </label>
 
                         <div class=" d-none mt-3" id="form-parcours-specifique">
@@ -309,10 +311,11 @@
                 </div>
                 <div class="card-body">
                     <div class="form-group mg-b-10" >
-                        <label cl                                                                               ass="custom-switch ps-0">
-                            <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input" id="connaissance">
+                        <label class="custom-switch ps-0">
+                            <input type="checkbox" name="connaissance" class="custom-switch-input" id="connaissance">
                             <span class="custom-switch-indicator me-3"></span>
                             <span class="custom-switch-description mg-l-10">Autres connaissances</span>
+                            <input type="text" hidden name="poste_connaissance" id="poste_connaissance">
                         </label>
 
                         <div class=" d-none mt-3" id="form-connaissance">
@@ -347,9 +350,10 @@
                 <div class="card-body">
                     <div class="form-group mg-b-10" >
                         <label class="custom-switch ps-0">
-                            <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input" id="atout">
+                            <input type="checkbox" name="atout" class="custom-switch-input" id="atout">
                             <span class="custom-switch-indicator me-3"></span>
                             <span class="custom-switch-description mg-l-10">Autres atouts</span>
+                            <input type="text" hidden name="poste_atout" id="poste_atout">
                         </label>
 
                         <div class=" d-none mt-3" id="form-atout">
@@ -390,7 +394,7 @@
                 <div class="card-body">
                     <div class="form-group mg-b-10" >
                         <label class="custom-switch ps-0">
-                            <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input">
+                            <input type="checkbox" name="decision" class="custom-switch-input">
                             <span class="custom-switch-indicator me-3"></span>
                             <span class="custom-switch-description mg-l-10">Décision</span>
                         </label>
@@ -399,7 +403,7 @@
                 <div class="card-body">
                     <div class="form-group mg-b-10" >
                         <label class="custom-switch ps-0">
-                            <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input">
+                            <input type="checkbox" name="dossier-complet" class="custom-switch-input">
                             <span class="custom-switch-indicator me-3"></span>
                             <span class="custom-switch-description mg-l-10">Dossier complet</span>
                         </label>
@@ -408,7 +412,7 @@
                 <div class="card-body">
                     <div class="form-group mg-b-10" >
                         <label class="custom-switch ps-0">
-                            <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input">
+                            <input type="checkbox" name="justification" class="custom-switch-input">
                             <span class="custom-switch-indicator me-3"></span>
                             <span class="custom-switch-description mg-l-10">Justification de la décision</span>
                         </label>
@@ -427,7 +431,10 @@
 
  {% block javascripts %}
     <script>
-
+        var  connaissances = [];
+        var  atouts = [];
+        var  parcoursSpecifiques = [];
+        var  parcoursGlobal = [];
         $("#age").on('click', function(){
             if($("#age").is(":checked")){
                 $('#formaAge').removeClass('d-none')
@@ -500,6 +507,12 @@
                     return  false;
                 }
             })
+            if(nomConnaissance == ""){
+                $('#nomConnaissance').addClass('is-invalid')
+            }
+            else if(domaineConnaissance == ""){
+                $('#domaineConnaissance').addClass('is-invalid')
+            }
             $('#table-connaissance tbody').append(html)
         })
 
@@ -569,7 +582,55 @@
 
         {# Enresgitrer le poste #}
         $('#enregistrer').on('click', function(e){
-            
+            e.preventDefault()
+            if($('#poste_libelle').val() == ""){
+                $('#poste_libelle').addClass('is-invalid')
+            }
+            else
+            {
+                {# Parcours global #}
+                $('#table-parcours-global tbody .line').each(function(i){
+                    var dureeParcoursGlobal = $(this).find('.duree-parcours-global').text()
+                    var domaineParcoursGlobal = $(this).find('.domaine-parcours-global').text()
+                    var objectParcoursGlobal = {
+                        'duree' : dureeParcoursGlobal,
+                        'domaine' : domaineParcoursGlobal
+                    }
+                    parcoursGlobal.push(objectParcoursGlobal)
+                })
+                {# Atout #}
+                $('#table-atout tbody .line').each(function(i){
+                   atouts.push($(this).find('.nom-atout').text())
+                })
+                {# Connaissance #}
+                $('#table-connaissance tbody .line').each(function(i){
+                    var nomConnaissance = $(this).find('.nomConnaissance').text()
+                    var domaineConnaissance = $(this).find('.domaineConnaissance').text()
+                    var objetConnaissance = {
+                        'nom' : nomConnaissance,
+                        'domaine' : domaineConnaissance
+                    }
+                    connaissances.push(objetConnaissance)
+                })
+
+                {# Parcours specifiques #}
+                $('#table-parcours-specifique tbody .line').each(function(i){
+                    var duree = $(this).find('.duree-parcours-specifique').text()
+                    var domaine = $(this).find('.domaine-parcours-specifique').text()
+                    var objectParcoursSpecifique =  {
+                        'duree' : duree,
+                        'domaine' : domaine
+                    }
+                    parcoursSpecifiques.push(objectParcoursSpecifique)
+                })
+                $('#poste_atout').val(JSON.stringify(atouts))
+                $('#poste_connaissance').val(JSON.stringify(connaissances))
+                $('#poste_parcours_specifique').val(JSON.stringify(parcoursSpecifiques))
+                $('#poste_parcours_global').val(JSON.stringify(parcoursGlobal))
+                console.log(parcoursGlobal, parcoursSpecifiques, connaissances, atouts)
+                debugger
+                $('#form-poste').submit()
+            }
         })
     </script>
  {% endblock %}

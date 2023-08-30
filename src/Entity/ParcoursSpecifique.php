@@ -2,27 +2,29 @@
 
 namespace App\Entity;
 
-use App\Repository\RegleProcedureRepository;
-use App\Utils\TraitClasses\EntityTimestampableTrait;
+use Doctrine\ORM\Mapping as ORM;
 use App\Utils\TraitClasses\EntityUniqueIdTrait;
 use App\Utils\TraitClasses\EntityUserOperation;
-use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ParcoursSpecifiqueRepository;
+use App\Utils\TraitClasses\EntityTimestampableTrait;
 
-#[ORM\Entity(repositoryClass: RegleProcedureRepository::class)]
-class RegleProcedure
+#[ORM\Entity(repositoryClass: ParcoursSpecifiqueRepository::class)]
+class ParcoursSpecifique
 {
-
-
     use EntityUniqueIdTrait;
     use EntityTimestampableTrait;
     use EntityUserOperation;
+    
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $libelle = null;
+    private ?string $duree = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $domaine = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
@@ -33,14 +35,26 @@ class RegleProcedure
         return $this->id;
     }
 
-    public function getLibelle(): ?string
+    public function getDuree(): ?string
     {
-        return $this->libelle;
+        return $this->duree;
     }
 
-    public function setLibelle(string $libelle): static
+    public function setDuree(string $duree): static
     {
-        $this->libelle = $libelle;
+        $this->duree = $duree;
+
+        return $this;
+    }
+
+    public function getDomaine(): ?string
+    {
+        return $this->domaine;
+    }
+
+    public function setDomaine(string $domaine): static
+    {
+        $this->domaine = $domaine;
 
         return $this;
     }

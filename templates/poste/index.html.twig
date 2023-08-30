@@ -26,12 +26,10 @@
                             <tr>
                                 <th>Actions</th>
                                 <th>Libelle</th>
-                                <th>Description</th>
-                                <th>Age exigé</th>
-                                <th>Annee experiance</th>
-                                <th>Outil informatique</th>
-                                <th>Langue</th>
-                                <th>Experiance</th>
+                                <th>Domaine</th>
+                                <th>Niveau d'étude</th>
+                                <th>Logiciel spécifique</th>
+                                <th>Age</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -49,12 +47,34 @@
                                         </div>
                                     </td>
                                     <td>{{ poste.libelle }}</td>
-                                    <td>{{ poste.description }}</td>
-                                    <td>{{ poste.ageExige }}</td>
-                                    <td>{{ poste.anneeExperiance }}</td>
-                                    <td>{{ poste.outilInformatique }}</td>
-                                    <td>{{ poste.atoutLangue }}</td>
-                                    <td>{{ poste.atoutExperiance }}</td>
+                                    <td>
+                                        {% if poste.domaine is null %}
+                                            Non précisé
+                                        {% else %}
+                                            {{ poste.domaine }}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if poste.niveauEtude is null %}
+                                            Non précisé
+                                        {% else %}
+                                            {{ poste.niveauEtude }}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if poste.logicielSpecifique is null %}
+                                            Non précisé
+                                        {% else %}
+                                            {{ poste.logicielSpecifique }}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if poste.age is null %}
+                                            Non précisé
+                                        {% else %}
+                                            {{ poste.age }}
+                                        {% endif %}
+                                    </td>
                                 </tr>
                             {% else %}
                                 <tr>

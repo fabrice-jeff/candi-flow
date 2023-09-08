@@ -1,0 +1,254 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Candidature index{% endblock %}
+
+{% block breadcrumb_title %}
+    <div class="page-header">
+        <h1 class="page-title">
+            Liste des candidatures
+        </h1>
+        <div>
+            <ol class="breadcrumb">
+                <a href="{{ path('app_candidature_new', {code: poste.code}) }}" class="table-hover btn btn-primary">
+                    Ajouter une candidature
+                </a>
+            </ol>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <style>
+        th, td{
+            max-height: 30px;
+            vertical-align: top;
+            overflow: hidden;
+            white-space: nowrap; /* Empêche le texte de se retourner sur plusieurs lignes */
+            text-overflow: ellipsis;
+            text-align: center;
+            text-transform: lowercase;
+        }
+    </style>
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr class="text-center">
+                                    {% if critere.nomPrenoms == 1 %}
+                                        <th>Nom et prénoms</th>
+                                    {% endif %}
+                                    {% if critere.nationalite == 1 %}
+                                        <th>Nationalité</th>
+                                    {% endif %}
+                                    {% if critere.sexe == 1 %}
+                                        <th>Sexe</th>
+                                    {% endif %}
+                                    {% if critere.dateNissance == 1 %}
+                                        <th>Date Naissance</th>
+                                    {% endif %}
+                                    {% if critere.dateDepotDossier == 1 %}
+                                        <th>Date dépot dossier</th>
+                                    {% endif %}
+                                    {% if critere.ageExige == 1 %}
+                                        <th>Age</th>
+                                    {% endif %}
+                                    {% if critere.diplome == 1 %}
+                                        <th>Diplôme/Niveau/Domaine</th>
+                                    {% endif %}
+                                    {% if critere.formationPoste == 1 %}
+                                        <th> Formations pertinentes en lien avec le poste</th>
+                                    {% endif %}
+                                    {% if critere.logicielSpecifique == 1 %}
+                                        <th>Outil Informatique</th>
+                                    {% endif %}
+                                    {% if critere.autreOutils %}
+                                        <th>Autres outils informatiques</th>
+                                    {% endif %}
+                                    {% if critere.totalExperiance == 1 %}
+                                        <th>Total expérience sur CV</th>
+                                    {% endif %}
+                                    {% if critere.parcoursGlobal == 1 %}
+                                        <th>Parcours professionnel global prouvé
+                                            Durée, Poste, Organisme</th>
+                                    {% endif %}
+                                    {% if critere.parcoursSpecifique == 1 %}
+                                        <th>Parcours professionnel spécifique prouvé
+                                            Durée, Poste, Organisme</th>
+                                    {% endif %}
+                                    {% if critere.autreInformation == 1 %}
+                                        {% for autre_info in autres_informations %}
+                                            <th>{{ autre_info.nomColonne ~ "("~ autre_info.information ~")" }}</th>
+                                        {% endfor %}
+                                    {% endif %}
+                                    
+                                    {% if critere.contact == 1 %}
+                                        <th>Contact
+                                            (Téléphone et E-mail)</th>
+                                    {% endif %}
+                                    <th class="btn-action">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for candidature in candidatures  %}
+                                    <tr>
+                                        {% if critere.nomPrenoms == 1 %}
+                                            <td>{{ candidature.candidature.nom ~" "~ candidature.candidature.prenom }}</td>
+                                        {% endif %}
+                                        {% if critere.nationalite == 1 %}
+                                            <td>{{candidature.candidature.nationalite}}</td>
+                                        {% endif %}
+                                        {% if critere.sexe == 1 %}
+                                            <td>{{ candidature.candidature.sexe }}</td>
+                                        {% endif %}
+                                        {% if critere.dateNissance == 1 %}
+                                            <td>{{ candidature.candidature.dateNaissance| date('d/m/Y') }}</td>
+                                        {% endif %}
+                                        {% if critere.dateDepotDossier == 1 %}
+                                            <td>{{ candidature.candidature.dateDepotDossier| date('d/m/Y') }}</td>
+                                        {% endif %}
+                                        {% if critere.ageExige == 1 %}
+                                            <th>Age</th>
+                                        {% endif %}
+                                        {% if critere.diplome == 1 %}
+                                            <td>{{ candidature.candidature.niveauEtude.libelle ~ "/"~ candidature.candidature.domaine }}</td>
+                                        {% endif %}
+                                        {% if critere.formationPoste == 1 %}
+                                            <td>
+                                                <ul>
+                                                    {% for formation in candidature.formations  %}
+                                                        <li> - {{ formation.libelle }}</li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </td>
+                                        {% endif %}
+                                        {% if critere.logicielSpecifique == 1 %}
+                                            <td>
+                                                {% if candidature.candidature.logicielSpecifique == 1 %}
+                                                    Oui
+                                                {% else %}
+                                                    Non
+                                                {% endif %}
+                                            </td>
+                                        {% endif %}
+                                        {% if critere.autreOutils %}
+                                            <td>
+                                                <ul>
+                                                    {% for outil in candidature.outils_candidatures  %}
+                                                        <li> - {{ outil.outilInformatique.libelle }}</li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </td>
+                                        {% endif %}
+                                        {% if critere.totalExperiance == 1 %}
+                                            <td>
+                                                <ul>
+                                                    {% for experience in candidature.total_experience  %}
+                                                        <li> - {{ experience.duree ~ " en " ~experience.poste ~ " à "~ experience.organisme  }}</li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </td>
+                                        {% endif %}
+                                        {% if critere.parcoursGlobal == 1 %}
+                                            <td>
+                                                <ul>
+                                                    {% for parcours in candidature.parcours_global  %}
+                                                        <li> - {{ parcours.libelle  }}</li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </td>
+                                        {% endif %}
+                                        {% if critere.parcoursSpecifique == 1 %}
+                                            <td>
+                                                <ul>
+                                                    {% for parcours in candidature.parcours_specfique  %}
+                                                        <li> - {{ parcours.libelle  }}</li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </td>
+                                        {% endif %}
+                                        {% if critere.autreInformation == 1 %}
+                                            {% for information_candidature in candidature.autre_information_candidatures %}
+                                                <td>
+                                                    Oui
+                                                </td>
+                                            {% endfor %}
+                                        {% endif %}
+                                        
+                                        {% if critere.contact == 1  %}
+                                            <td>
+                                                Contact : {{ candidature.candidature.contact }}
+                                                <br>
+                                                Email: {{  candidature.candidature.email }}
+                                            </td>
+                                        {% endif %}
+                                        <td class="">
+                                            <button class="btn text-center bg-info">
+                                                <!-- Row -->
+                                                <div id="modal5">
+                                                    <a class="modal-effect" data-bs-effect="effect-super-scaled" data-bs-toggle="modal" href="#modaldemo8">
+                                                        <i class="fa fa-edit"></i>
+                                                    </a>
+                                                </div>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- MODAL EFFECTS -->
+                    <div class="modal fade" id="modaldemo8">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content modal-content-demo">
+                                <div class="modal-header">
+                                    <h6 class="modal-title">Décision et justification</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                                </div>
+                                <div class="modal-body">
+                                   <div class="container">
+                                       {{ form_start(form) }}
+                                       <div class="card">
+                                           <div class="card-body">
+                                               <div class=""> Décision </div>
+                                               <div class="d-flex">
+                                                   <span class="p-4">Refusé</span>
+                                                   <label class="custom-switch ">
+                                                       <input type="checkbox" name="" class="ml-3 custom-switch-input">
+                                                       <span class="custom-switch-indicator me-3"></span>
+                                                   </label>
+                                                   <span class="p-4">Accepté</span>
+                                               </div>
+                                           </div>
+                                           <div class="card-body">
+                                               <div class=""> Dossier complet</div>
+                                               <div class="d-flex">
+                                                   <span class="p-4">Non</span>
+                                                   <label class="custom-switch ">
+                                                       <input type="checkbox" name="" class="ml-3 custom-switch-input">
+                                                       <span class="custom-switch-indicator me-3"></span>
+                                                   </label>
+                                                   <span class="p-4">Oui</span>
+                                               </div>
+                                           </div>
+                                           <div class="card-body">
+                                               {{ form_row(form.justification) }}
+                                           </div>
+                                       </div>
+                                       
+                                       {{ form_end(form) }}
+                                   </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-primary">Enregistrer</button> <button class="btn btn-light" data-bs-dismiss="modal">Fermer</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

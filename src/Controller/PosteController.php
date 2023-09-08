@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Atout;
+use App\Entity\AutreInformation;
 use App\Entity\Connaissance;
 use App\Entity\Critere;
 use App\Entity\Domaine;
@@ -48,6 +49,7 @@ class PosteController extends AbstractController
             ($request->get('nomPrenom')) ? $critere->setNomPrenoms(true) : $critere->setNomPrenoms(false);
             ($request->get('nationalite')) ? $critere->setNationalite(true) : $critere->setNationalite(false);
             ($request->get('date-naissance')) ? $critere->setDateNissance(true) : $critere->setDateNissance(false);
+            ($request->get('date-depot')) ? $critere->setDateDepotDossier(true) : $critere->setDateNissance(false);
             ($request->get('contact')) ? $critere->setContact(true) : $critere->setContact(false);
             ($request->get('email')) ? $critere->setEmail(true) : $critere->setEmail(false);
             ($request->get('sexe')) ? $critere->setSexe(true) : $critere->setSexe(false);
@@ -67,11 +69,11 @@ class PosteController extends AbstractController
             else{
                 $critere->setDiplome(false);
             }
-            if($request->get('autre-formations')){
-                $critere->setAutreFormation(true);
+            if($request->get('formation_poste')){
+                $critere->setFormationPoste(true);
                 $poste->setNombreFormation($request->get('poste')['nombreFormation']);
             }else{
-                $critere->setAutreFormation(false);
+                $critere->setFormationPoste(false);
             }
             if($request->get('logiciel-specifique')){
                 $critere->setLogicielSpecifique(true);
@@ -84,79 +86,35 @@ class PosteController extends AbstractController
             ($request->get('total-experience-cv')) ? $critere->setTotalExperiance(true) : $critere->setTotalExperiance(false);
             if($request->get('parcours-global')){
                 $critere->setParcoursGlobal(true);
-                //Enregistrer les parcours profesionnels globals
-                $parcoursGlobal = json_decode($request->get('poste_parcours_global'));
-                foreach($parcoursGlobal as  $value){
-                    $parcoursGlobal = (new ParcoursGlobal())->setDuree($value->duree)
-                        ->setDomaine($value->domaine)
-                        ->setPoste($poste);
-                    $entityManager->persist($parcoursGlobal);
-                }
+                $poste->setDureeParcoursGlobal($request->get('poste')['dureeParcoursGlobal']);
+                $poste->setPosteParcoursGlobal($request->get('poste')['posteParcoursGlobal']);
             }
             else{
                 $critere->setParcoursGlobal(false);
             }
             if($request->get('parcours-specifique')){
                 $critere->setParcoursSpecifique(true);
-                //Enregistrer les parcours profesionnels spécifiques
-                $parcoursSpecifiques = json_decode($request->get('poste_parcours_specifique'));
-                foreach($parcoursSpecifiques as  $value){
-                    $parcoursSpecifique = (new ParcoursSpecifique())->setDuree($value->duree)
-                        ->setDomaine($value->domaine)
-                        ->setPoste($poste);
-                    $entityManager->persist($parcoursSpecifique);
-                }
+                $poste->setDureeParcoursSpecifique($request->get('poste')['dureeParcoursSpecifique']);
+                $poste->setPosteParcoursSpecifique($request->get('poste')['posteParcoursSpecifique']);
             }
             else{
                 $critere->setParcoursSpecifique(false);
             }
             if($request->get('connaissance')){
-                $critere->setConnaissance(true);
+                $critere->setAutreInformation(true);
                 //Enregistrer les connaisances
-                $connaissances = json_decode($request->get('poste_connaissance'));
-                // dd($connaissances);
+                $autresInformations = json_decode($request->get('poste_connaissance'));
 
-                $regrouped = array();
-
-                foreach ($connaissances as $objet) {
-                    $nom = $objet->nom;
-
-                    if (!isset($regrouped[$nom])) {
-                        $regrouped[$nom] = array();
-                    }
-
-                    $regrouped[$nom][] = $objet;
-                }
-
-                // dd($regrouped);
-                foreach($regrouped as $key => $value){
-                    $connaissance = (new Connaissance)
-                        ->setPoste($poste)
-                        ->setLibelle($key);
-                    $entityManager->persist($connaissance);
-                    foreach($value as $element){
-                        $domaineConnaissance =  (new DomaineConnaissance())
-                            ->setLibelle($element->domaine)
-                            ->setConnaissance($connaissance);
-                        $entityManager->persist($domaineConnaissance);
-                    }
+                foreach ($autresInformations as $objet) {
+                    $autreInformation = (new AutreInformation())
+                        ->setNomColonne($nom = $objet->nom)
+                        ->setInformation($objet->domaine)
+                        ->setPoste($poste);
+                    $entityManager->persist($autreInformation);
                 }
             }
             else{
-                $critere->setConnaissance(false);
-            }
-            if($request->get('atout')){
-                $critere->setAtout(true);
-                // Enregistrer des atouts
-                $atouts = json_decode($request->get('poste_atout'));
-                foreach($atouts as  $value){
-                    $atout = (new Atout())->setNom($value)
-                    ->setPoste($poste);
-                    $entityManager->persist($atout);
-                }
-            }
-            else{
-                $critere->setAtout(false);
+                $critere->setAutreInformation(false);
             }
             ($request->get('decision')) ? $critere->setDecision(true) : $critere->setDecision(false);
             ($request->get('dossier-complet')) ? $critere->setDossierComplet(true) : $critere->setDossierComplet(false);
@@ -183,63 +141,4 @@ class PosteController extends AbstractController
             'postes' => $posteRepository->findAll(),
         ]);
     }
-
-
-    #[Route('/add_etudiant/{code}', name: 'app_poste_candidat', methods: ['GET', 'POST'])]
-    public function addEtudiant(Poste $poste, Request $request, EntityManagerInterface $manager): Response
-    {
-        $form = $this->createFormBuilder()
-            ->add('nom', TextType::class, [
-                'attr' => [
-                    'class' => 'form-control'
-                ]
-            ])
-            ->add('prenom', TextType::class, [
-                'attr' => [
-                    'class' => 'form-control'
-                ]
-            ])
-            ->add('dateNaissance', DateType::class, [
-                'attr' => [
-                    'class' => 'form-control default-date-flatpick'
-                ]
-            ])
-            ->add('sexe', ChoiceType::class, [
-                'attr' => [
-                    'class' => 'form-control'
-                ],
-                'choices' => [
-                    'Femme' => "F",
-                    'Homme' => "H"
-                ],
-                'placeholder' => "Sélectionner un sexe"
-
-            ])
-            ->add('domaine', EntityType::class,  [
-                'attr' => [
-                    'class' => 'form-control'
-                ],
-                'class' => Domaine::class,
-                'placeholder' => "Sélectionner un domaine"
-            ])
-            ->add('niveauEtude', EntityType::class,  [
-                'attr' => [
-                    'class' => 'form-control'
-                ],
-                'class' => NiveauEtude::class,
-                'placeholder' => "Sélectionner un niveau d'étude"
-            ])
-            ->add('contact', TextType::class,  [
-                'attr' => [
-                    'class' => 'form-control'
-                ],
-            ])
-        ->getForm();
-        $form->handleRequest($request);
-
-        return $this->render('poste/add_candidat.html.twig', [
-            'form' =>$form->createView()
-        ]);
-    }
-    
 }

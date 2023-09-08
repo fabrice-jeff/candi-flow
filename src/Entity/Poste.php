@@ -48,6 +48,18 @@ class Poste
     #[ORM\JoinColumn(nullable: false)]
     private ?Critere $critere = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $dureeParcoursGlobal = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $posteParcoursGlobal = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $dureeParcoursSpecifique = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $posteParcoursSpecifique = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -145,6 +157,54 @@ class Poste
     public function setCritere(?Critere $critere): static
     {
         $this->critere = $critere;
+
+        return $this;
+    }
+
+    public function getDureeParcoursGlobal(): ?string
+    {
+        return $this->dureeParcoursGlobal;
+    }
+
+    public function setDureeParcoursGlobal(string $dureeParcoursGlobal): static
+    {
+        $this->dureeParcoursGlobal = $dureeParcoursGlobal;
+
+        return $this;
+    }
+
+    public function getPosteParcoursGlobal(): ?string
+    {
+        return $this->posteParcoursGlobal;
+    }
+
+    public function setPosteParcoursGlobal(string $posteParcoursGlobal): static
+    {
+        $this->posteParcoursGlobal = $posteParcoursGlobal;
+
+        return $this;
+    }
+
+    public function getDureeParcoursSpecifique(): ?string
+    {
+        return $this->dureeParcoursSpecifique;
+    }
+
+    public function setDureeParcoursSpecifique(string $dureeParcoursSpecifique): static
+    {
+        $this->dureeParcoursSpecifique = $dureeParcoursSpecifique;
+
+        return $this;
+    }
+
+    public function getPosteParcoursSpecifique(): ?string
+    {
+        return $this->posteParcoursSpecifique;
+    }
+
+    public function setPosteParcoursSpecifique(string $posteParcoursSpecifique): static
+    {
+        $this->posteParcoursSpecifique = $posteParcoursSpecifique;
 
         return $this;
     }

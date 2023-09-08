@@ -18,68 +18,74 @@ class Critere
     
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $id = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?bool $nomPrenoms = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?bool $nationalite = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?bool $dateNissance = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?bool $contact = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?bool $email = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?bool $sexe = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?bool $ageExige = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?bool $dateDepotDossier = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?bool $diplome = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?bool $autreFormation = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?bool $logicielSpecifique = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?bool $autreOutils = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?bool $totalExperiance = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?bool $parcoursGlobal = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?bool $parcoursSpecifique = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?bool $connaissance = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?bool $atout = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?bool $decision = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?bool $dossierComplet = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?bool $justification = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $formationPoste = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $autreInformation = null;
 
     public function getId(): ?int
     {
@@ -322,6 +328,30 @@ class Critere
     public function setJustification(bool $justification): static
     {
         $this->justification = $justification;
+
+        return $this;
+    }
+
+    public function isFormationPoste(): ?bool
+    {
+        return $this->formationPoste;
+    }
+
+    public function setFormationPoste(?bool $formationPoste): static
+    {
+        $this->formationPoste = $formationPoste;
+
+        return $this;
+    }
+
+    public function isAutreInformation(): ?bool
+    {
+        return $this->autreInformation;
+    }
+
+    public function setAutreInformation(bool $autreInformation): static
+    {
+        $this->autreInformation = $autreInformation;
 
         return $this;
     }

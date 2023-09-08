@@ -24,6 +24,9 @@ class NiveauEtude
     #[ORM\Column(length: 255)]
     private ?string $libelle = null;
 
+    #[ORM\Column]
+    private ?bool $domaine = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -43,5 +46,17 @@ class NiveauEtude
     public function __toString(): string
     {
         return $this->getLibelle();
+    }
+
+    public function isDomaine(): ?bool
+    {
+        return $this->domaine;
+    }
+
+    public function setDomaine(bool $domaine): static
+    {
+        $this->domaine = $domaine;
+
+        return $this;
     }
 }

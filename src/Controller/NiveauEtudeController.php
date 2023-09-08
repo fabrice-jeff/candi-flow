@@ -30,6 +30,7 @@ class NiveauEtudeController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            ($request->get('domaine')) ? $niveauEtude->setDomaine(true) :  $niveauEtude->setDomaine(false);
             $entityManager->persist($niveauEtude);
             $this->addFlash('success', "Niveau d'étude enregistré avec succès");
             $entityManager->flush();

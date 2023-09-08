@@ -27,14 +27,6 @@ class PosteType extends AbstractType
                 'label' => false,
                 'required' => false
             ])
-            ->add('dateFin',null,[
-                'attr' =>[
-                    'class' => 'form-control',
-                    'placeholder' => "Date de fin"
-                ],
-                'label' => false,
-                'required' => false
-            ])
             ->add('niveauEtude',null,[
                 'attr' =>[
                     'class' => 'form-control form-select select2',
@@ -63,6 +55,38 @@ class PosteType extends AbstractType
                 'attr' =>[
                     'class' => 'form-control',
                     'placeholder' => "Entrer le nom du logiciel spécifique"
+                ],
+                'label' => false,
+                'required' => false
+            ])
+            ->add('dureeParcoursGlobal',null,[
+                'attr' =>[
+                    'class' => 'form-control',
+                    'placeholder' => "Durée parcours global"
+                ],
+                'label' => false,
+                'required' => false
+            ])
+            ->add('posteParcoursGlobal',null,[
+                'attr' =>[
+                    'class' => 'form-control',
+                    'placeholder' => "Poste parcours global"
+                ],
+                'label' => false,
+                'required' => false
+            ])
+            ->add('dureeParcoursSpecifique',null,[
+                'attr' =>[
+                    'class' => 'form-control',
+                    'placeholder' => "Durée  parcours spécifique"
+                ],
+                'label' => false,
+                'required' => false
+            ])
+            ->add('posteParcoursSpecifique',null,[
+                'attr' =>[
+                    'class' => 'form-control',
+                    'placeholder' => "Poste parcours spécifique"
                 ],
                 'label' => false,
                 'required' => false

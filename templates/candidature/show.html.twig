@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Candidature{% endblock %}
+
+{% block body %}
+    <h1>Candidature</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ candidature.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ candidature.nom }}</td>
+            </tr>
+            <tr>
+                <th>Prenom</th>
+                <td>{{ candidature.prenom }}</td>
+            </tr>
+            <tr>
+                <th>Nationalite</th>
+                <td>{{ candidature.nationalite }}</td>
+            </tr>
+            <tr>
+                <th>Sexe</th>
+                <td>{{ candidature.sexe }}</td>
+            </tr>
+            <tr>
+                <th>Contact</th>
+                <td>{{ candidature.contact }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ candidature.email }}</td>
+            </tr>
+            <tr>
+                <th>DateDepotDossier</th>
+                <td>{{ candidature.dateDepotDossier ? candidature.dateDepotDossier|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>DateNaissance</th>
+                <td>{{ candidature.dateNaissance ? candidature.dateNaissance|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Domaine</th>
+                <td>{{ candidature.domaine }}</td>
+            </tr>
+            <tr>
+                <th>LogicielSpecifique</th>
+                <td>{{ candidature.logicielSpecifique ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Decision</th>
+                <td>{{ candidature.decision ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>DossierComplet</th>
+                <td>{{ candidature.dossierComplet ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Justification</th>
+                <td>{{ candidature.justification }}</td>
+            </tr>
+            <tr>
+                <th>Code</th>
+                <td>{{ candidature.code }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ candidature.createdAt ? candidature.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ candidature.updatedAt ? candidature.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Deleted</th>
+                <td>{{ candidature.deleted ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_candidature_index') }}">back to list</a>
+
+    <a href="{{ path('app_candidature_edit', {'id': candidature.id}) }}">edit</a>
+
+    {{ include('candidature/_delete_form.html.twig') }}
+{% endblock %}

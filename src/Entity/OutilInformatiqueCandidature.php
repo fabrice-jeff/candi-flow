@@ -2,26 +2,26 @@
 
 namespace App\Entity;
 
-use App\Repository\FormationRepository;
+use App\Repository\OutilInformatiqueCandidatureRepository;
 use App\Utils\TraitClasses\EntityTimestampableTrait;
 use App\Utils\TraitClasses\EntityUniqueIdTrait;
 use App\Utils\TraitClasses\EntityUserOperation;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: FormationRepository::class)]
-class Formation
+#[ORM\Entity(repositoryClass: OutilInformatiqueCandidatureRepository::class)]
+class OutilInformatiqueCandidature
 {
     use EntityUniqueIdTrait;
     use EntityTimestampableTrait;
     use EntityUserOperation;
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $libelle = null;
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?OutilsInformatique $outilInformatique = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
@@ -32,14 +32,14 @@ class Formation
         return $this->id;
     }
 
-    public function getLibelle(): ?string
+    public function getOutilInformatique(): ?OutilsInformatique
     {
-        return $this->libelle;
+        return $this->outilInformatique;
     }
 
-    public function setLibelle(string $libelle): static
+    public function setOutilInformatique(?OutilsInformatique $outilInformatique): static
     {
-        $this->libelle = $libelle;
+        $this->outilInformatique = $outilInformatique;
 
         return $this;
     }
@@ -55,5 +55,4 @@ class Formation
 
         return $this;
     }
-
 }

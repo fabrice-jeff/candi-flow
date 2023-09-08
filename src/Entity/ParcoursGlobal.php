@@ -21,53 +21,40 @@ class ParcoursGlobal
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $duree = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $domaine = null;
+    private ?string $libelle = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Poste $poste = null;
+    private ?Candidature $candidature = null;
+
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getDuree(): ?string
+    public function getLibelle(): ?string
     {
-        return $this->duree;
+        return $this->libelle;
     }
 
-    public function setDuree(string $duree): static
+    public function setLibelle(string $libelle): static
     {
-        $this->duree = $duree;
+        $this->libelle = $libelle;
 
         return $this;
     }
 
-    public function getDomaine(): ?string
+    public function getCandidature(): ?Candidature
     {
-        return $this->domaine;
+        return $this->candidature;
     }
 
-    public function setDomaine(string $domaine): static
+    public function setCandidature(?Candidature $candidature): static
     {
-        $this->domaine = $domaine;
+        $this->candidature = $candidature;
 
         return $this;
     }
 
-    public function getPoste(): ?Poste
-    {
-        return $this->poste;
-    }
-
-    public function setPoste(?Poste $poste): static
-    {
-        $this->poste = $poste;
-
-        return $this;
-    }
 }

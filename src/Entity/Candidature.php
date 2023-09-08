@@ -41,30 +41,32 @@ class Candidature
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $dateDepotDossier = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $dateNaissance = null;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?NiveauEtude $niveauEtude = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $domaine = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?bool $logicielSpecifique = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?bool $decision = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?bool $dossierComplet = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(type: Types::TEXT,nullable: true)]
     private ?string $justification = null;
 
     #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Poste $poste = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $dateNaissance = null;
 
     public function getId(): ?int
     {
@@ -155,18 +157,6 @@ class Candidature
         return $this;
     }
 
-    public function getDateNaissance(): ?\DateTimeInterface
-    {
-        return $this->dateNaissance;
-    }
-
-    public function setDateNaissance(?\DateTimeInterface $dateNaissance): static
-    {
-        $this->dateNaissance = $dateNaissance;
-
-        return $this;
-    }
-
     public function getNiveauEtude(): ?NiveauEtude
     {
         return $this->niveauEtude;
@@ -247,6 +237,18 @@ class Candidature
     public function setPoste(?Poste $poste): static
     {
         $this->poste = $poste;
+
+        return $this;
+    }
+
+    public function getDateNaissance(): ?\DateTimeInterface
+    {
+        return $this->dateNaissance;
+    }
+
+    public function setDateNaissance(?\DateTimeInterface $dateNaissance): static
+    {
+        $this->dateNaissance = $dateNaissance;
 
         return $this;
     }

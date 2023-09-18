@@ -32,7 +32,7 @@ class TotalExperience
     #[ORM\JoinColumn(nullable: false)]
     private ?Candidature $candidature = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $precisionPoste = null;
 
     public function getId(): ?int

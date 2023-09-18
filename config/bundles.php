@@ -11,4 +11,7 @@ return [
     Symfony\Bundle\SecurityBundle\SecurityBundle::class => ['all' => true],
     Symfony\Bundle\MonologBundle\MonologBundle::class => ['all' => true],
     Symfony\Bundle\MakerBundle\MakerBundle::class => ['dev' => true],
+    Knp\Bundle\SnappyBundle\KnpSnappyBundle::class => ['all' => true],
+    Yectep\PhpSpreadsheetBundle\PhpSpreadsheetBundle::class => ['all' => true],
+    Denisok94\SymfonyExportXlsxBundle\Denisok94SymfonyExportXlsxBundle::class => ['all' => true],
 ];

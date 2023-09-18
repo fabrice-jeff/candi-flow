@@ -1,0 +1,292 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Candidature index{% endblock %}
+
+{% block breadcrumb_title %}
+	<div class="page-header">
+		<h1 class="page-title">
+			Liste des candidatures traités
+		</h1>
+		<div>
+			<ol class="breadcrumb">
+				<a href="{{ path('app_poste_liste', {code: poste.code}) }}" class="table-hover btn btn-primary">
+					Retour
+				</a>
+			</ol>
+		</div>
+	</div>
+{% endblock %}
+
+{% block content %}
+
+	<div class="row">
+		<div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
+			<div class="card">
+				<div class="card-body">
+					<div class="d-flex justify-content-between export">
+						<h3><span>Poste</span>: {{ poste.libelle }}</h3>
+						<div class="row w-15 mb-4 export-content">
+ 							
+ 							<div class="col-4">
+ 								<a  class="" ><span>word</span> <i class="fa fa-file-word-o"></i></a>
+ 							</div>
+							<div class="col-4">
+								<a href="{{ path('app_export_excel',{code: poste.code}) }}" class="" id="exportWord"><span>excel</span><i class="fa fa-file-excel-o"></i></a>
+							</div>
+ 							<div class="col-4">
+ 								<a  class=""><span>pdf</span> <i class="fa bi-file-pdf"></i></a>
+ 							</div>
+						</div>
+					</div>
+					<div class="table-responsive">
+						
+						<table class="table table-bordered text-center" id="TableToExport">
+							<thead>
+							<tr>
+								<th style="vertical-align: top;">N°</th>
+								{% if critere.nomPrenoms == 1 %}
+									<th style="vertical-align: top;">Nom et prénoms</th>
+								{% endif %}
+								{% if critere.nationalite == 1 %}
+									<th style="vertical-align: top;">Nationalité</th>
+								{% endif %}
+								{% if critere.sexe == 1 %}
+									<th style="vertical-align: top;">Sexe</th>
+								{% endif %}
+								<th style="vertical-align: top;">Age <br>(
+									{% if critere.ageExige == 1 %}
+										{{ poste.age }}
+									{% endif %})
+								</th>
+								
+								{% if critere.diplome == 1 %}
+									<th style="vertical-align: top;">Diplôme/Niveau/Domaine <br> ({{ poste.niveauEtude.libelle }})</th>
+								{% endif %}
+								{% if critere.formationPoste == 1 %}
+									<th style="vertical-align: top;"> Formations pertinentes en lien avec le poste</th>
+								{% endif %}
+								{% if critere.logicielSpecifique == 1 %}
+									<th style="vertical-align: top;">Outil Informatique <br>({{ poste.logicielSpecifique }}) </th>
+								{% endif %}
+								{% if critere.autreOutils %}
+									<th style="vertical-align: top;">Autres outils informatiques</th>
+								{% endif %}
+								{% if critere.totalExperiance == 1 %}
+									<th style="vertical-align: top;" class="colored-cell">Total expérience sur CV</th>
+								{% endif %}
+								{% if critere.parcoursGlobal == 1 %}
+									<th style="vertical-align: top;" class="colored-cell">Parcours professionnel global prouvé
+										Durée, Poste, Organisme <br>
+										({{ poste.dureeParcoursGlobal ~ " "~ poste.posteParcoursGlobal }})
+									</th>
+								{% endif %}
+								{% if critere.parcoursSpecifique == 1 %}
+									<th style="vertical-align: top;">Parcours professionnel spécifique prouvé
+										Durée, Poste, Organisme <br>
+										({{ poste.dureeParcoursSpecifique ~ " "~ poste.posteParcoursSpecifique }})
+									</th>
+								{% endif %}
+								{% if critere.autreInformation == 1 %}
+									{% for autre_info in autres_informations %}
+										<th style="vertical-align: top;">{{ autre_info.nomColonne}} <br>( {{ autre_info.information }})</th>
+									{% endfor %}
+								{% endif %}
+								
+								{% if critere.contact == 1 %}
+									<th style="vertical-align: top;">Contact
+										(Téléphone et E-mail)</th>
+								{% endif %}
+								{% if critere.decision == 1  %}
+									<th style="vertical-align: top;">
+										Décision
+									</th>
+								{% endif %}
+								
+								{% if critere.dossierComplet == 1 %}
+									<th style="vertical-align: top;">
+										Dossier complet (oui ou non)
+									</th>
+								{% endif %}
+								{% if critere.justification %}
+									<th style="vertical-align: top;">
+										Justification de la décision
+									</th>
+								{% endif %}
+							</tr>
+							</thead>
+							<tbody>
+							{% for candidature in candidatures  %}
+								<tr>
+									<td>{{ candidature.candidature.id }}</td>
+									{% if critere.nomPrenoms == 1 %}
+										<td>{{ candidature.candidature.nom ~" "~ candidature.candidature.prenom }}</td>
+									{% endif %}
+									{% if critere.nationalite == 1 %}
+										<td>{{candidature.candidature.nationalite}}</td>
+									{% endif %}
+									{% if critere.sexe == 1 %}
+										<td>{{ candidature.candidature.sexe }}</td>
+									{% endif %}
+									<td>{{ candidature.candidature.age ~ " ans" }}</td>
+									
+									{% if critere.diplome == 1 %}
+										<td>{{ candidature.candidature.niveauEtude.libelle ~ "/"~ candidature.candidature.domaine }}</td>
+									{% endif %}
+									{% if critere.formationPoste == 1 %}
+										<td>
+											<ul>
+												{% for formation in candidature.formations  %}
+													<li> - {{ formation.libelle }}</li>
+												{% endfor %}
+											</ul>
+										</td>
+									{% endif %}
+									{% if critere.logicielSpecifique == 1 %}
+										<td>
+											{% if candidature.candidature.logicielSpecifique == 1 %}
+												Oui
+											{% else %}
+												Non
+											{% endif %}
+										</td>
+									{% endif %}
+									{% if critere.autreOutils %}
+										<td>
+											<ul>
+												{% for outil in candidature.outils_candidatures  %}
+													<li> - {{ outil.outilInformatique.libelle }}</li>
+												{% endfor %}
+											</ul>
+										</td>
+									{% endif %}
+									{% if critere.totalExperiance == 1 %}
+										<td>
+											<ul>
+												{% for experience in candidature.total_experience  %}
+													{% if experience.precisionPoste is null %}
+														<li> - {{ experience.duree ~ "," ~experience.poste ~ ", "~ experience.organisme }}</li>
+													{% else %}
+														<li> - {{ experience.duree ~ "," ~experience.poste ~ ", "~ experience.organisme ~ "("~experience.precisionPoste~ ")" }}</li>
+													{% endif %}
+												{% endfor %}
+											</ul>
+										</td>
+									{% endif %}
+									{% if critere.parcoursGlobal == 1 %}
+										<td>
+											<ul>
+												{% for parcours in candidature.parcours_global  %}
+													<li> - {{ parcours.libelle  }}</li>
+												{% endfor %}
+											</ul>
+										</td>
+									{% endif %}
+									{% if critere.parcoursSpecifique == 1 %}
+										<td>
+											<ul>
+												{% for parcours in candidature.parcours_specfique  %}
+													<li> - {{ parcours.libelle  }}</li>
+												{% endfor %}
+											</ul>
+										</td>
+									{% endif %}
+									{% if critere.autreInformation == 1 %}
+										{% for information_candidature in candidature.autre_information_candidatures %}
+											{% if information_candidature.checked == 1 %}
+												<td>
+													Oui
+												</td>
+											{% else %}
+												<td>
+													Non
+												</td>
+											{% endif %}
+										{% endfor %}
+									{% endif %}
+									
+									{% if critere.contact == 1  %}
+										<td>
+											Contact : {{ candidature.candidature.contact }}
+											<br>
+											Email: {{  candidature.candidature.email }}
+										</td>
+									{% endif %}
+									{% if critere.decision == 1  %}
+										<td>
+											{% if candidature.candidature.decision == 0 %}
+												Rejétée
+											{% else %}
+												Acceptée
+											{% endif %}
+										</td>
+									{% endif %}
+									{% if critere.dossierComplet == 1 %}
+										<td>
+											{% if candidature.candidature.dossierComplet == 0 %}
+												Non
+											{% else %}
+												oui
+											{% endif %}
+										</td>
+									{% endif %}
+									{% if critere.justification %}
+										<td>
+											{{ candidature.candidature.justification }}
+										</td>
+									{% endif %}
+								</tr>
+							{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+{% endblock %}
+
+{% block javascripts %}
+	<!-- use version 0.20.0 -->
+	<script>
+		document.getElementById('exportWord').addEventListener('click', function (){
+            const ExcelJS = require('exceljs');
+
+			// Créez un nouveau classeur Excel
+            const workbook = new ExcelJS.Workbook();
+            const worksheet = workbook.addWorksheet('Feuille1');
+
+			// Données à exporter
+            const data = [
+                ["Header 1", "Header 2", "Header 3"],
+                ["Data 1", "Data 2", "Data 3"],
+                ["Data 4", "Data 5", "Data 6"],
+            ];
+
+			// Appliquez un style personnalisé à une ligne spécifique (par exemple, ligne 2)
+            const coloredRow = worksheet.getRow(2);
+            coloredRow.eachCell((cell, colNumber) => {
+                cell.fill = {
+                    type: 'pattern',
+                    pattern: 'solid',
+                    fgColor: { argb: 'FFFF0000' }, // Couleur d'arrière-plan rouge
+                };
+            });
+
+			// Ajoutez les données au tableau Excel
+            data.forEach(row => {
+                worksheet.addRow(row);
+            });
+
+			// Enregistrez le fichier Excel
+            workbook.xlsx.writeFile('exported_data.xlsx')
+                .then(() => {
+                    console.log('Fichier Excel exporté avec succès');
+                })
+                .catch(err => {
+                    console.error('Erreur lors de l\'export du fichier Excel :', err);
+                });
+		})
+	</script>
+{% endblock %}

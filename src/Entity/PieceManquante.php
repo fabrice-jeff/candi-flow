@@ -2,47 +2,45 @@
 
 namespace App\Entity;
 
-use App\Repository\AutreInformationCandidatureRepository;
+use App\Repository\PieceManquanteRepository;
 use App\Utils\TraitClasses\EntityTimestampableTrait;
 use App\Utils\TraitClasses\EntityUniqueIdTrait;
 use App\Utils\TraitClasses\EntityUserOperation;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: AutreInformationCandidatureRepository::class)]
-class AutreInformationCandidature
+#[ORM\Entity(repositoryClass: PieceManquanteRepository::class)]
+class PieceManquante
 {
+
     use EntityUniqueIdTrait;
     use EntityTimestampableTrait;
     use EntityUserOperation;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?AutreInformation $autreInformation = null;
+    #[ORM\Column(length: 255)]
+    private ?string $nomPiece = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?Candidature $candidature = null;
-
-    #[ORM\Column]
-    private ?bool $checked = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getAutreInformation(): ?AutreInformation
+    public function getNomPiece(): ?string
     {
-        return $this->autreInformation;
+        return $this->nomPiece;
     }
 
-    public function setAutreInformation(?AutreInformation $autreInformation): static
+    public function setNomPiece(string $nomPiece): static
     {
-        $this->autreInformation = $autreInformation;
+        $this->nomPiece = $nomPiece;
 
         return $this;
     }
@@ -55,18 +53,6 @@ class AutreInformationCandidature
     public function setCandidature(?Candidature $candidature): static
     {
         $this->candidature = $candidature;
-
-        return $this;
-    }
-
-    public function isChecked(): ?bool
-    {
-        return $this->checked;
-    }
-
-    public function setChecked(bool $checked): static
-    {
-        $this->checked = $checked;
 
         return $this;
     }

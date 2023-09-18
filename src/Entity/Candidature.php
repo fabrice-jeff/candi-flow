@@ -68,6 +68,13 @@ class Candidature
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $dateNaissance = null;
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Statut $statut = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $age = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -249,6 +256,30 @@ class Candidature
     public function setDateNaissance(?\DateTimeInterface $dateNaissance): static
     {
         $this->dateNaissance = $dateNaissance;
+
+        return $this;
+    }
+
+    public function getStatut(): ?Statut
+    {
+        return $this->statut;
+    }
+
+    public function setStatut(?Statut $statut): static
+    {
+        $this->statut = $statut;
+
+        return $this;
+    }
+
+    public function getAge(): ?string
+    {
+        return $this->age;
+    }
+
+    public function setAge(string $age): static
+    {
+        $this->age = $age;
 
         return $this;
     }

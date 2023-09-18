@@ -49,14 +49,14 @@ class PosteController extends AbstractController
             ($request->get('nomPrenom')) ? $critere->setNomPrenoms(true) : $critere->setNomPrenoms(false);
             ($request->get('nationalite')) ? $critere->setNationalite(true) : $critere->setNationalite(false);
             ($request->get('date-naissance')) ? $critere->setDateNissance(true) : $critere->setDateNissance(false);
-            ($request->get('date-depot')) ? $critere->setDateDepotDossier(true) : $critere->setDateNissance(false);
+//            ($request->get('date-depot')) ? $critere->setDateDepotDossier(true) : $critere->setDateDepotDossier(false);
             ($request->get('contact')) ? $critere->setContact(true) : $critere->setContact(false);
-            ($request->get('email')) ? $critere->setEmail(true) : $critere->setEmail(false);
+//            ($request->get('email')) ? $critere->setEmail(true) : $critere->setEmail(false);
             ($request->get('sexe')) ? $critere->setSexe(true) : $critere->setSexe(false);
             if($request->get('ageExige')){
                 $critere->setAgeExige(true);
                 $poste->setAge($request->get('poste')['age']);
-                $poste->setDateFin($request->get('poste')['dateFin']);
+                $poste->setDateFin((new \DateTime($request->get('dateFin'))));
             }
             else{
                 $critere->setAgeExige(false);
@@ -70,6 +70,7 @@ class PosteController extends AbstractController
                 $critere->setDiplome(false);
             }
             if($request->get('formation_poste')){
+//                dd($request->get('poste')['nombreFormation']);
                 $critere->setFormationPoste(true);
                 $poste->setNombreFormation($request->get('poste')['nombreFormation']);
             }else{

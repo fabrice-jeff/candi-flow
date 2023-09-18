@@ -27,9 +27,7 @@ class Poste
 
     #[ORM\Column(length: 255, nullable:true)]
     private ?string $age = null;
-
-    #[ORM\Column(length: 255, nullable:true)]
-    private ?string $dateFin = null;
+    
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: true)]
@@ -60,6 +58,9 @@ class Poste
     #[ORM\Column(length: 255)]
     private ?string $posteParcoursSpecifique = null;
 
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $dateFin = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -89,17 +90,7 @@ class Poste
         return $this;
     }
 
-    public function getDateFin(): ?string
-    {
-        return $this->dateFin;
-    }
 
-    public function setDateFin(string $dateFin): static
-    {
-        $this->dateFin = $dateFin;
-
-        return $this;
-    }
 
     public function getNiveauEtude(): ?NiveauEtude
     {
@@ -205,6 +196,18 @@ class Poste
     public function setPosteParcoursSpecifique(string $posteParcoursSpecifique): static
     {
         $this->posteParcoursSpecifique = $posteParcoursSpecifique;
+
+        return $this;
+    }
+
+    public function getDateFin(): ?\DateTimeInterface
+    {
+        return $this->dateFin;
+    }
+
+    public function setDateFin(\DateTimeInterface $dateFin): static
+    {
+        $this->dateFin = $dateFin;
 
         return $this;
     }

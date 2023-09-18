@@ -42,6 +42,7 @@ class CandidatureType extends AbstractType
                 'attr'  =>[
                     'class'  => 'form-control'
                 ],
+                'label' => 'Téléphone'
 
             ])
             ->add('email',null, [

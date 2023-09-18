@@ -47,9 +47,13 @@
                                 {{form_row(form.sexe)}}
                             </div>
                         {% endif %}
-                        {% if poste.critere.email == 1 %}
+                       
+                        {% if poste.critere.contact == 1 %}
                             <div class="form-group col-6">
                                 {{form_row(form.email)}}
+                            </div>
+                            <div class="form-group col-6">
+                                {{form_row(form.contact)}}
                             </div>
                         {% endif %}
                         {% if poste.critere.dateNissance == 1 %}
@@ -64,11 +68,7 @@
                             </div>
                         {% endif %}
                         
-                        {% if poste.critere.contact == 1 %}
-                            <div class="form-group col-6">
-                                {{form_row(form.contact)}}
-                            </div>
-                        {% endif %}
+                       
                     </div>
                 </div>
             </div>
@@ -125,41 +125,40 @@
         </div>
 
         {# Outils informatiques #}
-        <div class="col-lg-6">
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">Outils informatiques</div>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        {% if poste.critere.logicielSpecifique == 1 %}
-                            <div class="">Maîtriser vous le logiciel {{poste.logicielSpecifique}} ?</div>
-                            <div class="d-flex">
-                                <span class="p-4">Non</span>
-                                <label class="custom-switch ">
-                                    <input type="checkbox" class="ml-3 custom-switch-input" name="logiciel-specifique">
-                                    <span class="custom-switch-indicator me-3"></span>
-                                </label>
-                                <span class="p-4">Oui</span>
-                            </div>
-                        {% endif %}
-                        {% if poste.critere.autreOutils == 1 %}
-                            {# Autres logiciel spécifiques #}
-                        {% endif %}
+        {% if poste.critere.logicielSpecifique == 1 %}
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Outils informatiques</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                                <div class="">Maîtriser vous le logiciel {{poste.logicielSpecifique}} ?</div>
+                                <div class="d-flex">
+                                    <span class="p-4">Non</span>
+                                    <label class="custom-switch ">
+                                        <input type="checkbox" class="ml-3 custom-switch-input" name="logiciel-specifique">
+                                        <span class="custom-switch-indicator me-3"></span>
+                                    </label>
+                                    <span class="p-4">Oui</span>
+                                </div>
+                           
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-
+        {% endif %}
+    
+    
         {# Autre Outils informatiques #}
-        <div class="col-lg-6">
+        {% if poste.critere.autreOutils == 1 %}
+            <div class="col-lg-6">
             <div class="card">
                 <div class="card-header">
                     <div class="card-title">Autres Outils informatiques</div>
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        {% if poste.critere.autreOutils == 1 %}
                             <div class="mb-2">Sélectionner des outils spécifiques</div>
                             <div class="custom-controls-stacked">
                             {% for outil in outils_informatiques %}
@@ -169,21 +168,21 @@
                                 </label>
                             {% endfor %}
                             </div>
-                        {% endif %}
                     </div>
                 </div>
             </div>
         </div>
+        {% endif %}
 
         {# Total expérience sur CV #}
-        <div class="col-lg-12">
+        {% if poste.critere.totalExperiance == 1 %}
+            <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
                     <div class="card-title">Total expérience sur CV</div>
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        {% if poste.critere.totalExperiance == 1 %}
                             <div class="form-group col-12">
                                 <div class="row">
                                     <input type="hidden" name="total-experience" id="total-experience">
@@ -214,9 +213,19 @@
                                         <label class="form-label">Organisme</label>
                                         <input type="text" class="form-control" id="organismeCv">
                                     </div>
-                                    <div class="col-4">
-                                        <label class="form-label">Précision</label>
-                                        <input type="text" class="form-control" id="precision">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <div class="custom-controls-stacked col-1">
+                                                <label class="custom-control custom-checkbox-md" style="margin-top: 40px">
+                                                    <input type="checkbox" class="custom-control-input" name="dd" id="check-precision">
+                                                    <span class="custom-control-label"></span>
+                                                </label>
+                                            </div>
+                                            <div class="col-11">
+                                                <label class="form-label">Précision</label>
+                                                <input type="text" class="form-control" id="precision" disabled>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="col-1">
                                         <button type="button" class="btn btn-warning" style="margin-top: 36px;" id="add_experience_cv">
@@ -238,59 +247,61 @@
                                     </div>
                                 </div>
                             </div>
-                        {% endif %}
                     </div>
                 </div>
             </div>
         </div>
+        {% endif %}
 
         {# Parcours professionnel global prouvé #}
+        {% if poste.critere.parcoursGlobal == 1 %}
         <div class="col-lg-6">
             <div class="card">
                 <div class="card-header">
-                    <div class="card-title">Parcours professionnel global prouvé</div>
+                    <div class="card-title">Parcours professionnel global prouvé <br> (Durée, Poste, Organisme)</div>
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <input type="hidden" name="parcours-global" id="parcours-global">
-                        {% if poste.critere.parcoursGlobal == 1 %}
                             {# <div class="mb-2">Sélectionner des outils spécifiques</div> #}
                             <div class="custom-controls-stacked" id="parcoursGlobal">
                                 
                             </div>
-                        {% endif %}
                     </div>
                 </div>
             </div>
         </div>
+        {% endif %}
 
         {# Parcours professionnel spécifique prouvé #}
+        {% if poste.critere.parcoursSpecifique == 1 %}
+    
         <div class="col-lg-6">
             <div class="card">
                 <div class="card-header">
-                    <div class="card-title">Parcours professionnel spécifique prouvé</div>
+                    <div class="card-title">Parcours professionnel spécifique prouvé <br> (Durée, Poste, Organisme)</div>
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <input type="hidden" name="parcours-specifique" id="parcours-specifique">
-                        {% if poste.critere.parcoursSpecifique == 1 %}
                             {# <div class="mb-2">Sélectionner des outils spécifiques</div> #}
                             <div class="custom-controls-stacked" id="parcoursSpecifique">
                             
                             </div>
-                        {% endif %}
                     </div>
                 </div>
             </div>
         </div>
-        
+        {% endif %}
+    
+    
         {#    Autres informations  (Connaissances/Atouts  #}
+        {% if poste.critere.autreInformation == 1 %}
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
                     <div class="card-title">Autres Informations (Cannaissances/Atouts)</div>
                 </div>
-                {% if poste.critere.autreInformation == 1 %}
                     {% for infos in autres_informations %}
                         <div class="card-body">
                             <div class="">{{ infos.nomColonne ~"("~ infos.information~")" }}</div>
@@ -304,20 +315,8 @@
                             </div>
                         </div>
                     {% endfor %}
-                {% endif %}
             </div>
         </div>
-        
-        
-        
-        
-        {% if poste.critere.decision == 1 %}
-            {# Décision #}
-        {% endif %}
-        {% if poste.critere.dossierComplet == 1 %}
-            {# Dossier complet? #}
-        {% endif %}
-        {% if poste.critere.justification  == 1%}
         {% endif %}
         
     </div>
@@ -336,8 +335,8 @@
         
         $(document).ready(function(){
             {% if poste.critere.formationPoste == 1 %}
-                const nombreLimiteFormation = parseInt("{{ poste.nombreFormation }}")
                 
+                const nombreLimiteFormation = parseInt("{{ poste.nombreFormation }}")
                 $('#add_formation_poste').on('click', function(){
                     let formationPoste =  $('#candidature_formationPoste').val()
                     let html ="<tr class='line'><td class='formation_poste'>"+ formationPoste +"</td><td ><button type='button' class='btn btn-danger p-1 delete-fonction-poste'><i class='fa fa-minus'></i></td></tr>"
@@ -393,16 +392,27 @@
                 })
             {% endif %}
             
-            
             {% if poste.critere.totalExperiance == 1 %}
+                $('#check-precision').on('click', function (){
+                    if($("#check-precision").is(":checked")){
+                        $('#precision').prop("disabled", false);
+                    }else{
+                        $('#precision').prop("disabled", true);
+                    }
+                })
                 $('#add_experience_cv').on('click', function(){
                     var dateDebut = new Date($('#dateDebut').val())
                     var dateFin = new Date($('#dateFin').val())
-                    const duree = differenceEnMois(dateDebut, dateFin);
-            
+                    if(dateDebut >dateFin ){
+                        warning_noti("La date de début ne peut pas être supérieur à la date de fin")
+                        system.stop()
+                        return  false;
+                    }
+                    const duree = differenceEnMoisAnnee(dateDebut, dateFin);
                     var organismeCv =  $('#organismeCv').val()
                     var posteCv = $("#posteCv").val()
-                    var precision = $('#precision').val()
+                    var precision  = ($("#precision").prop("disabled") || (!$("#precision").prop("disabled") && $("#precision").val() == "")) ? 'Aucun' : $('#precision').val();
+                  
                     var html ="<tr class='line'><td class='duree'>"+duree+" mois</td><td class='posteCv'>"+ posteCv +"</td><td class='organismeCv'>"+ organismeCv +"</td><td class='precision'>"+ precision +"</td><td><button type='button' class='btn btn-danger p-1 delete-experience-cv'><i class='fa fa-minus'></i></td></tr>"
                     if(dateDebut === " " || dateFin === " " || posteCv === " " || organismeCv === " "){
                         warning_noti('Veuillez entrer une valeur');
@@ -417,7 +427,7 @@
                         }
                     })
                     // Ajouter les parcours Global
-                    addParcoursGlobal(posteCv, organismeCv, duree);
+                    addParcoursGlobal(posteCv, organismeCv, duree, precision);
                     $('#table_experience_cv tbody').append(html);
                     $('#dateFin').val(" ")
                     $('#posteCv').val(" ")
@@ -425,9 +435,16 @@
                     $('#organismeCv').val(" ")
                     $('#precision').val(" ")
                 })
+                // Lors de class suppression d'une ligne
                 $('body').on('click','.delete-experience-cv', function(){
                     var tr = $(this).closest('tr')
-                    var element = tr.find('.duree').text()+" en "+ tr.find('.posteCv').text()+ " à "+ tr.find('.organismeCv').text();
+                    var element =  "";
+                    if(tr.find('.precision').text() === "Aucun"){
+                        element = (tr.find('.precision').text() === "null")?tr.find('.duree').text()+","+ tr.find('.posteCv').text()+ ","+ tr.find('.organismeCv').text(): tr.find('.duree').text()+","+ tr.find('.posteCv').text()+ ","+ tr.find('.organismeCv').text() ;
+                    }
+                    else{
+                        element = (tr.find('.precision').text() === "null")?tr.find('.duree').text()+","+ tr.find('.posteCv').text()+ ","+ tr.find('.organismeCv').text(): tr.find('.duree').text()+","+ tr.find('.posteCv').text()+ ","+ tr.find('.organismeCv').text()+  "("+ tr.find('.precision').text() +")" ;
+                    }
                     removeParcoursGlobal(element)
                     removeParcoursSpecifique(element)
                     tr.remove()
@@ -472,7 +489,6 @@
                     }
             
                 })
-        
                 //Parcours specifique
                 $("#parcoursSpecifique .parcours-specifique").each(function (){
                     if ($(this).prop("checked")) {
@@ -486,25 +502,28 @@
             })
         })
         
-        function addParcoursGlobal(poste, organisme, duree){
-            var html = `
+        function addParcoursGlobal(poste, organisme, duree, precision){
+            var html = "";
+            if (precision === 'Aucun'){
+                html = `
                     <label class="custom-control custom-checkbox-md ">
                         <input type="checkbox" class="custom-control-input parcours">
                         <span class="custom-control-label">${duree} mois,${poste},${organisme}</span>
                     </label>
                     `;
+            }
+            else {
+                html = `
+                    <label class="custom-control custom-checkbox-md ">
+                        <input type="checkbox" class="custom-control-input parcours">
+                        <span class="custom-control-label">${duree} mois,${poste},${organisme}(${precision})</span>
+                    </label>
+                    `;
+            }
+           
             $("#parcoursGlobal").append(html);
         }
-
-
-        function differenceEnMois(dateDebut, dateFin) {
-            const moisDebut = dateDebut.getMonth();
-            const anneeDebut = dateDebut.getFullYear();
-            const moisFin = dateFin.getMonth();
-            const anneeFin = dateFin.getFullYear();
-            console.log(anneeDebut,anneeFin,moisDebut,moisFin)
-            return (anneeFin - anneeDebut) * 12 + (moisFin - moisDebut);
-        }
+        
 
         function addParcoursSpecifique(element){
             $("#parcoursSpecifique .custom-control-label").each(function (){
@@ -523,6 +542,7 @@
                     `;
             $("#parcoursSpecifique").append(html);
         }
+        
         function removeParcoursGlobal(element){
             $("#parcoursGlobal .custom-control-label").each(function (){
                 console.log(element,$(this).text(), $(this).text() === element);
@@ -541,5 +561,32 @@
                 }
             })
         }
+
+
+        function differenceEnMoisAnnee(dateDebut, dateFin) {
+            const moisDebut = dateDebut.getMonth();
+            const anneeDebut = dateDebut.getFullYear();
+            const moisFin = dateFin.getMonth();
+            const anneeFin = dateFin.getFullYear();
+    
+            console.log(anneeDebut, anneeFin, moisDebut, moisFin);
+    
+            let moisDiff = (anneeFin - anneeDebut) * 12 + (moisFin - moisDebut);
+    
+            if (moisDiff > 12) {
+                const anneesCompletes = Math.floor(moisDiff / 12);
+                const moisRestants = moisDiff % 12;
+        
+                if (moisRestants > 0) {
+                    return `${anneesCompletes} an${anneesCompletes > 1 ? 's' : ''} et ${moisRestants}`;
+                } else {
+                    return `${anneesCompletes} an${anneesCompletes > 1 ? 's' : ''}`;
+                }
+            } else {
+                return moisDiff;
+            }
+        }
+        
+
     </script>
 {% endblock %}

@@ -24,11 +24,11 @@ class CandidatureRepository extends ServiceEntityRepository
 //    /**
 //     * @return Candidature[] Returns an array of Candidature objects
 //     */
-//    public function findByExampleField($value): array
+//    public function selectCandidatures(): array
 //    {
 //        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
+//            ->andWhere('c.deleted = false')
+//            ->andWhere('c.decision = 0 OR c.decision is null')
 //            ->orderBy('c.id', 'ASC')
 //            ->setMaxResults(10)
 //            ->getQuery()

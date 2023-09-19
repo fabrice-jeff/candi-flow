@@ -39,8 +39,7 @@
 						</div>
 					</div>
 					<div class="table-responsive">
-						
-						<table class="table table-bordered text-center" id="TableToExport">
+						<table class="table table-bordered text-justify" id="TableToExport">
 							<thead>
 							<tr>
 								<th style="vertical-align: top;">N°</th>
@@ -72,7 +71,7 @@
 									<th style="vertical-align: top;">Autres outils informatiques</th>
 								{% endif %}
 								{% if critere.totalExperiance == 1 %}
-									<th style="vertical-align: top;" class="colored-cell">Total expérience sur CV</th>
+									<th style="vertical-align: top;" class="colored-cell">Total expérience sur CV <br>(Durée, Poste, Organisme)</th>
 								{% endif %}
 								{% if critere.parcoursGlobal == 1 %}
 									<th style="vertical-align: top;" class="colored-cell">Parcours professionnel global prouvé
@@ -92,10 +91,6 @@
 									{% endfor %}
 								{% endif %}
 								
-								{% if critere.contact == 1 %}
-									<th style="vertical-align: top;">Contact
-										(Téléphone et E-mail)</th>
-								{% endif %}
 								{% if critere.decision == 1  %}
 									<th style="vertical-align: top;">
 										Décision
@@ -111,6 +106,10 @@
 									<th style="vertical-align: top;">
 										Justification de la décision
 									</th>
+								{% endif %}
+								{% if critere.contact == 1 %}
+									<th style="vertical-align: top;">Contact
+										(Téléphone et E-mail)</th>
 								{% endif %}
 							</tr>
 							</thead>
@@ -204,13 +203,7 @@
 										{% endfor %}
 									{% endif %}
 									
-									{% if critere.contact == 1  %}
-										<td>
-											Contact : {{ candidature.candidature.contact }}
-											<br>
-											Email: {{  candidature.candidature.email }}
-										</td>
-									{% endif %}
+									
 									{% if critere.decision == 1  %}
 										<td>
 											{% if candidature.candidature.decision == 0 %}
@@ -232,6 +225,13 @@
 									{% if critere.justification %}
 										<td>
 											{{ candidature.candidature.justification }}
+										</td>
+									{% endif %}
+									{% if critere.contact == 1  %}
+										<td>
+											Contact : {{ candidature.candidature.contact }}
+											<br>
+											Email: {{  candidature.candidature.email }}
 										</td>
 									{% endif %}
 								</tr>

@@ -107,14 +107,16 @@
                                         </button>
                                     </div>
                                     <div class="mt-3">
-                                        <table class="table table-bordered " id="table_formation_poste">
-                                            <thead>
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered text-justify" id="table_formation_poste">
+                                                <thead>
                                                 <th>Formations</th>
                                                 <th class="btn-action">Actions</th>
-                                            </thead>
-                                            <tbody>
-                                            </tbody>
-                                        </table>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -232,13 +234,12 @@
                                             Ajouter
                                         </button>
                                     </div>
-                                    <div class="mt-3">
-                                        <table class="table table-bordered " id="table_experience_cv">
+                                    <div class="mt-3 table-responsive">
+                                        <table class="table table-bordered text-justify" id="table_experience_cv">
                                             <thead>
                                                 <th>Durée</th>
                                                 <th>Poste</th>
                                                 <th>Organisme</th>
-                                                <th>Précision</th>
                                                 <th class="btn-action">Actions</th>
                                             </thead>
                                             <tbody>
@@ -411,9 +412,9 @@
                     const duree = differenceEnMoisAnnee(dateDebut, dateFin);
                     var organismeCv =  $('#organismeCv').val()
                     var posteCv = $("#posteCv").val()
-                    var precision  = ($("#precision").prop("disabled") || (!$("#precision").prop("disabled") && $("#precision").val() == "")) ? 'Aucun' : $('#precision').val();
+                    var precision  = ($("#precision").prop("disabled") || (!$("#precision").prop("disabled") && $("#precision").val().trim() == "")) ? '' :"("+ $('#precision').val() + ")" ;
                   
-                    var html ="<tr class='line'><td class='duree'>"+duree+" mois</td><td class='posteCv'>"+ posteCv +"</td><td class='organismeCv'>"+ organismeCv +"</td><td class='precision'>"+ precision +"</td><td><button type='button' class='btn btn-danger p-1 delete-experience-cv'><i class='fa fa-minus'></i></td></tr>"
+                    var html ="<tr class='line'><td class='duree'>"+duree+" mois</td><td class='posteCv'>"+ posteCv + precision  +"</td><td class='organismeCv'>"+ organismeCv +"</td><td><button type='button' class='btn btn-danger p-1 delete-experience-cv'><i class='fa fa-minus'></i></td></tr>"
                     if(dateDebut === " " || dateFin === " " || posteCv === " " || organismeCv === " "){
                         warning_noti('Veuillez entrer une valeur');
                         system.stop()
@@ -426,8 +427,9 @@
                             return  false;
                         }
                     })
+                    var poste = posteCv+precision
                     // Ajouter les parcours Global
-                    addParcoursGlobal(posteCv, organismeCv, duree, precision);
+                    addParcoursGlobal(poste,organismeCv, duree);
                     $('#table_experience_cv tbody').append(html);
                     $('#dateFin').val(" ")
                     $('#posteCv').val(" ")
@@ -438,13 +440,7 @@
                 // Lors de class suppression d'une ligne
                 $('body').on('click','.delete-experience-cv', function(){
                     var tr = $(this).closest('tr')
-                    var element =  "";
-                    if(tr.find('.precision').text() === "Aucun"){
-                        element = (tr.find('.precision').text() === "null")?tr.find('.duree').text()+","+ tr.find('.posteCv').text()+ ","+ tr.find('.organismeCv').text(): tr.find('.duree').text()+","+ tr.find('.posteCv').text()+ ","+ tr.find('.organismeCv').text() ;
-                    }
-                    else{
-                        element = (tr.find('.precision').text() === "null")?tr.find('.duree').text()+","+ tr.find('.posteCv').text()+ ","+ tr.find('.organismeCv').text(): tr.find('.duree').text()+","+ tr.find('.posteCv').text()+ ","+ tr.find('.organismeCv').text()+  "("+ tr.find('.precision').text() +")" ;
-                    }
+                    var element  = tr.find('.duree').text()+","+ tr.find('.posteCv').text()+ ","+ tr.find('.organismeCv').text()
                     removeParcoursGlobal(element)
                     removeParcoursSpecifique(element)
                     tr.remove()
@@ -502,25 +498,13 @@
             })
         })
         
-        function addParcoursGlobal(poste, organisme, duree, precision){
-            var html = "";
-            if (precision === 'Aucun'){
-                html = `
+        function addParcoursGlobal(poste, organisme, duree){
+            var  html = `
                     <label class="custom-control custom-checkbox-md ">
                         <input type="checkbox" class="custom-control-input parcours">
                         <span class="custom-control-label">${duree} mois,${poste},${organisme}</span>
                     </label>
                     `;
-            }
-            else {
-                html = `
-                    <label class="custom-control custom-checkbox-md ">
-                        <input type="checkbox" class="custom-control-input parcours">
-                        <span class="custom-control-label">${duree} mois,${poste},${organisme}(${precision})</span>
-                    </label>
-                    `;
-            }
-           
             $("#parcoursGlobal").append(html);
         }
         

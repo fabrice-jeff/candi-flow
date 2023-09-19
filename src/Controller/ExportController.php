@@ -134,13 +134,13 @@ class ExportController extends AbstractController
                 "Total expérience sur CV \n (Durée, Poste, Organisme)" =>$totalExperienceArray,
                 'Parcours profesionnels global' => $parcoursGlobalArray,
                 'Parcours profesionnels spécifique' =>  $parcoursSpecifiquesArray,
-
             ];
-            $candidature = $this->autreInformation( $poste,$candidature, $item['autre_information_candidatures']);
-            $candidature['Décision'] = ($item['candidature']->isDecision())? "Oui" : "Non";
+            $candidature = $this->autreInformation($candidature, $item['autre_information_candidatures']);
+            $candidature['Décision'] = ($item['candidature']->isDecision())? "Acceptée" : "Rejétée";
             $candidature['Dossier complet'] = ($item['candidature']->isDossierComplet())? "Oui" : "Non";
-            $candidature["Contact\n(Téléphone et E-mail)"] = $item['candidature']->getContact(). "\n". $item['candidature']->getEmail();
             $candidature['Justification de la Décision'] = $item['candidature']->getJustification();
+            $candidature["Contact\n(Téléphone et E-mail)"] = $item['candidature']->getContact(). "\n". $item['candidature']->getEmail();
+
             dump($candidature);
             array_push($data,$candidature);
         }
@@ -160,7 +160,7 @@ class ExportController extends AbstractController
         $this->export->getActiveSheet()
             ->getStyle('1:1048576') // Applique le style à toutes les lignes
             ->getAlignment()
-            ->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+            ->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_JUSTIFY);
 
 
         // Appliquer une couleur de fond à la première ligne (ligne d'en-tête)
@@ -172,17 +172,20 @@ class ExportController extends AbstractController
             ->setARGB('FFA500'); //
 
         $this->export->getActiveSheet()
-            ->getStyle('A1:U3')
+            ->getStyle('1:1048576')
             ->getAlignment()
             ->setWrapText(true);
 
         // Définir l'alignement vertical sur "top" pour toutes les lignes
         $this->export->getActiveSheet()
-            ->getStyle('A1:U3')
+            ->getStyle('1:1048576')
             ->getAlignment()
             ->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_TOP);
 
-
+        for ($col = 20; $col <= 16384; $col++) {
+            $columnLetter = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($col);
+            $this->export->getActiveSheet()->getColumnDimension($columnLetter)->setVisible(false);
+        }
         foreach ($data as $line) {
             $this->export->write($line);
         }
@@ -192,17 +195,14 @@ class ExportController extends AbstractController
 
     }
 
-    private function autreInformation(Poste $poste, Array $candidature, Array $autreInforCand){
-        $autresInformations = $this->autreInformationRepository->findBy(['poste' => $poste, 'deleted' => false]);
-        foreach ($autresInformations as $autresInformation) {
-            foreach ($autreInforCand as $item) {
-                $nomColonne = $autresInformation->getNomColonne(). "\n(". $autresInformation->getInformation(). ")";
-                if($item->getAutreInformation() == $autresInformation){
-                    $candidature[$nomColonne] = 'Oui';
-                }
-                else {
-                    $candidature[$nomColonne] = 'Non';
-                }
+    private function autreInformation(Array $candidature, Array $autreInforCand){
+        foreach ($autreInforCand as $item) {
+            $nomColonne = $item->getAutreInformation()->getNomColonne(). "\n(". $item->getAutreInformation()->getNomColonne(). ")";
+            if($item->isChecked()){
+                $candidature[$nomColonne] = 'Oui';
+            }
+            else {
+                $candidature[$nomColonne] = 'Non';
             }
         }
         return $candidature;

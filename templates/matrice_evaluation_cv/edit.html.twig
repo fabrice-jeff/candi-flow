@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit MatriceEvaluationCv{% endblock %}
+
+{% block body %}
+    <h1>Edit MatriceEvaluationCv</h1>
+
+    {{ include('matrice_evaluation_cv/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_matrice_evaluation_cv_index') }}">back to list</a>
+
+    {{ include('matrice_evaluation_cv/_delete_form.html.twig') }}
+{% endblock %}

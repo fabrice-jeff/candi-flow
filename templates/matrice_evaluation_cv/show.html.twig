@@ -1,0 +1,159 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}MatriceEvaluationCv{% endblock %}
+{% block breadcrumb_title %}
+    <div class="page-header">
+        <h1 class="page-title">
+            Matrice d'évaluation pour le poste #{{ poste.libelle }}
+        </h1>
+        <div>
+            <ol class="breadcrumb">
+                <a href="{{ path('app_poste_index') }}" class="table-hover btn btn-primary">
+                    Retour
+                </a>
+            </ol>
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        
+        .table th, .table td{
+            margin:0;
+            white-space: normal;
+            font-size: 10px;
+            max-height: 40px;
+        }
+        
+        .bareme {
+            width: 100px;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <div class="card">
+        <div class="card-body">
+            <div class="panel-group1" id="accordion1">
+                <div class="panel panel-default mb-4">
+                    <div class="panel-heading1">
+                        <h4 class="panel-title1">
+                            <a class="accordion-toggle active" data-bs-toggle="collapse" data-bs-parent="#accordion" href="#collapseFour" aria-expanded="true">Les critères concernant le diplôme</a>
+                        </h4>
+                    </div>
+                    <div id="collapseFour" class="panel-collapse collapse show" role="tabpanel" aria-expanded="false">
+                        <div class="panel-body">
+                            <input type="hidden" id="diplomes" name="diplomes">
+                            <table class="table table-bordered" id="table-diplome">
+                                <tr>
+                                    <th>Les critères</th>
+                                    <th>Barèmes</th>
+                                </tr>
+                                {% for diplome in diplomes %}
+                                    <tr class="line">
+                                        <td class="libelle">{{ diplome.libelle }}</td>
+                                        <td class="bareme">{{ diplome.bareme }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card">
+        <div class="card-body">
+            <div class="panel-group1" id="accordion1">
+                <div class="panel panel-default">
+                    <div class="panel-heading1">
+                        <h4 class="panel-title1">
+                            <a class="accordion-toggle collapsed" data-bs-toggle="collapse" data-bs-parent="#accordion" href="#collapseFive" aria-expanded="false">Les critères concernant les expériences</a>
+                        </h4>
+                    </div>
+                    <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-expanded="false">
+                        <div class="panel-body">
+                            <input type="hidden" id="experiences" name="experiences">
+                            <table class="table table-bordered" id="table-experience">
+                                <tr>
+                                    <th>Les critères</th>
+                                    <th>Barèmes</th>
+                                </tr>
+                                {% for experience in experiences %}
+                                    <tr class="line">
+                                        <td class="libelle">{{ experience.libelle }}</td>
+                                        <td class="bareme">{{ experience.bareme }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card">
+        <div class="card-body">
+            <div class="panel-group1" id="accordion1">
+                <div class="panel panel-default">
+                    <div class="panel-heading1">
+                        <h4 class="panel-title1">
+                            <a class="accordion-toggle collapsed" data-bs-toggle="collapse" data-bs-parent="#accordion" href="#collapseSix" aria-expanded="false">Les critères concernant les autres exigences</a>
+                        </h4>
+                    </div>
+                    <div id="collapseSix" class="panel-collapse collapse" role="tabpanel" aria-expanded="false">
+                        <div class="panel-body">
+                            <input type="hidden" id="exigences" name="exigences">
+                            <table class="table table-bordered" id="table-exigence">
+                                <tr>
+                                    <th>Les critères</th>
+                                    <th>Barèmes</th>
+                                </tr>
+                                {% for exigence in exigences %}
+                                    <tr class="line">
+                                        <td class="libelle">{{ exigence.libelle }}</td>
+                                        <td class="bareme">{{ exigence.bareme }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <div class="card">
+        <div class="card-body">
+            <div class="panel-group1" id="accordion1">
+                <div class="panel panel-default">
+                    <div class="panel-heading1">
+                        <h4 class="panel-title1">
+                            <a class="accordion-toggle collapsed" data-bs-toggle="collapse" data-bs-parent="#accordion" href="#collapseServen" aria-expanded="false">Les critères concernant les atouts</a>
+                        </h4>
+                    </div>
+                    <div id="collapseServen" class="panel-collapse collapse" role="tabpanel" aria-expanded="false">
+                        <div class="panel-body">
+                            <input type="hidden" id="atouts" name="atouts">
+                            <table class="table table-bordered" id="table-atout">
+                                <tr>
+                                    <th>Les critères</th>
+                                    <th>Barèmes</th>
+                                </tr>
+                                {% for atout in atouts %}
+                                    <tr class="line">
+                                        <td class="libelle">{{ atout.libelle }}</td>
+                                        <td class="bareme">{{ atout.bareme }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

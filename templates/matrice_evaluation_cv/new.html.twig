@@ -1,0 +1,374 @@
+{% extends 'base.html.twig' %}
+{% block breadcrumb_title %}
+    <div class="page-header">
+        <h1 class="page-title">
+            Matrice d'évaluation pour le poste #{{ poste.libelle }}
+        </h1>
+        <div>
+            <ol class="breadcrumb">
+                <a href="{{ path('app_poste_index') }}" class="table-hover btn btn-primary">
+                    Retour
+                </a>
+            </ol>
+        </div>
+    </div>
+{% endblock %}
+{% block title %}New MatriceEvaluationCv{% endblock %}
+{% block stylesheets %}
+    <style>
+    
+        .table th, .table td{
+            margin:0;
+            white-space: normal;
+            font-size: 10px;
+            max-height: 40px;
+        }
+        
+        .bareme {
+            width: 100px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <form method="POST" action="" id="form-matrice">
+        <div class="card">
+            <div class="card-body">
+                <div class="panel-group1" id="accordion1">
+                    <div class="panel panel-default mb-4">
+                        <div class="panel-heading1">
+                            <h4 class="panel-title1">
+                                <a class="accordion-toggle active" data-bs-toggle="collapse" data-bs-parent="#accordion" href="#collapseFour" aria-expanded="true">Les critères concernant le diplôme</a>
+                            </h4>
+                        </div>
+                        <div id="collapseFour" class="panel-collapse collapse show" role="tabpanel" aria-expanded="false">
+                            <div class="panel-body">
+                                <input type="hidden" id="diplomes" name="diplomes">
+                                <table class="table table-bordered" id="table-diplome">
+                                    <tr>
+                                        <th colspan="2">Les critères</th>
+                                        <th>Barèmes</th>
+                                    </tr>
+                                    <tr class="line">
+                                        <td style="padding-top: 30px" class="libelle">
+                                            Le candidat a le niveau {{ poste.niveauEtude.libelle }} dans le domaine requis ({{ poste.domaine }})
+                                        </td>
+                                        <td style="padding-top: 30px">
+                                            <div class="material-switch pull-right">
+                                                <input id="diplome-1" class="checked" type="checkbox"/>
+                                                <label for="diplome-1" class="label-info"></label>
+                                            </div>
+                                        </td>
+                                        <td class="bareme">
+                                            <input type="text" class="form-control" disabled>
+                                        </td>
+                                    </tr>
+        
+                                    <tr class="line">
+                                        <td style="padding-top: 30px" class="libelle">
+                                            Le candidat a le {{ poste.niveauEtude.libelle }} dans un domaine proche ou assimilable aux différents domaines requis
+                                        </td>
+                                        <td style="padding-top: 30px">
+                                            <div class="material-switch pull-right">
+                                                <input id="diplome-2" class="checked" type="checkbox" />
+                                                <label for="diplome-2" class="label-info"></label>
+                                            </div>
+                                        </td>
+                                        <td class="bareme">
+                                            <input type="text" class="form-control"  disabled>
+                                        </td>
+                                    </tr>
+        
+                                    <tr class="line">
+                                        <td style="padding-top: 30px" class="libelle">
+                                            Le candidat a le niveau {{ poste.niveauEtude.libelle }} ans dans un domaine éloigné, non adapté
+                                        </td>
+                                        <td style="padding-top: 30px">
+                                            <div class="material-switch pull-right">
+                                                <input id="diplome-3" class="checked" type="checkbox" />
+                                                <label for="diplome-3" class="label-info"></label>
+                                            </div>
+                                        </td>
+                                        <td class="bareme">
+                                            <input type="text" class="form-control" disabled>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-body">
+                <div class="panel-group1" id="accordion1">
+                    <div class="panel panel-default">
+                        <div class="panel-heading1">
+                            <h4 class="panel-title1">
+                                <a class="accordion-toggle collapsed" data-bs-toggle="collapse" data-bs-parent="#accordion" href="#collapseFive" aria-expanded="false">Les critères concernant les expériences</a>
+                            </h4>
+                        </div>
+                        <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-expanded="false">
+                            <div class="panel-body">
+                                <input type="hidden" id="experiences" name="experiences">
+                                <table class="table table-bordered" id="table-experience">
+                                    <tr>
+                                        <th colspan="2">Les critères</th>
+                                        <th>Barèmes</th>
+                                    </tr>
+                                    <tr class="line">
+                                        <td style="padding-top: 30px" class="libelle">
+                                            Le candidat a {{ poste.dureeParcoursGlobal }} {{ poste.posteParcoursGlobal }} dont {{ poste.dureeParcoursSpecifique }} {{ poste.posteParcoursSpecifique }}
+                                        </td>
+                                        <td style="padding-top: 30px">
+                                            <div class="material-switch pull-right">
+                                                <input id="experience-1" class="checked" type="checkbox" />
+                                                <label for="experience-1" class="label-info"></label>
+                                            </div>
+                                        </td>
+                                        <td class="bareme">
+                                            <input type="text" class="form-control " disabled>
+                                        </td>
+                                    </tr>
+        
+                                    <tr class="line">
+                                        <td style="padding-top: 30px" class="libelle">
+                                            Le candidat a {{ poste.dureeParcoursGlobal }} {{ poste.posteParcoursGlobal }} dont une expérience spécifique comprise entre {{ convert_string(poste.dureeParcoursSpecifique) - 1  }} ans et  {{ poste.dureeParcoursSpecifique }} {{ poste.posteParcoursSpecifique }}
+                                        </td>
+                                        <td style="padding-top: 30px">
+                                            <div class="material-switch pull-right">
+                                                <input id="experience-2" class="checked" type="checkbox" />
+                                                <label for="experience-2" class="label-info"></label>
+                                            </div>
+                                        </td>
+                                        <td class="bareme">
+                                            <input type="text" class="form-control" disabled>
+                                        </td>
+                                    </tr>
+        
+                                    <tr class="line">
+                                        <td style="padding-top: 30px" class="libelle">
+                                            Le candidat a {{ poste.dureeParcoursGlobal }} {{ poste.posteParcoursGlobal }} dont une expérience spécifique inférieur à{{ convert_string(poste.dureeParcoursSpecifique) - 1  }} ans à {{ poste.posteParcoursSpecifique }}
+                                        </td>
+                                        <td style="padding-top: 30px">
+                                            <div class="material-switch pull-right">
+                                                <input id="experience-3" class="checked" type="checkbox" />
+                                                <label for="experience-3" class="label-info"></label>
+                                            </div>
+                                        </td>
+                                        <td class="bareme">
+                                            <input type="text" class="form-control"  disabled>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="card">
+            <div class="card-body">
+                <div class="panel-group1" id="accordion1">
+                    <div class="panel panel-default">
+                        <div class="panel-heading1">
+                            <h4 class="panel-title1">
+                                <a class="accordion-toggle collapsed" data-bs-toggle="collapse" data-bs-parent="#accordion" href="#collapseSix" aria-expanded="false">Les critères concernant les autres exigences</a>
+                            </h4>
+                        </div>
+                        <div id="collapseSix" class="panel-collapse collapse" role="tabpanel" aria-expanded="false">
+                            <div class="panel-body">
+                                <input type="hidden" id="exigences" name="exigences">
+                                <table class="table table-bordered" id="table-exigence">
+                                    <tr>
+                                        <th colspan="2">Les critères</th>
+                                        <th>Barèmes</th>
+                                    </tr>
+                                    <tr class="line">
+                                        <td style="padding-top: 30px" class="libelle">
+                                            Le candidat maitrîse le logiciel {{ poste.logicielSpecifique }}
+                                        </td>
+                                        <td style="padding-top: 30px">
+                                            <div class="material-switch pull-right">
+                                                <input id="exigence-1" class="checked" type="checkbox" />
+                                                <label for="exigence-1" class="label-info"></label>
+                                            </div>
+                                        </td>
+                                        <td class="bareme">
+                                            <input type="text" class="form-control" disabled>
+                                        </td>
+                                    </tr>
+                                    <tr class="line">
+                                        <td style="padding-top: 30px" class="libelle">
+                                            Le candidat ne maitrîse pas le logiciel {{ poste.logicielSpecifique }}
+                                        </td>
+                                        <td style="padding-top: 30px">
+                                            <div class="material-switch pull-right">
+                                                <input id="exigence-2" class="checked" type="checkbox" />
+                                                <label for="exigence-2" class="label-info"></label>
+                                            </div>
+                                        </td>
+                                        <td class="bareme">
+                                            <input type="text" class="form-control" disabled>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+    
+        <div class="card">
+            <div class="card-body">
+                <div class="panel-group1" id="accordion1">
+                    <div class="panel panel-default">
+                        <div class="panel-heading1">
+                            <h4 class="panel-title1">
+                                <a class="accordion-toggle collapsed" data-bs-toggle="collapse" data-bs-parent="#accordion" href="#collapseServen" aria-expanded="false">Les critères concernant les atouts</a>
+                            </h4>
+                        </div>
+                        <div id="collapseServen" class="panel-collapse collapse" role="tabpanel" aria-expanded="false">
+                            <div class="panel-body">
+                                <input type="hidden" id="atouts" name="atouts">
+                                <table class="table table-bordered" id="table-atout">
+                                    <tr>
+                                        <th colspan="2">Les critères</th>
+                                        <th>Barèmes</th>
+                                    </tr>
+                                    {% set atout = 0 %}
+                                    {% for information in autre_informations %}
+                                        {% set atout = atout+ 2 %}
+                                        <tr class="line">
+                                            <td style="padding-top: 30px" class="libelle">
+                                                Le candidat a une connaissance ou une formation en {{ information.information }}
+                                            </td>
+                                            <td style="padding-top: 30px">
+                                                <div class="material-switch pull-right">
+                                                    <input id="atout-{{ atout - 1 }}" class="checked" type="checkbox" />
+                                                    <label for="atout-{{ atout - 1 }}" class="label-info"></label>
+                                                </div>
+                                            </td>
+                                            <td class="bareme">
+                                                <input type="text" class="form-control" disabled>
+                                            </td>
+                                        </tr>
+                                        <tr class="line">
+                                            <td style="padding-top: 30px" class="libelle">
+                                                Le candidat n'a pas une connaissance ou une formation en {{ information.information }}
+                                            </td>
+                                            <td style="padding-top: 30px">
+                                                <div class="material-switch pull-right">
+                                                    <input id="atout-{{ atout }}" class="checked" type="checkbox" />
+                                                    <label for="atout-{{ atout }}" class="label-info"></label>
+                                                </div>
+                                            </td>
+                                            <td class="bareme">
+                                                <input type="text" class="form-control" disabled >
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+        <div class="text-center mb-3">
+            <button class="btn btn-primary" style="" id="enregistrer">Enregistrer</button>
+        </div>
+    </form>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        var diplomes = [];
+        var experiences = [];
+        var exigences = [];
+        var atouts = [];
+        $(document).ready(function(){
+            $('body').on('click', '.checked', function(){
+                if ($(this).is(':checked')){
+                    $(this).closest('tr').find('.bareme input').prop('disabled',false)
+                }
+                else{
+                    $(this).closest('tr').find('.bareme input').prop('disabled',true)
+                }
+            })
+            
+            
+            //Enregistrer
+            $('#enregistrer').on('click', function (e){
+                e.preventDefault();
+                //Faire les contrôles sur les champs
+                $('table .line').each(function (){
+                    if ($(this).find('.checked').is(':checked') && $(this).find('.bareme input').val().trim() === ""){
+                        warning_noti("Vous devez donner une note pour tous les critères que vous coché")
+                        system.stop()
+                        return false;
+                    }
+                })
+                //Les diplômes
+                $('#table-diplome .line').each(function (){
+                    if ($(this).find('.checked').is(':checked')){
+                       
+                        var diplome = {
+                            libelle :$(this).find('.libelle').text(),
+                            bareme : $(this).find('.bareme input').val(),
+                        }
+                        diplomes.push(diplome)
+                    }
+                })
+    
+                //Les expériences
+                $('#table-experience .line').each(function (){
+                    if ($(this).find('.checked').is(':checked')){
+            
+                        var experience = {
+                            libelle :$(this).find('.libelle').text(),
+                            bareme : $(this).find('.bareme input').val(),
+                        }
+                        experiences.push(experience)
+                    }
+                })
+    
+                //Les exigences
+                $('#table-exigence .line').each(function (){
+                    if ($(this).find('.checked').is(':checked')){
+                        var exigence = {
+                            libelle :$(this).find('.libelle').text(),
+                            bareme : $(this).find('.bareme input').val(),
+                        }
+                        exigences.push(exigence)
+                    }
+                })
+               
+                //Les Atouts
+                $('#table-atout .line').each(function (){
+                    if ($(this).find('.checked').is(':checked')){
+                        var atout = {
+                            libelle :$(this).find('.libelle').text(),
+                            bareme : $(this).find('.bareme input').val(),
+                        }
+                        atouts.push(atout)
+                    }
+                })
+                
+                $('#diplomes').val(JSON.stringify(diplomes))
+                $('#experiences').val(JSON.stringify(experiences))
+                $('#exigences').val(JSON.stringify(exigences))
+                $('#atouts').val(JSON.stringify(atouts))
+          
+                //Soumettre le formulaire
+                $('#form-matrice').submit();
+            })
+        })
+    </script>
+{% endblock %}

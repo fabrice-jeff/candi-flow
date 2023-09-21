@@ -2,12 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Atout;
 use App\Entity\AutreInformation;
-use App\Entity\Connaissance;
 use App\Entity\Critere;
-use App\Entity\Domaine;
-use App\Entity\DomaineConnaissance;
 use App\Entity\NiveauEtude;
 use App\Entity\ParcoursGlobal;
 use App\Entity\ParcoursSpecifique;
@@ -38,7 +34,7 @@ class PosteController extends AbstractController
     }
 
     #[Route('/new', name: 'app_poste_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, NiveauEtudeRepository $niveauEtudeRepository, ConnaissanceRepository $connaissanceRepository): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, NiveauEtudeRepository $niveauEtudeRepository,): Response
     {
         $poste = new Poste();
         $form = $this->createForm(PosteType::class, $poste);

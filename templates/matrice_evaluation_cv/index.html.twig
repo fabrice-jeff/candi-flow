@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}MatriceEvaluationCv index{% endblock %}
+
+{% block body %}
+    <h1>MatriceEvaluationCv index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Diplome</th>
+                <th>Experience</th>
+                <th>AutreExigence</th>
+                <th>Atouts</th>
+                <th>Code</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>Deleted</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for matrice_evaluation_cv in matrice_evaluation_cvs %}
+            <tr>
+                <td>{{ matrice_evaluation_cv.id }}</td>
+                <td>{{ matrice_evaluation_cv.diplome ? 'Yes' : 'No' }}</td>
+                <td>{{ matrice_evaluation_cv.experience ? 'Yes' : 'No' }}</td>
+                <td>{{ matrice_evaluation_cv.autreExigence ? 'Yes' : 'No' }}</td>
+                <td>{{ matrice_evaluation_cv.atouts ? 'Yes' : 'No' }}</td>
+                <td>{{ matrice_evaluation_cv.code }}</td>
+                <td>{{ matrice_evaluation_cv.createdAt ? matrice_evaluation_cv.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ matrice_evaluation_cv.updatedAt ? matrice_evaluation_cv.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ matrice_evaluation_cv.deleted ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('app_matrice_evaluation_cv_show', {'id': matrice_evaluation_cv.id}) }}">show</a>
+                    <a href="{{ path('app_matrice_evaluation_cv_edit', {'id': matrice_evaluation_cv.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_matrice_evaluation_cv_new') }}">Create new</a>
+{% endblock %}

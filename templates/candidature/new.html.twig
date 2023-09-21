@@ -2,7 +2,6 @@
 
 {% block title %}New Candidature{% endblock %}
 {% block breadcrumb_title %}
-
     <div class="page-header">
         <h1 class="page-title">
         Ajouter une candidature
@@ -155,25 +154,25 @@
         {# Autre Outils informatiques #}
         {% if poste.critere.autreOutils == 1 %}
             <div class="col-lg-6">
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">Autres Outils informatiques</div>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                            <div class="mb-2">Sélectionner des outils spécifiques</div>
-                            <div class="custom-controls-stacked">
-                            {% for outil in outils_informatiques %}
-                                <label class="custom-control custom-checkbox-md ">
-                                    <input type="checkbox" class="custom-control-input" name="{{ outil.code }}" >
-                                    <span class="custom-control-label">{{outil.libelle}}</span>
-                                </label>
-                            {% endfor %}
-                            </div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Autres Outils informatiques</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                                <div class="mb-2">Sélectionner des outils spécifiques</div>
+                                <div class="custom-controls-stacked">
+                                {% for outil in outils_informatiques %}
+                                    <label class="custom-control custom-checkbox-md ">
+                                        <input type="checkbox" class="custom-control-input" name="{{ outil.code }}" >
+                                        <span class="custom-control-label">{{outil.libelle}}</span>
+                                    </label>
+                                {% endfor %}
+                                </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         {% endif %}
 
         {# Total expérience sur CV #}
@@ -545,8 +544,7 @@
                 }
             })
         }
-
-
+        
         function differenceEnMoisAnnee(dateDebut, dateFin) {
             const moisDebut = dateDebut.getMonth();
             const anneeDebut = dateDebut.getFullYear();
@@ -570,7 +568,5 @@
                 return moisDiff;
             }
         }
-        
-
     </script>
 {% endblock %}

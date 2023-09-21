@@ -40,9 +40,8 @@
                                             <button type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                             </button>
                                             <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item " href="{{ path('app_outils_informatique', {code:poste.code}) }}" data-code="{{ poste.code }}">Outils informatiques</a></li>
-                                                <li><a class="dropdown-item " href="{{ path('app_formations', {code : poste.code}) }}">Formations</a></li>
-                                                <li><a class="dropdown-item " href="{{ path('app_regle_procedure', {code : poste.code}) }}">Règles et procédures</a></li>
+                                                <li><a class="dropdown-item matriceEvaluation"  data-code="{{ poste.code }}">Création de la matrice d'évaluation</a></li>
+                                                <li><a class="dropdown-item " href="{{ path('app_matrice_evaluation_cv_show', {code:poste.code}) }}" data-code="{{ poste.code }}">Voir la matrice d'évaluation</a></li>
                                             </ul>
                                         </div>
                                     </td>
@@ -92,4 +91,30 @@
 {% endblock %}
 
 {% block javascripts %}
+    <script>
+        $(document).ready(function (){
+            $('body').on('click', '.matriceEvaluation', function (){
+                var code = $(this).attr('data-code')
+                $.ajax({
+                    url: '{{ path('verified_matrice') }}',
+                    type: 'POST',
+                    dataType : 'json',
+                    data : {
+                        'poste' : code
+                    },
+                    success:function (data){
+                        if(data.find){
+                            warning_noti("Une matrice existe déja pour ce poste")
+                            return false
+                        }else{
+                            var link = '{{ path('app_matrice_evaluation_cv_new', {code:'poste'}) }}'
+                            link = link.replace('poste',code)
+                            window.location.href = link;
+                        }
+                    }
+                })
+            })
+            
+        })
+    </script>
 {% endblock %}

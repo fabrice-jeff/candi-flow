@@ -98,16 +98,16 @@ class MatriceEvaluationCvController extends AbstractController
     #[Route('/show/{code}', name: 'app_matrice_evaluation_cv_show', methods: ['GET', 'POST'])]
     public function show(Poste $poste){
         $matriceEvaluation = $this->matriceEvaluationRepository->findOneBy(['poste' => $poste, 'deleted' => false]);
-        $critereDiplomes = $this->critereDiplomeRepository->findBy(['deleted' => false, 'matriceEvaluation' => $matriceEvaluation]);
-        $critereExperiences = $this->critereExperienceRepository->findBy(['deleted' => false, 'matriceEvaluation' =>$matriceEvaluation ]);
-        $critereExigences = $this->critereExigenceRepository->findBy(['deleted' => false, 'matriceEvaluation' => $matriceEvaluation]);
-        $critereAtoutss = $this->critereAtoutsRepository->findBy(['deleted' => false, 'matriceEvaluation' => $matriceEvaluation]);
+        $critereDiplomes = $this->critereDiplomeRepository->findBy(['deleted' => false, 'matriceEvaluation' => $matriceEvaluation], ['id' => 'DESC']);
+        $critereExperiences = $this->critereExperienceRepository->findBy(['deleted' => false, 'matriceEvaluation' =>$matriceEvaluation ],['id' => 'DESC']);
+        $critereExigences = $this->critereExigenceRepository->findBy(['deleted' => false, 'matriceEvaluation' => $matriceEvaluation],['id' => 'DESC']);
+        $critereAtouts = $this->critereAtoutsRepository->findBy(['deleted' => false, 'matriceEvaluation' => $matriceEvaluation],['id' => 'DESC']);
         return  $this->render('matrice_evaluation_cv/show.html.twig',[
             'poste' => $poste,
             'diplomes' => $critereDiplomes,
             'experiences' => $critereExperiences,
             'exigences' => $critereExigences,
-            'atouts' => $critereAtoutss
+            'atouts' => $critereAtouts
         ]);
     }
 

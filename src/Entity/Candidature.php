@@ -75,6 +75,9 @@ class Candidature
     #[ORM\Column(length: 255)]
     private ?string $age = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $note = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -280,6 +283,18 @@ class Candidature
     public function setAge(string $age): static
     {
         $this->age = $age;
+
+        return $this;
+    }
+
+    public function getNote(): ?string
+    {
+        return $this->note;
+    }
+
+    public function setNote(?string $note): static
+    {
+        $this->note = $note;
 
         return $this;
     }

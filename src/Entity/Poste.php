@@ -58,7 +58,7 @@ class Poste
     #[ORM\Column(length: 255)]
     private ?string $posteParcoursSpecifique = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[ORM\Column(type: Types::DATE_MUTABLE,  nullable: true)]
     private ?\DateTimeInterface $dateFin = null;
 
     public function getId(): ?int

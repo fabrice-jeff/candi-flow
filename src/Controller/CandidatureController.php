@@ -14,7 +14,12 @@ use App\Entity\TotalExperience;
 use App\Form\CandidatureType;
 use App\Repository\AutreInformationCandidatureRepository;
 use App\Repository\AutreInformationRepository;
+use App\Repository\CritereAtoutsRepository;
+use App\Repository\CritereDiplomeRepository;
+use App\Repository\CritereExigenceRepository;
+use App\Repository\CritereExperienceRepository;
 use App\Repository\FormationRepository;
+use App\Repository\MatriceEvaluationRepository;
 use App\Repository\NiveauEtudeRepository;
 use App\Repository\OutilInformatiqueCandidatureRepository;
 use App\Repository\ParcoursGlobalRepository;
@@ -48,8 +53,13 @@ class CandidatureController extends AbstractController
     private OutilInformatiqueCandidatureRepository $outilInformatiqueCandidatureRepository;
     private AutreInformationCandidatureRepository $autreInformationCandidatureRepository;
     private StatutRepository $statutRepository;
+    private MatriceEvaluationRepository $matriceEvaluationRepository;
+    private CritereDiplomeRepository $critereDiplomeRepository;
+    private CritereExperienceRepository $critereExperienceRepository;
+    private CritereExigenceRepository $critereExigenceRepository;
+    private CritereAtoutsRepository $critereAtoutsRepository;
 
-    public function __construct(AutreInformationRepository $autreInformationRepository,CandidatureRepository $candidatureRepository, EntityManagerInterface $manager, OutilsInformatiqueRepository $outilsInformatiqueRepository, NiveauEtudeRepository $niveauEtudeRepository, FormationRepository $formationRepository, TotalExperienceRepository $totalExperienceRepository, OutilInformatiqueCandidatureRepository $outilInformatiqueCandidatureRepository, ParcoursGlobalRepository $parcoursGlobalRepository, ParcoursSpecifiqueRepository $parcoursSpecifiqueRepository, AutreInformationCandidatureRepository $autreInformationCandidatureRepository, StatutRepository $statutRepository)
+    public function __construct(AutreInformationRepository $autreInformationRepository,CandidatureRepository $candidatureRepository, EntityManagerInterface $manager, OutilsInformatiqueRepository $outilsInformatiqueRepository, NiveauEtudeRepository $niveauEtudeRepository, FormationRepository $formationRepository, TotalExperienceRepository $totalExperienceRepository, OutilInformatiqueCandidatureRepository $outilInformatiqueCandidatureRepository, ParcoursGlobalRepository $parcoursGlobalRepository, ParcoursSpecifiqueRepository $parcoursSpecifiqueRepository, AutreInformationCandidatureRepository $autreInformationCandidatureRepository, StatutRepository $statutRepository, MatriceEvaluationRepository $matriceEvaluationRepository, CritereDiplomeRepository $critereDiplomeRepository,  CritereExperienceRepository $critereExperienceRepository, CritereExigenceRepository $critereExigenceRepository, CritereAtoutsRepository $critereAtoutsRepository)
     {
         $this->autreInformationRepository = $autreInformationRepository;
         $this->candidatureRepository = $candidatureRepository;
@@ -63,6 +73,11 @@ class CandidatureController extends AbstractController
         $this->outilInformatiqueCandidatureRepository = $outilInformatiqueCandidatureRepository;
         $this->autreInformationCandidatureRepository = $autreInformationCandidatureRepository;
         $this->statutRepository = $statutRepository;
+        $this->matriceEvaluationRepository = $matriceEvaluationRepository;
+        $this->critereDiplomeRepository = $critereDiplomeRepository;
+        $this->critereExperienceRepository = $critereExperienceRepository;
+        $this->critereExigenceRepository = $critereExigenceRepository;
+        $this->critereAtoutsRepository = $critereAtoutsRepository;
     }
 
     #[Route('/liste/{code}', name: 'app_candidature_index', methods: ['GET','POST'])]
@@ -179,6 +194,11 @@ class CandidatureController extends AbstractController
     #[Route('/new/{code}', name: 'app_candidature_new', methods: ['GET', 'POST'])]
     public function new(Request $request, Poste $poste,): Response
     {
+        $matriceEvaluation = $this->matriceEvaluationRepository->findOneBy(['deleted' => false, 'poste' => $poste]);
+        $critereDiplome =  $this->critereDiplomeRepository->findBy(['deleted' => false, 'matriceEvaluation' => $matriceEvaluation], ['id' => 'DESC']);
+        $critereExperience = $this->critereExperienceRepository->findBy(['deleted' => false, 'matriceEvaluation'  => $matriceEvaluation],['id' => 'DESC']);
+        $critereExigence = $this->critereExigenceRepository->findBy(['deleted' =>false, 'matriceEvaluation' => $matriceEvaluation],['id' => 'DESC']);
+        $critereAtout = $this->critereAtoutsRepository->findBy(['deleted' => false,  'matriceEvaluation' => $matriceEvaluation],['id' => 'DESC']);
         $candidature = new Candidature();
         $form = $this->createForm(CandidatureType::class, $candidature);
         $form->handleRequest($request);
@@ -186,7 +206,6 @@ class CandidatureController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->manager->persist($candidature);
             $this->manager->flush();
-
             return $this->redirectToRoute('app_candidature_index', [], Response::HTTP_SEE_OTHER);
         }
         $autresInformations = $this->autreInformationRepository->findBy(['poste' => $poste, 'deleted' => false]);
@@ -252,7 +271,6 @@ class CandidatureController extends AbstractController
                     if(!($experience->precision == "Aucun")){
                         $totalExperience->setPrecisionPoste($experience->precision);
                     }
-
                     $this->manager->persist($totalExperience);
                 }
             }
@@ -299,7 +317,12 @@ class CandidatureController extends AbstractController
             $dateFin = date_format($poste->getDateFin(), 'Y');
             $age = $dateFin - date_format(new \DateTime($request->get('date_naissance')),'Y');
             $candidature->setAge($age);
-
+            $diplome = $this->critereDiplomeRepository->findOneBy(['deleted' => false, 'code' => $request->get('diplome') ]);
+            $atout = $this->critereAtoutsRepository->findOneBy(['deleted' => false, 'code'=>$request->get('atout')]);
+            $experience = $this->critereExperienceRepository->findOneBy(['deleted'=> false, 'code' =>$request->get('experience')]);
+            $exigence = $this->critereExigenceRepository->findOneBy(['deleted' => false,  'code' => $request->get('exigence')]);
+            $note = $diplome->getBareme()+$atout->getBareme()+$experience->getBareme()+$exigence->getBareme();
+            $candidature->setNote($note);
             $this->manager->persist($candidature);
             $this->manager->flush();
             $this->addFlash('success', "Enregistrement effectué avec Succès!!");
@@ -313,7 +336,11 @@ class CandidatureController extends AbstractController
             'form' => $form,
             'poste' => $poste,
             'outils_informatiques' => $outilsInformatiques,
-            'autres_informations' => $autresInformations
+            'autres_informations' => $autresInformations,
+            'citeres_diplome' => $critereDiplome,
+            'critere_experience' => $critereExperience,
+            'critere_exigence' => $critereExigence,
+            'critere_atout' => $critereAtout,
         ]);
     }
 

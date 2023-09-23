@@ -6,6 +6,7 @@ use App\Repository\CritereAtoutsRepository;
 use App\Utils\TraitClasses\EntityTimestampableTrait;
 use App\Utils\TraitClasses\EntityUniqueIdTrait;
 use App\Utils\TraitClasses\EntityUserOperation;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CritereAtoutsRepository::class)]
@@ -19,8 +20,6 @@ class CritereAtouts
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $libelle = null;
 
     #[ORM\Column(length: 255)]
     private ?string $bareme = null;
@@ -29,22 +28,14 @@ class CritereAtouts
     #[ORM\JoinColumn(nullable: false)]
     private ?MatriceEvaluation $matriceEvaluation = null;
 
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $libelle = null;
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getLibelle(): ?string
-    {
-        return $this->libelle;
-    }
-
-    public function setLibelle(string $libelle): static
-    {
-        $this->libelle = $libelle;
-
-        return $this;
-    }
 
     public function getBareme(): ?string
     {
@@ -66,6 +57,18 @@ class CritereAtouts
     public function setMatriceEvaluation(?MatriceEvaluation $matriceEvaluation): static
     {
         $this->matriceEvaluation = $matriceEvaluation;
+
+        return $this;
+    }
+
+    public function getLibelle(): ?string
+    {
+        return $this->libelle;
+    }
+
+    public function setLibelle(string $libelle): static
+    {
+        $this->libelle = $libelle;
 
         return $this;
     }

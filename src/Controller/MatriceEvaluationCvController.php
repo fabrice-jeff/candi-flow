@@ -53,6 +53,7 @@ class MatriceEvaluationCvController extends AbstractController
             $experiences = json_decode($request->get('experiences'));
             $exigences = json_decode($request->get('exigences'));
             $atouts = json_decode($request->get('atouts'));
+
             foreach ($diplomes as $diplome){
                 $critereDiplome= (new CritereDiplome())
                     ->setLibelle(trim($diplome->libelle))

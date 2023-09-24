@@ -23,9 +23,8 @@
             font-size: 10px;
             max-height: 40px;
         }
-        
         .bareme {
-            width: 100px;
+            width: 60px;
         }
     </style>
 {% endblock %}
@@ -38,7 +37,9 @@
                     <div class="panel panel-default mb-4">
                         <div class="panel-heading1">
                             <h4 class="panel-title1">
-                                <a class="accordion-toggle active" data-bs-toggle="collapse" data-bs-parent="#accordion" href="#collapseFour" aria-expanded="true">Les critères concernant le diplôme</a>
+                                <div class="row">
+                                    <a class="accordion-toggle active " data-bs-toggle="collapse" data-bs-parent="#accordion" href="#collapseFour" aria-expanded="true">Les critères concernant le diplôme</a>
+                                </div>
                             </h4>
                         </div>
                         <div id="collapseFour" class="panel-collapse collapse show" role="tabpanel" aria-expanded="false">
@@ -46,8 +47,10 @@
                                 <input type="hidden" id="diplomes" name="diplomes">
                                 <table class="table table-bordered" id="table-diplome">
                                     <tr>
-                                        <th>Les critères</th>
-                                        <th>Barèmes</th>
+                                        <th>
+                                            Les critères
+                                        </th>
+                                        <th class="">Barèmes</th>
                                     </tr>
                                     <tr class="line">
                                         <td style="padding-top: 30px" class="libelle">
@@ -96,17 +99,19 @@
                             <div class="panel-body">
                                 <input type="hidden" id="experiences" name="experiences">
                                 <div class="row mb-2">
-                                    <div class="col-10">
-                                        <input type="text" class="form-control" id="input-experience">
+                                    <div class="col-11 form-group">
+                                        <input type="text" class="form-control" id="input-experience" placeholder="Entrer le critère">
                                     </div>
-                                    <div class="col-2">
-                                        <button type="button" class="btn btn-warning" id="add-experience">Ajouter</button>
+                                    <div class="col-1">
+                                        <button type="button" class="btn btn-warning" id="add-experience">
+                                            <i class="fa fa-plus"></i>
+                                        </button>
                                     </div>
                                 </div>
                                 <table class="table table-bordered" id="table-experience">
                                     <tr>
                                         <th>Les critères</th>
-                                        <th>Barèmes</th>
+                                        <th class="">Barèmes</th>
                                         <th class="btn-action">Actions</th>
                                     </tr>
                                 </table>
@@ -130,11 +135,13 @@
                             <div class="panel-body">
                                 <input type="hidden" id="exigences" name="exigences">
                                 <div class="row mb-2">
-                                    <div class="col-10">
-                                        <input type="text" class="form-control" id="input-exigence">
+                                    <div class="col-11">
+                                        <input type="text" class="form-control" id="input-exigence" placeholder="Entrer le critère">
                                     </div>
-                                    <div class="col-2">
-                                        <button type="button" class="btn btn-warning" id="add-exigence">Ajouter</button>
+                                    <div class="col-1">
+                                        <button type="button" class="btn btn-warning" id="add-exigence">
+                                            <i class="fa fa-plus"></i>
+                                        </button>
                                     </div>
                                 </div>
                                 <table class="table table-bordered" id="table-exigence">
@@ -150,8 +157,7 @@
                 </div>
             </div>
         </div>
-    
-    
+        
         <div class="card">
             <div class="card-body">
                 <div class="panel-group1" id="accordion1">
@@ -164,21 +170,26 @@
                         <div id="collapseServen" class="panel-collapse collapse show" role="tabpanel" aria-expanded="true">
                             <div class="panel-body">
                                 <input type="hidden" id="atouts" name="atouts">
-                                <div class="row mb-2">
-                                    <div class="col-10">
-                                        <input type="text" class="form-control" id="input-atout">
+                                {% for information in autre_informations %}
+                                    <h5>{{ information.nomColonne }} : {{ information.information }}</h5>
+                                    <div class="row mb-2">
+                                        <div class="col-11">
+                                            <input type="text" class="form-control" id="input-atout-{{ information.code }}" placeholder="Entrer le critère">
+                                        </div>
+                                        <div class="col-1">
+                                            <button type="button" class="btn btn-warning" id="add-atout-{{ information.code }}">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
+                                        </div>
                                     </div>
-                                    <div class="col-2">
-                                        <button type="button" class="btn btn-warning" id="add-atout">Ajouter</button>
-                                    </div>
-                                </div>
-                                <table class="table table-bordered" id="table-atout">
-                                    <tr>
-                                        <th>Les critères</th>
-                                        <th>Barèmes</th>
-                                        <th class="btn-action">Actions</th>
-                                    </tr>
-                                </table>
+                                    <table class="table table-bordered" id="table-atout-{{ information.code }}">
+                                        <tr>
+                                            <th>Les critères</th>
+                                            <th>Barèmes</th>
+                                            <th class="btn-action">Actions</th>
+                                        </tr>
+                                    </table>
+                                {% endfor %}
                             </div>
                         </div>
                     </div>
@@ -198,6 +209,8 @@
         var experiences = [];
         var exigences = [];
         var atouts = [];
+        var atoutsArray = {};
+        
         $(document).ready(function(){
             // Ajouter des expériences
             $('#add-experience').on('click', function (){
@@ -226,30 +239,52 @@
             })
     
             // Ajouter des atout
-            $('#add-atout').on('click', function (){
-                let libelle = $('#input-atout').val().trim();
-                if(libelle === ""){
-                    warning_noti("Veuillez renseigner une valeur")
-                    system.stop()
-                    return false;
-                }
-                let html = "<tr class='line'><td class='libelle'>"+ libelle +"</td><td class='bareme'><input type='text' class='form-control'></td><td><button type='button' class='btn btn-danger p-1 delete-atout'><i class='fa fa-minus'></i></td></tr>";
-                $('#table-atout').append(html);
-                $('#input-atout').val(" ")
+            {% for information in autre_informations %}
+                $('#add-atout-{{ information.code }}').on('click', function (){
+                    let libelle = $('#input-atout-{{ information.code }}').val().trim();
+                    if(libelle === ""){
+                        warning_noti("Veuillez renseigner une valeur")
+                        system.stop()
+                        return false;
+                    }
+                    let html = "<tr class='line'><td class='libelle'>"+ libelle +"</td><td class='bareme'><input type='text' class='form-control'></td><td><button type='button' class='btn btn-danger p-1 delete-atout'><i class='fa fa-minus'></i></td></tr>";
+                    $('#table-atout-{{ information.code }}').append(html);
+                    $('#input-atout-{{ information.code }}').val(" ")
+                })
+            {% endfor %}
     
+            {#  Supprimer des lignes dans les tableaux #}
+            $('body').on('click', '.delete-experience', function(){
+                var tr = $(this).closest('tr')
+                tr.remove()
             })
+            $('body').on('click', '.delete-exigence', function(){
+                var tr = $(this).closest('tr')
+                tr.remove()
+            })
+            
+            $('body').on('click', '.delete-atout', function(){
+                var tr = $(this).closest('tr')
+                tr.remove()
+            })
+            
             
             //Enregistrer
             $('#enregistrer').on('click', function (e){
                 e.preventDefault();
                 //Faire les contrôles sur les champs
-                $('table .line').each(function (){
-                    if ($(this).find('.bareme input').val().trim() === ""){
-                        warning_noti("Vous devez donner une note pour tous les critères que vous coché")
-                        system.stop()
-                        return false;
-                    }
-                })
+                if ($('table .line').length === 0){
+                    return
+                }else{
+                    $('table .line').each(function (){
+                        if (isNaN(parseInt($(this).find('.bareme input').val().trim())) || parseInt($(this).find('.bareme input').val().trim()) < 0){
+                            warning_noti("Vous devez donner une note valide pour tous les critères")
+                            system.stop()
+                            return false;
+                        }
+                    })
+                }
+               
         
                 //Les diplômes
                 $('#table-diplome .line').each(function (){
@@ -279,19 +314,27 @@
                 })
         
                 //Les Atouts
-                $('#table-atout .line').each(function (){
-                    var atout = {
-                        libelle :$(this).find('.libelle').text(),
-                        bareme : $(this).find('.bareme input').val(),
+                {% for information in autre_informations %}
+                    atoutsArray = {}
+                    atoutsArray = {
+                        autre_information : '{{ information.code }}',
+                        atouts : []
                     }
-                    atouts.push(atout)
-                })
-        
+                    $('#table-atout-{{ information.code }} .line').each(function (){
+                        var atout = {
+                            libelle :$(this).find('.libelle').text(),
+                            bareme : $(this).find('.bareme input').val(),
+                        }
+                        atoutsArray.atouts.push(atout)
+                    })
+                    atouts.push(atoutsArray)
+                {% endfor %}
+                
                 $('#diplomes').val(JSON.stringify(diplomes))
                 $('#experiences').val(JSON.stringify(experiences))
                 $('#exigences').val(JSON.stringify(exigences))
                 $('#atouts').val(JSON.stringify(atouts))
-        
+                
                 //Soumettre le formulaire
                 $('#form-matrice').submit();
             })

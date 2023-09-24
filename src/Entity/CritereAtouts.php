@@ -20,16 +20,14 @@ class CritereAtouts
     #[ORM\Column]
     private ?int $id = null;
 
-
-    #[ORM\Column(length: 255)]
-    private ?string $bareme = null;
-
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?MatriceEvaluation $matriceEvaluation = null;
 
-    #[ORM\Column(type: Types::TEXT)]
-    private ?string $libelle = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?AutreInformation $autreInformation = null;
 
     public function getId(): ?int
     {
@@ -37,17 +35,6 @@ class CritereAtouts
     }
 
 
-    public function getBareme(): ?string
-    {
-        return $this->bareme;
-    }
-
-    public function setBareme(string $bareme): static
-    {
-        $this->bareme = $bareme;
-
-        return $this;
-    }
 
     public function getMatriceEvaluation(): ?MatriceEvaluation
     {
@@ -61,14 +48,15 @@ class CritereAtouts
         return $this;
     }
 
-    public function getLibelle(): ?string
+
+    public function getAutreInformation(): ?AutreInformation
     {
-        return $this->libelle;
+        return $this->autreInformation;
     }
 
-    public function setLibelle(string $libelle): static
+    public function setAutreInformation(?AutreInformation $autreInformation): static
     {
-        $this->libelle = $libelle;
+        $this->autreInformation = $autreInformation;
 
         return $this;
     }

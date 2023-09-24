@@ -1,0 +1,375 @@
+{% extends 'base.html.twig' %}
+{% block breadcrumb_title %}
+	<div class="page-header">
+		<h1 class="page-title">
+			Modification de la matrice d'évaluation du poste {{ poste.libelle }}
+		</h1>
+		<div>
+			<ol class="breadcrumb">
+				<a href="{{ path('app_poste_index') }}" class="table-hover btn btn-primary">
+					Retour
+				</a>
+			</ol>
+		</div>
+	</div>
+{% endblock %}
+{% block title %} CandiFlow | Modification de matrice d'évaluation{% endblock %}
+{% block stylesheets %}
+	<style>
+        .table th, .table td{
+            margin:0;
+            white-space: normal;
+            font-size: 10px;
+            max-height: 40px;
+        }
+        .bareme {
+            width: 60px;
+        }
+	</style>
+{% endblock %}
+
+{% block content %}
+	<form method="POST" action="" id="form-matrice">
+		<div class="card">
+			<div class="card-body">
+				<div class="panel-group1" id="accordion1">
+					<div class="panel panel-default mb-4">
+						<div class="panel-heading1">
+							<h4 class="panel-title1">
+								<div class="row">
+									<a class="accordion-toggle active " data-bs-toggle="collapse" data-bs-parent="#accordion" href="#collapseFour" aria-expanded="true">Les critères concernant le diplôme</a>
+								</div>
+							</h4>
+						</div>
+						<div id="collapseFour" class="panel-collapse collapse show" role="tabpanel" aria-expanded="false">
+							<div class="panel-body">
+								<input type="hidden" id="diplomes" name="diplomes">
+								<table class="table table-bordered" id="table-diplome">
+									<tr>
+										<th>
+											Les critères
+										</th>
+										<th class="">Barèmes</th>
+									</tr>
+									{% for diplome in diplomes %}
+										<tr class="line">
+											<td style="padding-top: 30px" class="libelle">
+												{{ diplome.libelle }}
+											</td>
+											<td class="bareme">
+												<input type="text" class="form-control" value="{{ diplome.bareme }}">
+											</td>
+										</tr>
+									{% endfor %}
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="card">
+			<div class="card-body">
+				<div class="panel-group1" id="accordion1">
+					<div class="panel panel-default">
+						<div class="panel-heading1">
+							<h4 class="panel-title1">
+								<a class="accordion-toggle active" data-bs-toggle="collapse" data-bs-parent="#accordion" href="#collapseFive" aria-expanded="false">Les critères concernant les expériences</a>
+							</h4>
+						</div>
+						<div id="collapseFive" class="panel-collapse collapse show" role="tabpanel" aria-expanded="true">
+							<div class="panel-body">
+								<input type="hidden" id="experiences" name="experiences">
+								<div class="row mb-2">
+									<div class="col-11 form-group">
+										<input type="text" class="form-control" id="input-experience" placeholder="Entrer le critère">
+									</div>
+									<div class="col-1">
+										<button type="button" class="btn btn-warning" id="add-experience">
+											<i class="fa fa-plus"></i>
+										</button>
+									</div>
+								</div>
+								<table class="table table-bordered" id="table-experience">
+									<tr>
+										<th>Les critères</th>
+										<th class="">Barèmes</th>
+										<th class="btn-action">Actions</th>
+									</tr>
+									{% for experience in experiences %}
+										<tr class="line">
+											<td style="padding-top: 30px" class="libelle">
+												{{ experience.libelle }}
+											</td>
+											<td class="bareme">
+												<input type="text" class="form-control" value="{{ experience.bareme }}">
+											</td>
+											<td>
+												<button type='button' class='btn btn-danger p-1 delete-experience'>
+													<i class='fa fa-minus'></i>
+												</button>
+											</td>
+										</tr>
+									{% endfor %}
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="card">
+			<div class="card-body">
+				<div class="panel-group1" id="accordion1">
+					<div class="panel panel-default">
+						<div class="panel-heading1">
+							<h4 class="panel-title1">
+								<a class="accordion-toggle active" data-bs-toggle="collapse" data-bs-parent="#accordion" href="#collapseSix" aria-expanded="false">Les critères concernant les autres exigences</a>
+							</h4>
+						</div>
+						<div id="collapseSix" class="panel-collapse collapse show" role="tabpanel" aria-expanded="true">
+							<div class="panel-body">
+								<input type="hidden" id="exigences" name="exigences">
+								<div class="row mb-2">
+									<div class="col-11">
+										<input type="text" class="form-control" id="input-exigence" placeholder="Entrer le critère">
+									</div>
+									<div class="col-1">
+										<button type="button" class="btn btn-warning" id="add-exigence">
+											<i class="fa fa-plus"></i>
+										</button>
+									</div>
+								</div>
+								<table class="table table-bordered" id="table-exigence">
+									<tr>
+										<th>Les critères</th>
+										<th>Barèmes</th>
+										<th class="btn-action">Actions</th>
+									</tr>
+									{% for exigence in exigences %}
+										<tr class="line">
+											<td style="padding-top: 30px" class="libelle">
+												{{ exigence.libelle }}
+											</td>
+											<td class="bareme">
+												<input type="text" class="form-control" value="{{ exigence.bareme }}">
+											</td>
+											<td>
+												<button type='button' class='btn btn-danger p-1 delete-exigence'>
+													<i class='fa fa-minus'></i>
+												</button>
+											</td>
+										</tr>
+									{% endfor %}
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="card">
+			<div class="card-body">
+				<div class="panel-group1" id="accordion1">
+					<div class="panel panel-default">
+						<div class="panel-heading1">
+							<h4 class="panel-title1">
+								<a class="accordion-toggle active" data-bs-toggle="collapse" data-bs-parent="#accordion" href="#collapseServen" aria-expanded="false">Les critères concernant les atouts</a>
+							</h4>
+						</div>
+						<div id="collapseServen" class="panel-collapse collapse show" role="tabpanel" aria-expanded="true">
+							<div class="panel-body">
+								<input type="hidden" id="atouts" name="atouts">
+								{% for information in autre_informations %}
+									<h5>{{ information.nomColonne }} : {{ information.information }}</h5>
+									<div class="row mb-2">
+										<div class="col-11">
+											<input type="text" class="form-control" id="input-atout-{{ information.code }}" placeholder="Entrer le critère">
+										</div>
+										<div class="col-1">
+											<button type="button" class="btn btn-warning" id="add-atout-{{ information.code }}">
+												<i class="fa fa-plus"></i>
+											</button>
+										</div>
+									</div>
+									<table class="table table-bordered" id="table-atout-{{ information.code }}">
+										<tr>
+											<th>Les critères</th>
+											<th>Barèmes</th>
+											<th class="btn-action">Actions</th>
+										</tr>
+										{% for atout in atouts %}
+											{% if atout.critere_atouts.autreInformation == information%}
+												{% for line in atout.atouts %}
+													<tr class="line">
+														<td style="padding-top: 30px" class="libelle">
+															{{ line.libelle }}
+														</td>
+														<td class="bareme">
+															<input type="text" class="form-control" value="{{ line.bareme }}">
+														</td>
+														<td>
+															<button type='button' class='btn btn-danger p-1 delete-atout'>
+																<i class='fa fa-minus'></i>
+															</button>
+														</td>
+													</tr>
+												{% endfor %}
+											{% endif %}
+										{% endfor %}
+									</table>
+								{% endfor %}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="text-center mb-3">
+			<button class="btn btn-primary" style="" id="enregistrer">Enregistrer</button>
+		</div>
+	</form>
+{% endblock %}
+
+{% block javascripts %}
+	<script>
+        var diplomes = [];
+        var experiences = [];
+        var exigences = [];
+        var atouts = [];
+        var atoutsArray = {};
+
+        $(document).ready(function(){
+            // Ajouter des expériences
+            $('#add-experience').on('click', function (){
+                let libelle = $('#input-experience').val().trim();
+                if(libelle === ""){
+                    warning_noti("Veuillez renseigner une valeur")
+                    system.stop()
+                    return false;
+                }
+                let html = "<tr class='line'><td class='libelle'>"+ libelle +"</td><td class='bareme'><input type='text' class='form-control'></td><td><button type='button' class='btn btn-danger p-1 delete-experience'><i class='fa fa-minus'></i></button></td></tr>";
+                $('#table-experience').append(html);
+                $('#input-experience').val(" ")
+            })
+
+            // Ajouter des exigences
+            $('#add-exigence').on('click', function (){
+                let libelle = $('#input-exigence').val().trim();
+                if(libelle === ""){
+                    warning_noti("Veuillez renseigner une valeur")
+                    system.stop()
+                    return false;
+                }
+                let html = "<tr class='line'><td class='libelle'>"+ libelle +"</td><td class='bareme'><input type='text' class='form-control'></td><td><button type='button' class='btn btn-danger p-1 delete-exigence'><i class='fa fa-minus'></i></button></td></tr>";
+                $('#table-exigence').append(html);
+                $('#input-exigence').val(" ")
+            })
+
+            // Ajouter des atout
+			{% for information in autre_informations %}
+            $('#add-atout-{{ information.code }}').on('click', function (){
+                let libelle = $('#input-atout-{{ information.code }}').val().trim();
+                if(libelle === ""){
+                    warning_noti("Veuillez renseigner une valeur")
+                    system.stop()
+                    return false;
+                }
+                let html = "<tr class='line'><td class='libelle'>"+ libelle +"</td><td class='bareme'><input type='text' class='form-control'></td><td><button type='button' class='btn btn-danger p-1 delete-atout'><i class='fa fa-minus'></i></button></td></tr>";
+                $('#table-atout-{{ information.code }}').append(html);
+                $('#input-atout-{{ information.code }}').val(" ")
+            })
+			{% endfor %}
+			
+			{#  Supprimer des lignes dans les tableaux #}
+            $('body').on('click', '.delete-experience', function(){
+                var tr = $(this).closest('tr')
+                tr.remove()
+            })
+            $('body').on('click', '.delete-exigence', function(){
+                var tr = $(this).closest('tr')
+                tr.remove()
+            })
+
+            $('body').on('click', '.delete-atout', function(){
+                var tr = $(this).closest('tr')
+                tr.remove()
+            })
+
+
+            //Enregistrer
+            $('#enregistrer').on('click', function (e){
+                e.preventDefault();
+                //Faire les contrôles sur les champs
+                if ($('table .line').length === 0){
+                    return
+                }else{
+                    $('table .line').each(function (){
+                        if (isNaN(parseInt($(this).find('.bareme input').val().trim())) || parseInt($(this).find('.bareme input').val().trim()) < 0){
+                            warning_noti("Vous devez donner une note valide pour tous les critères")
+                            system.stop()
+                            return false;
+                        }
+                    })
+                }
+
+
+                //Les diplômes
+                $('#table-diplome .line').each(function (){
+                    var diplome = {
+                        libelle :$(this).find('.libelle').text(),
+                        bareme : $(this).find('.bareme input').val(),
+                    }
+                    diplomes.push(diplome)
+                })
+
+                //Les expériences
+                $('#table-experience .line').each(function (){
+                    var experience = {
+                        libelle :$(this).find('.libelle').text(),
+                        bareme : $(this).find('.bareme input').val(),
+                    }
+                    experiences.push(experience)
+                })
+
+                //Les exigences
+                $('#table-exigence .line').each(function (){
+                    var exigence = {
+                        libelle :$(this).find('.libelle').text(),
+                        bareme : $(this).find('.bareme input').val(),
+                    }
+                    exigences.push(exigence)
+                })
+
+                //Les Atouts
+				{% for information in autre_informations %}
+                atoutsArray = {}
+                atoutsArray = {
+                    autre_information : '{{ information.code }}',
+                    atouts : []
+                }
+                $('#table-atout-{{ information.code }} .line').each(function (){
+                    var atout = {
+                        libelle :$(this).find('.libelle').text(),
+                        bareme : $(this).find('.bareme input').val(),
+                    }
+                    atoutsArray.atouts.push(atout)
+                })
+                atouts.push(atoutsArray)
+				{% endfor %}
+
+                $('#diplomes').val(JSON.stringify(diplomes))
+                $('#experiences').val(JSON.stringify(experiences))
+                $('#exigences').val(JSON.stringify(exigences))
+                $('#atouts').val(JSON.stringify(atouts))
+
+                //Soumettre le formulaire
+                $('#form-matrice').submit();
+            })
+        })
+	</script>
+{% endblock %}

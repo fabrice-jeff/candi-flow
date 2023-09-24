@@ -2190,7 +2190,7 @@ progress {
   color: #212529;
   background-color: #fff;
   background-clip: padding-box;
-  border: 1px solid #ced4da;
+  border: 1px solid #000;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;

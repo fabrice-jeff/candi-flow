@@ -25,11 +25,13 @@
                             <thead>
                             <tr>
                                 <th>Actions</th>
-                                <th>Libelle</th>
-                                <th>Domaine</th>
+                                <th>Nom du poste</th>
+                                <th>Date limite pour le poste</th>
                                 <th>Niveau d'étude</th>
+                                <th>Domaine</th>
                                 <th>Logiciel spécifique</th>
-                                <th>Age</th>
+                                <th>Nombre de formation limite</th>
+                                <th>Age exigé</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -40,17 +42,18 @@
                                             <button type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                             </button>
                                             <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item" href="{{ path('app_poste_update', {code:poste.code}) }}" data-code="{{ poste.code }}">Modification du poste</a></li>
                                                 <li><a class="dropdown-item matriceEvaluation"  data-code="{{ poste.code }}">Création de la matrice d'évaluation</a></li>
-                                                <li><a class="dropdown-item " href="{{ path('app_matrice_evaluation_cv_show', {code:poste.code}) }}" data-code="{{ poste.code }}">Voir la matrice d'évaluation</a></li>
+                                                <li><a class="dropdown-item" data-code="{{ poste.code }}">Modification de la matrice d'évaluation</a></li>
                                             </ul>
                                         </div>
                                     </td>
                                     <td>{{ poste.libelle }}</td>
                                     <td>
-                                        {% if poste.domaine is null %}
+                                        {% if poste.dateFin is null %}
                                             Non précisé
                                         {% else %}
-                                            {{ poste.domaine }}
+                                            {{ poste.dateFin | date('d/m/Y') }}
                                         {% endif %}
                                     </td>
                                     <td>
@@ -60,11 +63,27 @@
                                             {{ poste.niveauEtude }}
                                         {% endif %}
                                     </td>
+                                    
+                                    <td>
+                                        {% if poste.domaine is null %}
+                                            Non précisé
+                                        {% else %}
+                                            {{ poste.domaine }}
+                                        {% endif %}
+                                    </td>
+                                    
                                     <td>
                                         {% if poste.logicielSpecifique is null %}
                                             Non précisé
                                         {% else %}
                                             {{ poste.logicielSpecifique }}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if poste.nombreFormation is null %}
+                                            Non précisé
+                                        {% else %}
+                                            {{ poste.nombreFormation }}
                                         {% endif %}
                                     </td>
                                     <td>

@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    New Poste
+    CandiFlow | Ajout d'un poste
 {% endblock %}
 
 {% block breadcrumb_title %}
@@ -31,6 +31,7 @@
             </div>
         </div>
     </div>
+    
     {# Etat civil #}
     <div class="row">
         <div class="col-lg-6">
@@ -43,7 +44,7 @@
                         <label class="custom-switch ps-0">
                             <input type="checkbox" name="nomPrenom" class="custom-switch-input" checked="">
                             <span class="custom-switch-indicator me-3"></span>
-                            <span class="custom-switch-description mg-l-10">Nom et prénom</span>
+                            <span class="custom-switch-description mg-l-10">Nom et prénoms</span>
                         </label>
                     </div>
                 </div>
@@ -57,43 +58,6 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="form-group mg-b-10">
-                        <label class="custom-switch ps-0">
-                            <input type="checkbox" name="date-naissance" class="custom-switch-input" checked="">
-                            <span class="custom-switch-indicator me-3"></span>
-                            <span class="custom-switch-description mg-l-10">Date de Naissance</span>
-                        </label>
-                    </div>
-                </div>
-{#                 <div class="card-body"> #}
-{#                     <div class="form-group mg-b-10"> #}
-{#                         <label class="custom-switch ps-0"> #}
-{#                             <input type="checkbox" name="date-depot" class="custom-switch-input" checked=""> #}
-{#                             <span class="custom-switch-indicator me-3"></span> #}
-{#                             <span class="custom-switch-description mg-l-10">Date de dépot des dossier</span> #}
-{#                         </label> #}
-{#                     </div> #}
-{#                 </div> #}
-                <div class="card-body">
-                    <div class="form-group mg-b-10">
-                        <label class="custom-switch ps-0">
-                            <input type="checkbox" name="contact" class="custom-switch-input" checked>
-                            <span class="custom-switch-indicator me-3"></span>
-                            <span class="custom-switch-description mg-l-10">Contact(Télephone et Email)</span>
-                        </label>
-                    </div>
-                </div>
-{#                 <div class="card-body"> #}
-{#                     <div class="form-group mg-b-10"> #}
-{#                         <label class="custom-switch ps-0"> #}
-{#                             <input type="checkbox" name="email" class="custom-switch-input" checked> #}
-{#                             <span class="custom-switch-indicator me-3"></span> #}
-{#                             <span class="custom-switch-description mg-l-10">Email</span> #}
-{#                         </label> #}
-{#                     </div> #}
-{#                 </div> #}
-
-                <div class="card-body">
                     <div class="form-group mg-b-10" >
                         <label class="custom-switch ps-0">
                             <input type="checkbox" name="sexe" class="custom-switch-input">
@@ -102,7 +66,24 @@
                         </label>
                     </div>
                 </div>
-
+                <div class="card-body">
+                    <div class="form-group mg-b-10">
+                        <label class="custom-switch ps-0">
+                            <input type="checkbox" name="date-naissance" class="custom-switch-input" id="date-naissance">
+                            <span class="custom-switch-indicator me-3"></span>
+                            <span class="custom-switch-description mg-l-10">Date de Naissance</span>
+                        </label>
+                        <div class="mt-3 d-none" id="form-date-naissance">
+                            <div class="input-group" >
+                                <div class="input-group-text">
+                                    <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
+                                </div>
+                                <input class="form-control fc-datepicker" placeholder="Date de Fin" type="text" name="dateFin" id="dateFin">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
                 <div class="card-body">
                     <div class="form-group mg-b-10" >
                         <label class="custom-switch ps-0">
@@ -110,21 +91,21 @@
                             <span class="custom-switch-indicator me-3"></span>
                             <span class="custom-switch-description mg-l-10">Age exigé</span>
                         </label>
-                        <div class=" d-none mt-3" id="formaAge">
-                            <div class="row">
-                                <div class="col-6">
-                                    {{form_row(form.age)}}
-                                </div>
-                                <div class="col-6">
-                                    <div class="input-group">
-                                        <div class="input-group-text">
-                                            <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
-                                        </div>
-                                        <input class="form-control fc-datepicker" placeholder="MM/DD/YYYY" type="text" name="dateFin">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                         <div class=" d-none mt-3" id="formaAge">
+                             <div class="">
+                                 {{form_row(form.age)}}
+                             </div>
+                         </div>
+                    </div>
+                </div>
+    
+                <div class="card-body">
+                    <div class="form-group mg-b-10">
+                        <label class="custom-switch ps-0">
+                            <input type="checkbox" name="contact" class="custom-switch-input" checked>
+                            <span class="custom-switch-indicator me-3"></span>
+                            <span class="custom-switch-description mg-l-10">Contact(Télephone et Email)</span>
+                        </label>
                     </div>
                 </div>
             </div>
@@ -140,12 +121,12 @@
                 <div class="card-body">
                     <div class="form-group mg-b-10" >
                         <label class="custom-switch ps-0">
-                            <input type="checkbox" name="diplome" class="custom-switch-input" id="diplome">
+                            <input type="checkbox" name="diplome" class="custom-switch-input" id="diplome" checked>
                             <span class="custom-switch-indicator me-3"></span>
-                            <span class="custom-switch-description mg-l-10">Diplôme</span>
+                            <span class="custom-switch-description mg-l-10">Diplôme/Niveau/Domaine</span>
                         </label>
 
-                        <div class=" d-none mt-3" id="formDiplome">
+                        <div class=" mt-3" id="formDiplome">
                             <div class="row">
                                 <div class="col-12" id="niveauEtude">
                                     {{form_row(form.niveauEtude)}}
@@ -174,15 +155,15 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-body">
-                    <div class="form-group mg-b-10" >
-                        <label class="custom-switch ps-0">
-                            <input type="checkbox" name="autre-formations" class="custom-switch-input">
-                            <span class="custom-switch-indicator me-3"></span>
-                            <span class="custom-switch-description mg-l-10">Autres Formations</span>
-                        </label>
-                    </div>
-                </div>
+{#                 <div class="card-body"> #}
+{#                     <div class="form-group mg-b-10" > #}
+{#                         <label class="custom-switch ps-0"> #}
+{#                             <input type="checkbox" name="autre-formations" class="custom-switch-input"> #}
+{#                             <span class="custom-switch-indicator me-3"></span> #}
+{#                             <span class="custom-switch-description mg-l-10">Autres Formations</span> #}
+{#                         </label> #}
+{#                     </div> #}
+{#                 </div> #}
             </div>
 
             {# Outils informatiques #}
@@ -288,8 +269,7 @@
                 </div>
             </div>
         </div>
-
-
+        
         {# Autres informations(Connaissance/Atouts) #}
         <div class="col-lg-12">
             <div class="card">
@@ -326,7 +306,6 @@
                                             <th class="btn-action">Actions</th>
                                         </thead>
                                         <tbody>
-    
                                         </tbody>
                                     </table>
                                 </div>
@@ -341,12 +320,12 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <div class="card-title">Décision</div>
+                    <div class="card-title">Décision et justification sur le dossier</div>
                 </div>
                 <div class="card-body">
                     <div class="form-group mg-b-10" >
                         <label class="custom-switch ps-0">
-                            <input type="checkbox" name="decision" class="custom-switch-input">
+                            <input type="checkbox" name="decision" class="custom-switch-input" checked>
                             <span class="custom-switch-indicator me-3"></span>
                             <span class="custom-switch-description mg-l-10">Décision</span>
                         </label>
@@ -355,7 +334,7 @@
                 <div class="card-body">
                     <div class="form-group mg-b-10" >
                         <label class="custom-switch ps-0">
-                            <input type="checkbox" name="dossier-complet" class="custom-switch-input">
+                            <input type="checkbox" name="dossier-complet" class="custom-switch-input" checked>
                             <span class="custom-switch-indicator me-3"></span>
                             <span class="custom-switch-description mg-l-10">Dossier complet</span>
                         </label>
@@ -364,7 +343,7 @@
                 <div class="card-body">
                     <div class="form-group mg-b-10" >
                         <label class="custom-switch ps-0">
-                            <input type="checkbox" name="justification" class="custom-switch-input">
+                            <input type="checkbox" name="justification" class="custom-switch-input" checked>
                             <span class="custom-switch-indicator me-3"></span>
                             <span class="custom-switch-description mg-l-10">Justification de la décision</span>
                         </label>
@@ -387,6 +366,15 @@
         var  atouts = [];
         var  parcoursSpecifiques = [];
         var  parcoursGlobal = [];
+        
+        $('#date-naissance').on('click', function (){
+            if($("#date-naissance").is(":checked")){
+                $('#form-date-naissance').removeClass('d-none')
+            }else{
+                $('#form-date-naissance').addClass('d-none')
+            }
+        })
+        
         $("#age").on('click', function(){
             if($("#age").is(":checked")){
                 $('#formaAge').removeClass('d-none')
@@ -449,8 +437,8 @@
 
         {# Ajouter des connaissances #}
         $('#add-connaissance').on('click', function(){
-            var nomConnaissance = $('#nomConnaissance').val();
-            var domaineConnaissance= $('#domaineConnaissance').val()
+            var nomConnaissance = $('#nomConnaissance').val().trim();
+            var domaineConnaissance= $('#domaineConnaissance').val().trim()
             var html = "<tr class='line'><td class='nomConnaissance'>"+ nomConnaissance +"</td><td class='domaineConnaissance'>"+domaineConnaissance+"</td><td><button type='button' class='btn btn-danger p-1 delete-connaissance'><i class='fa fa-minus'></i></td></tr>";
             $('#table-connaissance tbody .line').each(function(i){
                 if($(this).find('.nomConnaissance').text() === nomConnaissance && $(this).find('.domaineConnaissance').text() === domaineConnaissance){
@@ -459,15 +447,15 @@
                     return  false;
                 }
             })
-            if(nomConnaissance == " "){
-                $('#nomConnaissance').addClass('is-invalid')
+            if(nomConnaissance === ""){
+                warning_noti("Renseigner un nom valide")
+                system.stop()
+                return  false;
             }
-            else if(domaineConnaissance == " "){
-                $('#domaineConnaissance').addClass('is-invalid')
-            }
+            
             $('#table-connaissance tbody').append(html)
-            $('#nomConnaissance').val(" ")
-            $('#domaineConnaissance').val(" ")
+            $('#nomConnaissance').val("")
+            $('#domaineConnaissance').val("")
         })
 
         {# Ajouter des atouts #}
@@ -535,12 +523,101 @@
         })
 
         $("#poste_niveauEtude").on('change', function(){
+            createdFields($(this).val());
+        })
+
+        {# Enresgitrer le poste #}
+        $('#enregistrer').on('click', function(e){
+            e.preventDefault()
+            if($('#poste_libelle').val() == ""){
+                warning_noti("Renseigner un nom pour le poste")
+                systme.stop()
+                return false;
+            }
+    
+            if($("#date-naissance").is(":checked")){
+               if($('#dateFin').val().trim() === ""){
+                   warning_noti("Renseigner la date de Fin")
+                   systme.stop()
+                   return false;
+               }
+            }
+            if($("#diplome").is(":checked")){
+                let niveauEtude = $("#poste_niveauEtude").val().trim()
+                if( niveauEtude === ""){
+                    warning_noti("Un niveau d'étude doit être choisir")
+                    systme.stop()
+                    return false;
+                }
+            }
+            if($("#formations").is(":checked")){
+                let nombreFormation = $('#poste_nombreFormation').val().trim();
+                if( nombreFormation === "" || parseInt(nombreFormation)<= 0){
+                    warning_noti("Veuillez renseigner le nombre de formation")
+                    systme.stop()
+                    return false;
+                }
+            }
+    
+            if($("#outilInformatique").is(":checked")){
+                let logicielSpecifique = $('#poste_logicielSpecifique').val().trim()
+                if (logicielSpecifique === ""){
+                    warning_noti("Le logiciel spécifique n'est pas renseigné")
+                    systme.stop()
+                    return false;
+                }
+            }
+            
+            {# Parcours global #}
+            $('#table-parcours-global tbody .line').each(function(i){
+                var dureeParcoursGlobal = $(this).find('.duree-parcours-global').text()
+                var domaineParcoursGlobal = $(this).find('.domaine-parcours-global').text()
+                var objectParcoursGlobal = {
+                    'duree' : dureeParcoursGlobal,
+                    'domaine' : domaineParcoursGlobal
+                }
+                parcoursGlobal.push(objectParcoursGlobal)
+            })
+            {# Atout #}
+            $('#table-atout tbody .line').each(function(i){
+                atouts.push($(this).find('.nom-atout').text())
+            })
+            {# Connaissance #}
+            $('#table-connaissance tbody .line').each(function(i){
+                var nomConnaissance = $(this).find('.nomConnaissance').text()
+                var domaineConnaissance = $(this).find('.domaineConnaissance').text()
+                var objetConnaissance = {
+                    'nom' : nomConnaissance,
+                    'domaine' : domaineConnaissance
+                }
+                connaissances.push(objetConnaissance)
+            })
+    
+            {# Parcours specifiques #}
+            $('#table-parcours-specifique tbody .line').each(function(i){
+                var duree = $(this).find('.duree-parcours-specifique').text()
+                var domaine = $(this).find('.domaine-parcours-specifique').text()
+                var objectParcoursSpecifique =  {
+                    'duree' : duree,
+                    'domaine' : domaine
+                }
+                parcoursSpecifiques.push(objectParcoursSpecifique)
+            })
+            $('#poste_atout').val(JSON.stringify(atouts))
+            $('#poste_connaissance').val(JSON.stringify(connaissances))
+            $('#poste_parcours_specifique').val(JSON.stringify(parcoursSpecifiques))
+            $('#poste_parcours_global').val(JSON.stringify(parcoursGlobal))
+            
+            $('#form-poste').submit()
+        })
+        
+        function createdFields(niveauEtude){
             $.ajax({
                 url: '{{ path('createFields') }}',
                 type: 'POST',
                 dataType : 'json',
                 data : {
-                   'niveauEtude' : $(this).val()
+                    'niveauEtude' : niveauEtude
                 },
                 success:function (data){
                     if(data.domaine){
@@ -555,59 +632,6 @@
                     }
                 }
             })
-        })
-
-        {# Enresgitrer le poste #}
-        $('#enregistrer').on('click', function(e){
-            e.preventDefault()
-            if($('#poste_libelle').val() == ""){
-                $('#poste_libelle').addClass('is-invalid')
-            }
-            else
-            {
-                {# Parcours global #}
-                $('#table-parcours-global tbody .line').each(function(i){
-                    var dureeParcoursGlobal = $(this).find('.duree-parcours-global').text()
-                    var domaineParcoursGlobal = $(this).find('.domaine-parcours-global').text()
-                    var objectParcoursGlobal = {
-                        'duree' : dureeParcoursGlobal,
-                        'domaine' : domaineParcoursGlobal
-                    }
-                    parcoursGlobal.push(objectParcoursGlobal)
-                })
-                {# Atout #}
-                $('#table-atout tbody .line').each(function(i){
-                   atouts.push($(this).find('.nom-atout').text())
-                })
-                {# Connaissance #}
-                $('#table-connaissance tbody .line').each(function(i){
-                    var nomConnaissance = $(this).find('.nomConnaissance').text()
-                    var domaineConnaissance = $(this).find('.domaineConnaissance').text()
-                    var objetConnaissance = {
-                        'nom' : nomConnaissance,
-                        'domaine' : domaineConnaissance
-                    }
-                    connaissances.push(objetConnaissance)
-                })
-
-                {# Parcours specifiques #}
-                $('#table-parcours-specifique tbody .line').each(function(i){
-                    var duree = $(this).find('.duree-parcours-specifique').text()
-                    var domaine = $(this).find('.domaine-parcours-specifique').text()
-                    var objectParcoursSpecifique =  {
-                        'duree' : duree,
-                        'domaine' : domaine
-                    }
-                    parcoursSpecifiques.push(objectParcoursSpecifique)
-                })
-                $('#poste_atout').val(JSON.stringify(atouts))
-                $('#poste_connaissance').val(JSON.stringify(connaissances))
-                $('#poste_parcours_specifique').val(JSON.stringify(parcoursSpecifiques))
-                $('#poste_parcours_global').val(JSON.stringify(parcoursGlobal))
-                console.log(parcoursGlobal, parcoursSpecifiques, connaissances, atouts)
-                debugger
-                $('#form-poste').submit()
-            }
-        })
+        }
     </script>
  {% endblock %}

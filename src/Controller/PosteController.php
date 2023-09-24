@@ -9,7 +9,7 @@ use App\Entity\ParcoursGlobal;
 use App\Entity\ParcoursSpecifique;
 use App\Entity\Poste;
 use App\Form\PosteType;
-use App\Repository\ConnaissanceRepository;
+use App\Repository\AutreInformationRepository;
 use App\Repository\NiveauEtudeRepository;
 use App\Repository\PosteRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -29,7 +29,7 @@ class PosteController extends AbstractController
     public function index(PosteRepository $posteRepository): Response
     {
         return $this->render('poste/index.html.twig', [
-            'postes' => $posteRepository->findAll(),
+            'postes' => $posteRepository->findBy(['deleted' => false]),
         ]);
     }
 
@@ -37,26 +37,31 @@ class PosteController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager, NiveauEtudeRepository $niveauEtudeRepository,): Response
     {
         $poste = new Poste();
-        $form = $this->createForm(PosteType::class, $poste);
+        $form = $this->createForm(PosteType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            // dd($request);
             $critere = new Critere();
+            $poste->setLibelle($request->get('poste')['libelle']);
             ($request->get('nomPrenom')) ? $critere->setNomPrenoms(true) : $critere->setNomPrenoms(false);
             ($request->get('nationalite')) ? $critere->setNationalite(true) : $critere->setNationalite(false);
-            ($request->get('date-naissance')) ? $critere->setDateNissance(true) : $critere->setDateNissance(false);
-//            ($request->get('date-depot')) ? $critere->setDateDepotDossier(true) : $critere->setDateDepotDossier(false);
-            ($request->get('contact')) ? $critere->setContact(true) : $critere->setContact(false);
-//            ($request->get('email')) ? $critere->setEmail(true) : $critere->setEmail(false);
             ($request->get('sexe')) ? $critere->setSexe(true) : $critere->setSexe(false);
+
+            if($request->get('date-naissance')){
+                $critere->setDateNissance(true);
+                $poste->setDateFin((new \DateTime($request->get('dateFin'))));
+            }else{
+                $critere->setDateNissance(false);
+            }
+
             if($request->get('ageExige')){
                 $critere->setAgeExige(true);
                 $poste->setAge($request->get('poste')['age']);
-                $poste->setDateFin((new \DateTime($request->get('dateFin'))));
             }
             else{
                 $critere->setAgeExige(false);
             }
+            ($request->get('contact')) ? $critere->setContact(true) : $critere->setContact(false);
+
             if($request->get('diplome')){
                 $critere->setDiplome(true);
                 $poste->setNiveauEtude($niveauEtudeRepository->find($request->get('poste')['niveauEtude']));
@@ -66,7 +71,6 @@ class PosteController extends AbstractController
                 $critere->setDiplome(false);
             }
             if($request->get('formation_poste')){
-//                dd($request->get('poste')['nombreFormation']);
                 $critere->setFormationPoste(true);
                 $poste->setNombreFormation($request->get('poste')['nombreFormation']);
             }else{
@@ -104,7 +108,7 @@ class PosteController extends AbstractController
 
                 foreach ($autresInformations as $objet) {
                     $autreInformation = (new AutreInformation())
-                        ->setNomColonne($nom = $objet->nom)
+                        ->setNomColonne($objet->nom)
                         ->setInformation($objet->domaine)
                         ->setPoste($poste);
                     $entityManager->persist($autreInformation);
@@ -116,7 +120,6 @@ class PosteController extends AbstractController
             ($request->get('decision')) ? $critere->setDecision(true) : $critere->setDecision(false);
             ($request->get('dossier-complet')) ? $critere->setDossierComplet(true) : $critere->setDossierComplet(false);
             ($request->get('justification')) ? $critere->setJustification(true) : $critere->setJustification(false);
-            ($request->get('date-depot-dossier')) ? $critere->setDateDepotDossier(true) : $critere->setDateDepotDossier(false);
             $poste->setCritere($critere);
             $entityManager->persist($poste);
             $entityManager->persist($critere);
@@ -128,6 +131,112 @@ class PosteController extends AbstractController
         return $this->render('poste/new.html.twig', [
             'poste' => $poste,
             'form' => $form,
+        ]);
+    }
+
+    #[Route('/update/{code}', name: 'app_poste_update', methods: ['GET', 'POST'])]
+    public function update(Request $request, EntityManagerInterface $entityManager, NiveauEtudeRepository $niveauEtudeRepository,AutreInformationRepository $autreInformationRepository, Poste $poste): Response
+    {
+        $form = $this->createForm(PosteType::class, $poste);
+        $form->handleRequest($request);
+        $informationComplementaires =  $autreInformationRepository->findBy(['deleted' => false, 'poste' =>$poste]);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $poste->getCritere()->setDeleted(false);
+            $poste->setDeleted(true);
+            $critere = new Critere();
+            $poste = new Poste();
+            $poste->setLibelle($request->get('poste')['libelle']);
+            ($request->get('nomPrenom')) ? $critere->setNomPrenoms(true) : $critere->setNomPrenoms(false);
+            ($request->get('nationalite')) ? $critere->setNationalite(true) : $critere->setNationalite(false);
+            ($request->get('sexe')) ? $critere->setSexe(true) : $critere->setSexe(false);
+
+            if($request->get('date-naissance')){
+                $critere->setDateNissance(true);
+                $poste->setDateFin((new \DateTime($request->get('dateFin'))));
+            }else{
+                $critere->setDateNissance(false);
+            }
+
+            if($request->get('ageExige')){
+                $critere->setAgeExige(true);
+                $poste->setAge($request->get('poste')['age']);
+            }
+            else{
+                $critere->setAgeExige(false);
+            }
+            ($request->get('contact')) ? $critere->setContact(true) : $critere->setContact(false);
+
+            if($request->get('diplome')){
+                $critere->setDiplome(true);
+                $poste->setNiveauEtude($niveauEtudeRepository->find($request->get('poste')['niveauEtude']));
+                $poste->setDomaine($request->get('poste')['domaine']);
+            }
+            else{
+                $critere->setDiplome(false);
+            }
+            if($request->get('formation_poste')){
+                $critere->setFormationPoste(true);
+                $poste->setNombreFormation($request->get('poste')['nombreFormation']);
+            }else{
+                $critere->setFormationPoste(false);
+            }
+            if($request->get('logiciel-specifique')){
+                $critere->setLogicielSpecifique(true);
+                $poste->setLogicielSpecifique($request->get('poste')['logicielSpecifique']);
+            }
+            else{
+                $critere->setLogicielSpecifique(false);
+            }
+            ($request->get('autre-outils')) ? $critere->setAutreOutils(true) : $critere->setAutreOutils(false);
+            ($request->get('total-experience-cv')) ? $critere->setTotalExperiance(true) : $critere->setTotalExperiance(false);
+            if($request->get('parcours-global')){
+                $critere->setParcoursGlobal(true);
+                $poste->setDureeParcoursGlobal($request->get('poste')['dureeParcoursGlobal']);
+                $poste->setPosteParcoursGlobal($request->get('poste')['posteParcoursGlobal']);
+            }
+            else{
+                $critere->setParcoursGlobal(false);
+            }
+            if($request->get('parcours-specifique')){
+                $critere->setParcoursSpecifique(true);
+                $poste->setDureeParcoursSpecifique($request->get('poste')['dureeParcoursSpecifique']);
+                $poste->setPosteParcoursSpecifique($request->get('poste')['posteParcoursSpecifique']);
+            }
+            else{
+                $critere->setParcoursSpecifique(false);
+            }
+            if($request->get('connaissance')){
+                $critere->setAutreInformation(true);
+                //Enregistrer les connaisances
+                $autresInformations = json_decode($request->get('poste_connaissance'));
+
+                foreach ($autresInformations as $objet) {
+                    $autreInformation = (new AutreInformation())
+                        ->setNomColonne($objet->nom)
+                        ->setInformation($objet->domaine)
+                        ->setPoste($poste);
+                    $entityManager->persist($autreInformation);
+                }
+            }
+            else{
+                $critere->setAutreInformation(false);
+            }
+            ($request->get('decision')) ? $critere->setDecision(true) : $critere->setDecision(false);
+            ($request->get('dossier-complet')) ? $critere->setDossierComplet(true) : $critere->setDossierComplet(false);
+            ($request->get('justification')) ? $critere->setJustification(true) : $critere->setJustification(false);
+            $poste->setCritere($critere);
+            $entityManager->persist($poste);
+            $entityManager->persist($critere);
+            $entityManager->flush();
+            $this->addFlash('success', "Poste enregistrée avec succès");
+            return $this->redirectToRoute('app_poste_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('poste/update.html.twig', [
+            'poste' => $poste,
+            'form' => $form,
+            'autre_informations' => $informationComplementaires,
         ]);
     }
 

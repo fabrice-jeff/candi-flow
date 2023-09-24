@@ -46,16 +46,16 @@ class Poste
     #[ORM\JoinColumn(nullable: false)]
     private ?Critere $critere = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $dureeParcoursGlobal = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255,nullable: true)]
     private ?string $posteParcoursGlobal = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255,nullable: true)]
     private ?string $dureeParcoursSpecifique = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255,nullable: true)]
     private ?string $posteParcoursSpecifique = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE,  nullable: true)]

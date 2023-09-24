@@ -96,6 +96,7 @@ class MatriceEvaluationCvController extends AbstractController
             'autre_informations' => $autreInformations
         ]);
     }
+
     #[Route('/show/{code}', name: 'app_matrice_evaluation_cv_show', methods: ['GET', 'POST'])]
     public function show(Poste $poste){
         $matriceEvaluation = $this->matriceEvaluationRepository->findOneBy(['poste' => $poste, 'deleted' => false]);
@@ -111,5 +112,4 @@ class MatriceEvaluationCvController extends AbstractController
             'atouts' => $critereAtouts
         ]);
     }
-
 }

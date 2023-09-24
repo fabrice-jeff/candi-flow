@@ -311,12 +311,19 @@ class CandidatureController extends AbstractController
                 }
             }
             $dateDepot = new \DateTime($request->get('date_depot_dossier'));
-
             $candidature->setPoste($poste)->setDateDepotDossier($dateDepot);
             $candidature->setStatut($this->statutRepository->findOneBy(['codeReference' => FixedValuesConstants::STATUT_CANDIDATURE_EN_ATTENTE]));
-            $dateFin = date_format($poste->getDateFin(), 'Y');
-            $age = $dateFin - date_format(new \DateTime($request->get('date_naissance')),'Y');
-            $candidature->setAge($age);
+            if($critere->isAgeExige()){
+                $dateFin = date_format($poste->getDateFin(), 'Y');
+                $age = $dateFin - date_format(new \DateTime($request->get('date_naissance')),'Y');
+                $candidature->setAge($age);
+            }
+            else{
+                $dateFin = date_format($poste->getDateFin(), 'Y');
+                $age = $dateFin - date_format(new \DateTime($request->get('date_naissance')),'Y');
+                $candidature->setAge($age);
+            }
+
             $diplome = $this->critereDiplomeRepository->findOneBy(['deleted' => false, 'code' => $request->get('diplome') ]);
             $atout = $this->critereAtoutsRepository->findOneBy(['deleted' => false, 'code'=>$request->get('atout')]);
             $experience = $this->critereExperienceRepository->findOneBy(['deleted'=> false, 'code' =>$request->get('experience')]);

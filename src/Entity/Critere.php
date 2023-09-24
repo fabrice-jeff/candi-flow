@@ -33,17 +33,12 @@ class Critere
     #[ORM\Column(nullable: true)]
     private ?bool $contact = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?bool $email = null;
 
     #[ORM\Column(nullable: true)]
     private ?bool $sexe = null;
 
     #[ORM\Column(nullable: true)]
     private ?bool $ageExige = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?bool $dateDepotDossier = null;
 
     #[ORM\Column(nullable: true)]
     private ?bool $diplome = null;
@@ -140,17 +135,6 @@ class Critere
         return $this;
     }
 
-    public function isEmail(): ?bool
-    {
-        return $this->email;
-    }
-
-    public function setEmail(bool $email): static
-    {
-        $this->email = $email;
-
-        return $this;
-    }
 
     public function isSexe(): ?bool
     {
@@ -172,18 +156,6 @@ class Critere
     public function setAgeExige(bool $ageExige): static
     {
         $this->ageExige = $ageExige;
-
-        return $this;
-    }
-
-    public function isDateDepotDossier(): ?bool
-    {
-        return $this->dateDepotDossier;
-    }
-
-    public function setDateDepotDossier(bool $dateDepotDossier): static
-    {
-        $this->dateDepotDossier = $dateDepotDossier;
 
         return $this;
     }

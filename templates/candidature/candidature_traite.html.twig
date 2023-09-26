@@ -68,13 +68,13 @@
 								{% if critere.parcoursGlobal == 1 %}
 									<th style="vertical-align: top;" class="colored-cell">Parcours professionnel global prouvé
 										Durée, Poste, Organisme <br>
-										({{ poste.dureeParcoursGlobal ~ " "~ poste.posteParcoursGlobal }})
+										({{ poste.dureeParcoursGlobal }} {{ extract_words(poste.posteParcoursGlobal)| html_entity_decode }})
 									</th>
 								{% endif %}
 								{% if critere.parcoursSpecifique == 1 %}
 									<th style="vertical-align: top;">Parcours professionnel spécifique prouvé
 										Durée, Poste, Organisme <br>
-										({{ poste.dureeParcoursSpecifique ~ " "~ poste.posteParcoursSpecifique }})
+										({{ poste.dureeParcoursSpecifique }} {{ extract_words(poste.posteParcoursSpecifique)| html_entity_decode }})
 									</th>
 								{% endif %}
 								{% if critere.autreInformation == 1 %}

@@ -70,7 +70,6 @@ class ExportController extends AbstractController
     #[Route('/export/{code}', name: 'app_export_excel',)]
     public function index(Poste $poste): Response
     {
-
         $critere = $poste->getCritere();
         $candidaturesArray = [];
         $statut = $this->statutRepository->findOneBy(['codeReference' => FixedValuesConstants::STATUT_CANDIDATURE_TRAITER]);

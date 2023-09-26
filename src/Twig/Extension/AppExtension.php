@@ -16,6 +16,7 @@ class AppExtension extends AbstractExtension
             // parameter: ['is_safe' => ['html']]
             // Reference: https://twig.symfony.com/doc/3.x/advanced.html#automatic-escaping
             new TwigFilter('filter_name', [AppExtensionRuntime::class, 'doSomething']),
+            new TwigFilter('html_entity_decode', 'html_entity_decode', ['is_safe' => ['html']]),
         ];
     }
 
@@ -24,6 +25,7 @@ class AppExtension extends AbstractExtension
         return [
             new TwigFunction('function_name', [AppExtensionRuntime::class, 'doSomething']),
             new TwigFunction('convert_string', [AppExtensionRuntime::class, 'convertString']),
+            new TwigFunction('extract_words', [AppExtensionRuntime::class, 'extractWords']),
         ];
     }
 }

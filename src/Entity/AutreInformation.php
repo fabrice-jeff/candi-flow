@@ -30,6 +30,12 @@ class AutreInformation
     #[ORM\JoinColumn(nullable: false)]
     private ?Poste $poste = null;
 
+
+    #[ORM\ManyToOne(targetEntity: TypeType::class)]
+    #[ORM\JoinColumn(name:"code_reference", referencedColumnName:"code_reference")]
+    private $typeType;
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -70,4 +76,16 @@ class AutreInformation
 
         return $this;
     }
+
+
+    public function getTypeType() {
+        return $this->typeType;
+    }
+
+    public function setTypeType($typeType) {
+        $this->typeType = $typeType;
+        return $this;
+    }
+
+
 }

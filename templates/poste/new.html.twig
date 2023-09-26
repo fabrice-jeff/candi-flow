@@ -66,21 +66,6 @@
                         </label>
                     </div>
                 </div>
-{#                 <div class="card-body"> #}
-{#                     <div class="form-group mg-b-10"> #}
-{#                         <label class="custom-switch ps-0"> #}
-{#                             <input type="checkbox" name="date-naissance" class="custom-switch-input" id="date-naissance"> #}
-{#                             <span class="custom-switch-indicator me-3"></span> #}
-{#                             <span class="custom-switch-description mg-l-10">Date de Naissance</span> #}
-{#                         </label> #}
-{#                         <div class="mt-3 d-none" id="form-date-naissance"> #}
-{#                             <div class="input-group" > #}
-{#                                  #}
-{#                             </div> #}
-{#                         </div> #}
-{#                     </div> #}
-{#                 </div> #}
-                
                 <div class="card-body">
                     <div class="form-group mg-b-10" >
                         <label class="custom-switch ps-0">
@@ -158,15 +143,6 @@
                         </div>
                     </div>
                 </div>
-{#                 <div class="card-body"> #}
-{#                     <div class="form-group mg-b-10" > #}
-{#                         <label class="custom-switch ps-0"> #}
-{#                             <input type="checkbox" name="autre-formations" class="custom-switch-input"> #}
-{#                             <span class="custom-switch-indicator me-3"></span> #}
-{#                             <span class="custom-switch-description mg-l-10">Autres Formations</span> #}
-{#                         </label> #}
-{#                     </div> #}
-{#                 </div> #}
             </div>
 
             {# Outils informatiques #}
@@ -277,26 +253,33 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <div class="card-title">Autres informations(Connaissance / Atouts )</div>
+                    <div class="card-title">Autres informations(Autres exigences/Atouts)</div>
                 </div>
                 <div class="card-body">
                     <div class="form-group mg-b-10" >
                         <label class="custom-switch ps-0">
                             <input type="checkbox" name="connaissance" class="custom-switch-input" id="connaissance">
                             <span class="custom-switch-indicator me-3"></span>
-                            <span class="custom-switch-description mg-l-10">Connaissance/Atouts</span>
+                            <span class="custom-switch-description mg-l-10">Autres informations/Atouts</span>
                             <input type="text" hidden name="poste_connaissance" id="poste_connaissance">
                         </label>
-
                         <div class=" d-none mt-3" id="form-connaissance">
                             <div class="row">
-                                <div class="col-5">
+                                <div class="col-4">
                                     <input type="text" class="form-control ml-4"  placeholder="Nom de la colonne" id="nomConnaissance">
                                 </div>
-                                <div class="col-5">
+                                <div class="col-4">
                                     <input type="text" class="form-control ml-4"  placeholder="Expérience/Formation/Atouts" id="domaineConnaissance">
                                 </div>
-                                <div class="col-2">
+                                <div class="col-3">
+                                    <select name="type-autre-informations" id="type-autre-informations" class="form-control form-select">
+                                        <option value="">Séletionner le type de l'information</option>
+                                        {% for type in type_autre_information %}
+                                            <option value="{{ type.codeReference }}">{{ type.libelle }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-1">
                                     <button type="button" class="btn btn-primary p-1" id="add-connaissance">
                                         <i class="fa fa-plus"></i>
                                     </button>
@@ -306,6 +289,7 @@
                                         <thead>
                                             <th>Nom de la colonne</th>
                                             <th>Expériance/Formation/Atouts</th>
+                                            <th>Type de l'information</th>
                                             <th class="btn-action">Actions</th>
                                         </thead>
                                         <tbody>
@@ -442,9 +426,11 @@
         $('#add-connaissance').on('click', function(){
             var nomConnaissance = $('#nomConnaissance').val().trim();
             var domaineConnaissance= $('#domaineConnaissance').val().trim()
-            var html = "<tr class='line'><td class='nomConnaissance'>"+ nomConnaissance +"</td><td class='domaineConnaissance'>"+domaineConnaissance+"</td><td><button type='button' class='btn btn-danger p-1 delete-connaissance'><i class='fa fa-minus'></i></td></tr>";
+            var type = $("#type-autre-informations").find('option:selected').text();
+            var typeCode = $("#type-autre-informations").val();
+            var html = "<tr class='line'><td class='nomConnaissance'>"+ nomConnaissance +"</td><td class='domaineConnaissance'>"+domaineConnaissance+"</td><td class='type'>"+ type  +"</td><td class='typeCode' hidden>"+typeCode+"</td><td><button type='button' class='btn btn-danger p-1 delete-connaissance'><i class='fa fa-minus'></i></button></td></tr>";
             $('#table-connaissance tbody .line').each(function(i){
-                if($(this).find('.nomConnaissance').text() === nomConnaissance && $(this).find('.domaineConnaissance').text() === domaineConnaissance){
+                if($(this).find('.nomConnaissance').text() === nomConnaissance && $(this).find('.domaineConnaissance').text() === domaineConnaissance &&  $(this).find('.type').text() === type ){
                     warning_noti("Vous ne pouvez plus ajouter cette ligne")
                     system.stop()
                     return  false;
@@ -452,6 +438,17 @@
             })
             if(nomConnaissance === ""){
                 warning_noti("Renseigner un nom valide")
+                system.stop()
+                return  false;
+            }
+            if(domaineConnaissance === ""){
+                warning_noti("Renseigner une valeur valide")
+                system.stop()
+                return  false;
+            }
+            
+            if(type === "Séletionner le type de l'information"){
+                warning_noti("Veuillez choisir un type valide")
                 system.stop()
                 return  false;
             }
@@ -589,9 +586,11 @@
             $('#table-connaissance tbody .line').each(function(i){
                 var nomConnaissance = $(this).find('.nomConnaissance').text()
                 var domaineConnaissance = $(this).find('.domaineConnaissance').text()
+                var type = $(this).find('.typeCode').text();
                 var objetConnaissance = {
                     'nom' : nomConnaissance,
-                    'domaine' : domaineConnaissance
+                    'domaine' : domaineConnaissance,
+                    'type' : type
                 }
                 connaissances.push(objetConnaissance)
             })

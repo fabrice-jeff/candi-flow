@@ -12,6 +12,8 @@ use App\Form\PosteType;
 use App\Repository\AutreInformationRepository;
 use App\Repository\NiveauEtudeRepository;
 use App\Repository\PosteRepository;
+use App\Repository\TypeTypeRepository;
+use App\Utils\Constants\FixedValuesConstants;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,6 +27,13 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/poste')]
 class PosteController extends AbstractController
 {
+    private TypeTypeRepository $typeTypeRepository;
+
+    public function __construct(TypeTypeRepository $typeTypeRepository)
+    {
+        $this->typeTypeRepository = $typeTypeRepository;
+    }
+
     #[Route('/', name: 'app_poste_index', methods: ['GET'])]
     public function index(PosteRepository $posteRepository): Response
     {
@@ -36,6 +45,7 @@ class PosteController extends AbstractController
     #[Route('/new', name: 'app_poste_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, NiveauEtudeRepository $niveauEtudeRepository,): Response
     {
+        $typeAutreInformation = $this->typeTypeRepository->findBy(['parent' => FixedValuesConstants::TYPE_AUTRE_INFORMATION]);
         $poste = new Poste();
         $form = $this->createForm(PosteType::class);
         $form->handleRequest($request);
@@ -97,13 +107,14 @@ class PosteController extends AbstractController
             }
             if($request->get('connaissance')){
                 $critere->setAutreInformation(true);
-                //Enregistrer les connaisances
+                //Enregistrer les autres informations( Autres exigences ou Atouts)
                 $autresInformations = json_decode($request->get('poste_connaissance'));
-
                 foreach ($autresInformations as $objet) {
+                    $type =  $this->typeTypeRepository->findOneBy(['codeReference'=>$objet->type]);
                     $autreInformation = (new AutreInformation())
                         ->setNomColonne($objet->nom)
                         ->setInformation($objet->domaine)
+                        ->setTypeType($type)
                         ->setPoste($poste);
                     $entityManager->persist($autreInformation);
                 }
@@ -123,6 +134,7 @@ class PosteController extends AbstractController
         }
 
         return $this->render('poste/new.html.twig', [
+            'type_autre_information'  => $typeAutreInformation,
             'poste' => $poste,
             'form' => $form,
         ]);
@@ -131,9 +143,12 @@ class PosteController extends AbstractController
     #[Route('/update/{code}', name: 'app_poste_update', methods: ['GET', 'POST'])]
     public function update(Request $request, EntityManagerInterface $entityManager, NiveauEtudeRepository $niveauEtudeRepository,AutreInformationRepository $autreInformationRepository, Poste $poste): Response
     {
+        $typeAutreInformation = $this->typeTypeRepository->findBy(['parent' => FixedValuesConstants::TYPE_AUTRE_INFORMATION]);
+
         $form = $this->createForm(PosteType::class, $poste);
         $form->handleRequest($request);
         $informationComplementaires =  $autreInformationRepository->findBy(['deleted' => false, 'poste' =>$poste]);
+//        dd($informationComplementaires);
         if ($form->isSubmitted() && $form->isValid()) {
 
             $poste->getCritere()->setDeleted(false);
@@ -198,11 +213,12 @@ class PosteController extends AbstractController
                 $critere->setAutreInformation(true);
                 //Enregistrer les connaisances
                 $autresInformations = json_decode($request->get('poste_connaissance'));
-
                 foreach ($autresInformations as $objet) {
+                    $type =  $this->typeTypeRepository->findOneBy(['codeReference'=>$objet->type]);
                     $autreInformation = (new AutreInformation())
                         ->setNomColonne($objet->nom)
                         ->setInformation($objet->domaine)
+                        ->setTypeType($type)
                         ->setPoste($poste);
                     $entityManager->persist($autreInformation);
                 }
@@ -222,6 +238,7 @@ class PosteController extends AbstractController
         }
 
         return $this->render('poste/update.html.twig', [
+            'type_autre_information'  => $typeAutreInformation,
             'poste' => $poste,
             'form' => $form,
             'autre_informations' => $informationComplementaires,

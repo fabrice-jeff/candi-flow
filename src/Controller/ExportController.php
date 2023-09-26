@@ -94,7 +94,8 @@ class ExportController extends AbstractController
             array_push($candidaturesArray, $objetCandidatures);
         }
         $data = [];
-
+        $colonne = ['A',' B','C', 'D', 'E','F', 'G', 'H','I','J', 'K', 'L', 'M', 'N','O', 'P', 'Q','R', 'S', 'T','U', 'V', 'W', 'X', 'Y', 'Z'];
+        $finColonne = '';
         foreach ($candidaturesArray as $item) {
             $formationsArray = "";
             foreach ($item['formations'] as $formation) {
@@ -121,27 +122,60 @@ class ExportController extends AbstractController
                 $parcoursSpecifiquesArray .= "-  " .$parcoursSpe->getLibelle()."\n";
             }
 
-            $candidature = [
-                'N°' =>$item['candidature']->getId(),
-                'Nom & Prénoms' => $item['candidature']->getNom(). " ".$item['candidature']->getPrenom(),
-                'Nationalité' => $item['candidature']->getNationalite(),
-                'Sexe' => $item['candidature']->getSexe(),
-                'Age' => $item['candidature']->getAge(),
-                'Diplôme/Niveau/Domaine' => $item['candidature']->getNiveauEtude()->getLibelle(). "/". $item['candidature']->getDomaine(),
-                'Autre formation pertinentes en lien avec le poste' =>$formationsArray,
-                "outils Informatiques\n(". $poste->getLogicielSpecifique().")" => ($item['candidature']->isLogicielSpecifique()) ? 'Oui': 'Non',
-                'Autres outils informatiques' => $outilsInformatiqueArray,
-                "Total expérience sur CV \n (Durée, Poste, Organisme)" =>$totalExperienceArray,
-                'Parcours profesionnels global' => $parcoursGlobalArray,
-                'Parcours profesionnels spécifique' =>  $parcoursSpecifiquesArray,
-            ];
-            $candidature = $this->autreInformation($candidature, $item['autre_information_candidatures']);
-            $candidature['Décision'] = ($item['candidature']->isDecision())? "Acceptée" : "Rejétée";
-            $candidature['Dossier complet'] = ($item['candidature']->isDossierComplet())? "Oui" : "Non";
-            $candidature['Justification de la Décision'] = $item['candidature']->getJustification();
-            $candidature["Contact\n(Téléphone et E-mail)"] = $item['candidature']->getContact(). "\n". $item['candidature']->getEmail();
+            $candidature = [];
+            $candidature['N°'] = $item['candidature']->getId();
+            if ($critere->isNomPrenoms()){
+                $candidature['Nom & Prénoms']  = $item['candidature']->getNom(). " ".$item['candidature']->getPrenom();
+            }
+            if($critere->isNationalite()){
+                $candidature['Nationalité']  = $item['candidature']->getNationalite();
+            }
+            if($critere->isSexe()){
+                $candidature['Sexe'] = $item['candidature']->getSexe();
+            }
 
-            dump($candidature);
+            if($critere->isAgeExige()){
+                $candidature['Age']  = $item['candidature']->getAge();
+            }
+            if($critere->isDiplome()){
+                $candidature['Diplôme/Niveau/Domaine'] = $item['candidature']->getNiveauEtude()->getLibelle(). "/". $item['candidature']->getDomaine();
+            }
+            if($critere->isFormationPoste()){
+                $candidature['Autre formation pertinentes en lien avec le poste']= $formationsArray;
+            }
+            if($critere->isLogicielSpecifique()){
+                $candidature["Outils Informatiques\n(". $poste->getLogicielSpecifique().")"] = ($item['candidature']->isLogicielSpecifique()) ? 'Oui': 'Non';
+            }
+            if($critere->isAutreOutils()){
+                $candidature['Autres outils informatiques'] = $outilsInformatiqueArray;
+            }
+            if($critere->isTotalExperiance()){
+                $candidature["Total expérience sur CV \n (Durée, Poste, Organisme)"] = $totalExperienceArray;
+            }
+            if($critere->isParcoursGlobal()){
+                $candidature["Parcours profesionnels global \n(". $poste->getDureeParcoursGlobal(). $poste->getPosteParcoursGlobal().")" ] = $parcoursGlobalArray;
+            }
+            if($critere->isParcoursSpecifique()){
+                $candidature["Parcours profesionnels spécifique\n(".$poste->getDureeParcoursGlobal(). $poste->getPosteParcoursGlobal().")"] = $parcoursSpecifiquesArray;
+            }
+            if($critere->isAutreInformation()){
+                $candidature = $this->autreInformation($candidature, $item['autre_information_candidatures']);
+            }
+            if($critere->isDecision()){
+                $candidature['Décision'] = ($item['candidature']->isDecision())? "Acceptée" : "Rejétée";
+            }
+            if($critere->isDossierComplet()){
+                $candidature['Dossier complet'] = ($item['candidature']->isDossierComplet())? "Oui" : "Non";
+            }
+            if($critere->isJustification()){
+                $candidature['Justification de la Décision'] = $item['candidature']->getJustification();
+            }
+            if($critere->isContact()){
+                $candidature["Contact\n(Téléphone et E-mail)"] = $item['candidature']->getContact(). "\n". $item['candidature']->getEmail();
+            }
+
+            $nombre = count($candidature);
+            $finColonne = $colonne[$nombre];
             array_push($data,$candidature);
         }
 
@@ -165,7 +199,7 @@ class ExportController extends AbstractController
 
         // Appliquer une couleur de fond à la première ligne (ligne d'en-tête)
         $this->export->getActiveSheet()
-            ->getStyle('A1:R1')
+            ->getStyle('A1:'.$finColonne.'1')
             ->getFill()
             ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
             ->getStartColor()
@@ -181,8 +215,13 @@ class ExportController extends AbstractController
             ->getStyle('1:1048576')
             ->getAlignment()
             ->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_TOP);
-
-        for ($col = 20; $col <= 16384; $col++) {
+        $key = 1;
+        for($i =0 ; $i<count($colonne); $i++){
+            if($colonne[$i] == $finColonne){
+                $key += $i;
+            }
+        }
+        for ($col = 50; $col <= 16384; $col++) {
             $columnLetter = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($col);
             $this->export->getActiveSheet()->getColumnDimension($columnLetter)->setVisible(false);
         }
@@ -197,7 +236,7 @@ class ExportController extends AbstractController
 
     private function autreInformation(Array $candidature, Array $autreInforCand){
         foreach ($autreInforCand as $item) {
-            $nomColonne = $item->getAutreInformation()->getNomColonne(). "\n(". $item->getAutreInformation()->getNomColonne(). ")";
+            $nomColonne = $item->getAutreInformation()->getNomColonne(). "\n(". $item->getAutreInformation()->getInformation(). ")";
             if($item->isChecked()){
                 $candidature[$nomColonne] = 'Oui';
             }

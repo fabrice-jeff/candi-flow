@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Candidature index{% endblock %}
+{% block title %} CandiFlow | Candidature à traiter {% endblock %}
 
 {% block breadcrumb_title %}
     <div class="page-header">
         <h1 class="page-title">
-            Liste des candidatures en attente de traitement
+            Liste des candidatures à traiter
         </h1>
         <div>
             <ol class="breadcrumb">
@@ -38,12 +38,11 @@
                                     {% if critere.sexe == 1 %}
                                         <th style="vertical-align: top;">Sexe</th>
                                     {% endif %}
-                                    <th style="vertical-align: top;">Age <br>(
-                                        {% if critere.ageExige == 1 %}
-                                            {{ poste.age }}
-                                        {% endif %})
-                                    </th>
-                                    
+                                    {% if critere.ageExige == 1 %}
+                                        <th style="vertical-align: top;">Age<br>
+                                            ({{ poste.age }})
+                                        </th>
+                                    {% endif %}
                                     {% if critere.diplome == 1 %}
                                         <th style="vertical-align: top;">Diplôme/Niveau/Domaine <br> ({{ poste.niveauEtude.libelle }})</th>
                                     {% endif %}
@@ -97,8 +96,9 @@
                                         {% if critere.sexe == 1 %}
                                             <td>{{ candidature.candidature.sexe }}</td>
                                         {% endif %}
-                                        <td>{{ candidature.candidature.age ~ " ans" }}</td>
-                                        
+                                        {% if critere.ageExige == 1 %}
+                                            <td>{{ candidature.candidature.age ~ " ans" }}</td>
+                                        {% endif %}
                                         {% if critere.diplome == 1 %}
                                             <td>{{ candidature.candidature.niveauEtude.libelle ~ "/"~ candidature.candidature.domaine }}</td>
                                         {% endif %}
@@ -133,7 +133,7 @@
                                             <td>
                                                 <ul>
                                                     {% for experience in candidature.total_experience  %}
-                                                        {% if experience.precisionPoste is null %}
+                                                        {% if experience.precisionPoste == "" %}
                                                             <li> - {{ experience.duree ~ "," ~experience.poste ~ ", "~ experience.organisme }}</li>
                                                         {% else %}
                                                             <li> - {{ experience.duree ~ "," ~experience.poste ~ ", "~ experience.organisme ~ "("~experience.precisionPoste~ ")" }}</li>
@@ -182,10 +182,10 @@
                                             </td>
                                         {% endif %}
                                         <td class="">
-                                            <button class="btn text-center bg-info">
+                                            <button class="btn text-center bg-warning">
                                                 <div id="modal5">
                                                     <a class="modal-effect showModal" data-bs-effect="effect-super-scaled" data-code="{{ candidature.candidature.code }}" data-bs-toggle="modal" href="#modaldemo8">
-                                                        <i class="fa fa-edit"></i>
+                                                        <i class="fa fa-edit text-white"></i>
                                                     </a>
                                                 </div>
                                             </button>
@@ -210,81 +210,88 @@
                                     <input type="hidden" id="code-candidature" name="code-candidature">
                                     <input type="hidden" id="pieces-manquantes" name="pieces-manquantes">
                                     <div class="container">
-                                        <div class="card-body">
-                                            <div class="modal-title">Décision(Refusé/Accepté)</div>
-                                            <ul class="row p-3">
-                                                <li class="col-lg-6 mb-2">
-                                                    <a class="btn btn-country btn-lg btn-block p-2 text-center text-capitalize">
-                                                        <label class="custom-switch ps-0">
-                                                            <input type="checkbox" name="refuse" class="custom-switch-input" id="refuse">
-                                                            <span class="custom-switch-indicator me-3"></span>
-                                                            <span class="custom-switch-description mg-l-10">Rejétée</span>
-                                                        </label>
-                                                    </a>
-                                                </li>
-                                                <li class="col-lg-6 mb-2">
-                                                    <a class="btn btn-country btn-lg btn-block p-2 text-center text-capitalize">
-                                                        <label class="custom-switch ps-0">
-                                                            <input type="checkbox" name="accepte" class="custom-switch-input" id="accepte">
-                                                            <span class="custom-switch-indicator me-3"></span>
-                                                            <span class="custom-switch-description mg-l-10">Acceptée</span>
-                                                        </label>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                       
-                                        <div class="card-body">
-                                            <div class="modal-title">Dossier complet ?</div>
-                                            <ul class="row p-3">
-                                                <li class="col-lg-6 mb-2">
-                                                    <a class="btn btn-country btn-lg btn-block p-2 text-center text-capitalize">
-                                                        <label class="custom-switch ps-0">
-                                                            <input type="checkbox" name="non" class="custom-switch-input" id="non">
-                                                            <span class="custom-switch-indicator me-3"></span>
-                                                            <span class="custom-switch-description mg-l-10">Non</span>
-                                                        </label>
-                                                    </a>
-                                                </li>
-                                                <li class="col-lg-6 mb-2">
-                                                    <a class="btn btn-country btn-lg btn-block p-2 text-center text-capitalize">
-                                                        <label class="custom-switch ps-0">
-                                                            <input type="checkbox" name="oui" class="custom-switch-input" id="oui">
-                                                            <span class="custom-switch-indicator me-3"></span>
-                                                            <span class="custom-switch-description mg-l-10">Oui</span>
-                                                        </label>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                            <div id="piece-manquant" class="d-none">
-                                                <div class="row">
-                                                    <div class="col-9">
-                                                        <input type="text" class="form-control ml-4"  placeholder="Nom de la pièce" id="piece">
-                                                    </div>
-                                                   
-                                                    <div class="col-3">
-                                                        <button type="button" class="btn btn-primary p-1 pl-2 pr-2 mt-1" id="add-piece">
-                                                            Ajouter
-                                                        </button>
-                                                    </div>
-                                                    <div class="p-5 col-12">
-                                                        <table class="table table-bordered" id="table-piece">
-                                                            <thead>
+                                        {% if critere.decision == 1 %}
+                                            <div class="card-body">
+                                                <div class="modal-title">Décision(Refusé/Accepté)</div>
+                                                <ul class="row p-3">
+                                                    <li class="col-lg-6 mb-2">
+                                                        <a class="btn btn-country btn-lg btn-block p-2 text-center text-capitalize">
+                                                            <label class="custom-switch ps-0">
+                                                                <input type="checkbox" name="refuse" class="custom-switch-input" id="refuse">
+                                                                <span class="custom-switch-indicator me-3"></span>
+                                                                <span class="custom-switch-description mg-l-10">Rejétée</span>
+                                                            </label>
+                                                        </a>
+                                                    </li>
+                                                    <li class="col-lg-6 mb-2">
+                                                        <a class="btn btn-country btn-lg btn-block p-2 text-center text-capitalize">
+                                                            <label class="custom-switch ps-0">
+                                                                <input type="checkbox" name="accepte" class="custom-switch-input" id="accepte">
+                                                                <span class="custom-switch-indicator me-3"></span>
+                                                                <span class="custom-switch-description mg-l-10">Acceptée</span>
+                                                            </label>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        {% endif %}
+    
+                                        {% if critere.dossierComplet == 1 %}
+                                            <div class="card-body">
+                                                <div class="modal-title">Dossier complet ?</div>
+                                                <ul class="row p-3">
+                                                    <li class="col-lg-6 mb-2">
+                                                        <a class="btn btn-country btn-lg btn-block p-2 text-center text-capitalize">
+                                                            <label class="custom-switch ps-0">
+                                                                <input type="checkbox" name="non" class="custom-switch-input" id="non">
+                                                                <span class="custom-switch-indicator me-3"></span>
+                                                                <span class="custom-switch-description mg-l-10">Non</span>
+                                                            </label>
+                                                        </a>
+                                                    </li>
+                                                    <li class="col-lg-6 mb-2">
+                                                        <a class="btn btn-country btn-lg btn-block p-2 text-center text-capitalize">
+                                                            <label class="custom-switch ps-0">
+                                                                <input type="checkbox" name="oui" class="custom-switch-input" id="oui">
+                                                                <span class="custom-switch-indicator me-3"></span>
+                                                                <span class="custom-switch-description mg-l-10">Oui</span>
+                                                            </label>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                                <div id="piece-manquant" class="d-none">
+                                                    <div class="row">
+                                                        <div class="col-9">
+                                                            <input type="text" class="form-control ml-4"  placeholder="Nom de la pièce" id="piece">
+                                                        </div>
+                
+                                                        <div class="col-3">
+                                                            <button type="button" class="btn btn-primary p-1 pl-2 pr-2 mt-1" id="add-piece">
+                                                                Ajouter
+                                                            </button>
+                                                        </div>
+                                                        <div class="p-5 col-12">
+                                                            <table class="table table-bordered" id="table-piece">
+                                                                <thead>
                                                                 <th>Nom de la pièce</th>
                                                                 <th class="btn-action">Actions</th>
-                                                            </thead>
-                                                            <tbody>
-            
-                                                            </tbody>
-                                                        </table>
+                                                                </thead>
+                                                                <tbody>
+                        
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="card-body">
-                                            {{ form_row(form.justification) }}
-                                        </div>
+                                        {% endif %}
     
+                                        {% if critere.justification %}
+                                            <div class="card-body">
+                                                {{ form_row(form.justification) }}
+                                            </div>
+                                        {% endif %}
+                                        
                                         <div class="modal-footer">
                                             <button class="btn btn-primary" type="submit" id="enregistrer">Enregistrer</button>
                                             <button class="btn btn-light" data-bs-dismiss="modal">Fermer</button>

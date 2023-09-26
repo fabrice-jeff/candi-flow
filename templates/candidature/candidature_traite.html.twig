@@ -25,17 +25,8 @@
 				<div class="card-body">
 					<div class="d-flex justify-content-between export">
 						<h3><span>Poste</span>: {{ poste.libelle }}</h3>
-						<div class="row w-15 mb-4 export-content">
- 							
- 							<div class="col-4">
- 								<a  class="" ><span>word</span> <i class="fa fa-file-word-o"></i></a>
- 							</div>
-							<div class="col-4">
-								<a href="{{ path('app_export_excel',{code: poste.code}) }}" class="" id="exportWord"><span>excel</span><i class="fa fa-file-excel-o"></i></a>
-							</div>
- 							<div class="col-4">
- 								<a  class=""><span>pdf</span> <i class="fa bi-file-pdf"></i></a>
- 							</div>
+						<div class="">
+							<a href="{{ path('app_export_excel',{code: poste.code}) }}" class=" btn btn-primary" id="exportWord"><span>Télecharger  </span><i class="fa fa-download"></i></a>
 						</div>
 					</div>
 					<div class="table-responsive">
@@ -52,12 +43,13 @@
 								{% if critere.sexe == 1 %}
 									<th style="vertical-align: top;">Sexe</th>
 								{% endif %}
-								<th style="vertical-align: top;">Age <br>(
-									{% if critere.ageExige == 1 %}
-										{{ poste.age }}
-									{% endif %})
-								</th>
-								
+								{% if critere.ageExige == 1 %}
+									<th style="vertical-align: top;">Age <br>
+										{% if critere.ageExige == 1 %}
+											({{ poste.age }})
+										{% endif %}
+									</th>
+								{% endif %}
 								{% if critere.diplome == 1 %}
 									<th style="vertical-align: top;">Diplôme/Niveau/Domaine <br> ({{ poste.niveauEtude.libelle }})</th>
 								{% endif %}
@@ -162,7 +154,7 @@
 										<td>
 											<ul>
 												{% for experience in candidature.total_experience  %}
-													{% if experience.precisionPoste is null %}
+													{% if experience.precisionPoste == "" %}
 														<li> - {{ experience.duree ~ "," ~experience.poste ~ ", "~ experience.organisme }}</li>
 													{% else %}
 														<li> - {{ experience.duree ~ "," ~experience.poste ~ ", "~ experience.organisme ~ "("~experience.precisionPoste~ ")" }}</li>

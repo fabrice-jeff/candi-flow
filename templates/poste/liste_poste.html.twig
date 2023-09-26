@@ -1,34 +1,37 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Poste index{% endblock %}
+{% block title %}CandiFlow | Liste des postes{% endblock %}
 
 
 {% block breadcrumb_title %}
     <div class="page-header">
-        <h1 class="page-title">Liste postes</h1>
+        <h1 class="page-title">Liste des postes</h1>
         <div>
             <ol class="breadcrumb">
-                <a href="{{ path('app_home') }}" class="table-hover btn btn-primary">Retour</a>
+                <a href="{{ path('app_dashboard') }}" class="table-hover btn btn-primary">Retour</a>
             </ol>
         </div>
     </div>
 {% endblock %}
 
 {% block content %}
+    
     <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
             <div class="card">
                 <div class="card-body">
-                    <div class="table-responsive">
+                    <div class="table-responsive ">
                         <table class="table table-bordered">
                             <thead>
                             <tr>
                                 <th>Actions</th>
-                                <th>Libelle</th>
-                                <th>Domaine</th>
+                                <th>Nom du poste</th>
+                                <th>Date limite pour le poste</th>
                                 <th>Niveau d'étude</th>
+                                <th>Domaine</th>
                                 <th>Logiciel spécifique</th>
-                                <th>Age</th>
+                                <th>Nombre de formation limite</th>
+                                <th>Age exigé</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -39,17 +42,17 @@
                                             <button type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                             </button>
                                             <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item " href="{{ path('app_candidature_index', {code:poste.code}) }}" >Candidactures à traiter</a></li>
-                                                <li><a class="dropdown-item " href="{{ path('app_candidature_traite', {code:poste.code}) }}" >Candidactures traitées</a></li>
+                                                <li><a class="dropdown-item" href="{{ path('app_candidature_index', {code:poste.code}) }}">Candidactures à traiter </a></li>
+                                                <li><a class="dropdown-item" href="{{ path('app_candidature_traite', {code:poste.code}) }}" >Candidactures traitées</a></li>
                                             </ul>
                                         </div>
                                     </td>
                                     <td>{{ poste.libelle }}</td>
                                     <td>
-                                        {% if poste.domaine is null %}
+                                        {% if poste.dateFin is null %}
                                             Non précisé
                                         {% else %}
-                                            {{ poste.domaine }}
+                                            {{ poste.dateFin | date('d/m/Y') }}
                                         {% endif %}
                                     </td>
                                     <td>
@@ -59,11 +62,27 @@
                                             {{ poste.niveauEtude }}
                                         {% endif %}
                                     </td>
+                                    
+                                    <td>
+                                        {% if poste.domaine is null %}
+                                            Non précisé
+                                        {% else %}
+                                            {{ poste.domaine }}
+                                        {% endif %}
+                                    </td>
+                                    
                                     <td>
                                         {% if poste.logicielSpecifique is null %}
                                             Non précisé
                                         {% else %}
                                             {{ poste.logicielSpecifique }}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if poste.nombreFormation is null %}
+                                            Non précisé
+                                        {% else %}
+                                            {{ poste.nombreFormation }}
                                         {% endif %}
                                     </td>
                                     <td>
@@ -86,7 +105,7 @@
             </div>
         </div>
     </div>
-    
+
 {% endblock %}
 
 {% block javascripts %}

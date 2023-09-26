@@ -66,23 +66,20 @@
                         </label>
                     </div>
                 </div>
-                <div class="card-body">
-                    <div class="form-group mg-b-10">
-                        <label class="custom-switch ps-0">
-                            <input type="checkbox" name="date-naissance" class="custom-switch-input" id="date-naissance">
-                            <span class="custom-switch-indicator me-3"></span>
-                            <span class="custom-switch-description mg-l-10">Date de Naissance</span>
-                        </label>
-                        <div class="mt-3 d-none" id="form-date-naissance">
-                            <div class="input-group" >
-                                <div class="input-group-text">
-                                    <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
-                                </div>
-                                <input class="form-control fc-datepicker" placeholder="Date de Fin" type="text" name="dateFin" id="dateFin">
-                            </div>
-                        </div>
-                    </div>
-                </div>
+{#                 <div class="card-body"> #}
+{#                     <div class="form-group mg-b-10"> #}
+{#                         <label class="custom-switch ps-0"> #}
+{#                             <input type="checkbox" name="date-naissance" class="custom-switch-input" id="date-naissance"> #}
+{#                             <span class="custom-switch-indicator me-3"></span> #}
+{#                             <span class="custom-switch-description mg-l-10">Date de Naissance</span> #}
+{#                         </label> #}
+{#                         <div class="mt-3 d-none" id="form-date-naissance"> #}
+{#                             <div class="input-group" > #}
+{#                                  #}
+{#                             </div> #}
+{#                         </div> #}
+{#                     </div> #}
+{#                 </div> #}
                 
                 <div class="card-body">
                     <div class="form-group mg-b-10" >
@@ -91,9 +88,15 @@
                             <span class="custom-switch-indicator me-3"></span>
                             <span class="custom-switch-description mg-l-10">Age exigé</span>
                         </label>
-                         <div class=" d-none mt-3" id="formaAge">
-                             <div class="">
+                         <div class=" d-none mt-3 row" id="formaAge">
+                             <div class="col-lg-6 col-md-12">
                                  {{form_row(form.age)}}
+                             </div>
+                             <div class="input-group col-lg-6 col-md-12">
+                                 <div class="input-group-text">
+                                     <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
+                                 </div>
+                                 <input class="form-control fc-datepicker" placeholder="Date Fin" type="text" name="date_naissance">
                              </div>
                          </div>
                     </div>

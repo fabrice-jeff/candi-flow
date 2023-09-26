@@ -55,7 +55,7 @@
                                 {{form_row(form.contact)}}
                             </div>
                         {% endif %}
-                        {% if poste.critere.dateNissance == 1 %}
+                        {% if poste.critere.ageExige == 1 %}
                             <div class="form-group col-lg-6 col-md-12">
                                 <label>Date de Naissance</label>
                                 <div class="input-group">
@@ -79,8 +79,6 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        
-                       
                         {% if poste.critere.diplome == 1 %}
                             <div class="col-12" id="niveauEtude">
                                 {{form_row(form.niveauEtude)}}
@@ -101,8 +99,6 @@
                                 </ul>
                             </div>
                         {% endif %}
-                        
-                       
                         
                         {% if poste.critere.formationPoste == 1 %}
                             <div class="form-group col-12">
@@ -145,16 +141,15 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                                <div class="">Maîtriser vous le logiciel {{poste.logicielSpecifique}} ?</div>
-                                <div class="d-flex">
-                                    <span class="p-4">Non</span>
-                                    <label class="custom-switch ">
-                                        <input type="checkbox" class="ml-3 custom-switch-input" name="logiciel-specifique">
-                                        <span class="custom-switch-indicator me-3"></span>
-                                    </label>
-                                    <span class="p-4">Oui</span>
-                                </div>
-                           
+                            <div class="">Maîtriser vous le logiciel {{poste.logicielSpecifique}} ?</div>
+                            <div class="d-flex">
+                                <span class="p-4">Non</span>
+                                <label class="custom-switch ">
+                                    <input type="checkbox" class="ml-3 custom-switch-input" name="logiciel-specifique">
+                                    <span class="custom-switch-indicator me-3"></span>
+                                </label>
+                                <span class="p-4">Oui</span>
+                            </div>
                         </div>
                     </div>
                     <div class="card-body">
@@ -364,27 +359,32 @@
                             <span class="p-4">Oui</span>
                         </div>
                     </div>
+    
+                    {% for atout in critere_atout %}
+                        {% if atout.critere_atouts.autreInformation ==  infos %}
+                            <div class="card-body">
+                                <div class="card mt-3">
+                                    <ul class="list-group">
+                                        {% for item in atout['atouts'] %}
+                                            <li class="list-group-item">
+                                                <div class="row">
+                                                    <div class="col-10">
+                                                        <label for="{{ item.code }}">{{ item.libelle }}</label>
+                                                    </div>
+                                                    <div class="col-2 pt-4">
+                                                        <div class="material-switch pull-right">
+                                                            <input value="{{ item.code }}" id="{{ item.code }}" name="atout-{{ atout.critere_atouts.code }}" type="radio"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
                 {% endfor %}
-                <div class="card-body">
-                    <div class="card mt-3">
-                        <ul class="list-group">
-                            {% for atout in critere_atout %}
-                                <li class="list-group-item">
-                                    <div class="row">
-                                        <div class="col-10">
-                                            <label for="{{ atout.code }}">{{ atout.libelle }}</label>
-                                        </div>
-                                        <div class="col-2 pt-4">
-                                            <div class="material-switch pull-right">
-                                                <input value="{{ atout.code }}" id="{{ atout.code }}" name="atout" type="radio"/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                </div>
             </div>
         </div>
         {% endif %}
@@ -527,6 +527,54 @@
     
             $('#enregistrer').on('click', function (e){
                 e.preventDefault()
+                
+                // Controls sur les champs
+                {% if poste.critere.nomPrenoms == 1 %}
+                    if($('#candidature_nom').val().trim() === ""){
+                        warning_noti('Vous devez renseigner une valeur')
+                        system.stop()
+                        return  false
+                    }
+    
+                    if($('#candidature_prenom').val().trim() === ""){
+                        warning_noti('Vous devez renseigner une valeur')
+                        system.stop()
+                        return  false
+                    }
+                {% endif %}
+                {% if poste.critere.nationalite == 1 %}
+                    if($('#candidature_nationalite').val().trim() === ""){
+                        warning_noti('Vous devez renseigner une valeur')
+                        system.stop()
+                        return  false
+                    }
+                {% endif %}
+    
+                {% if poste.critere.sexe == 1 %}
+                    if($('#candidature_sexe').val().trim() === ""){
+                        warning_noti('Vous devez renseigner une valeur')
+                        system.stop()
+                        return  false
+                    }
+                {% endif %}
+    
+                {% if poste.critere.contact == 1 %}
+                    if($('#candidature_email').val().trim() === ""){
+                        warning_noti('Vous devez renseigner une valeur')
+                        system.stop()
+                        return  false
+                    }
+    
+                    if($('#candidature_contact').val().trim() === ""){
+                        warning_noti('Vous devez renseigner une valeur')
+                        system.stop()
+                        return  false
+                    }
+                {% endif %}
+    
+    
+    
+    
                 //Formation pertinentes  en lien avec le poste
                 $('#table_formation_poste .line').each(function (){
                     formationPostes.push($(this).find('.formation_poste').text());

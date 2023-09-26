@@ -46,16 +46,10 @@ class PosteController extends AbstractController
             ($request->get('nationalite')) ? $critere->setNationalite(true) : $critere->setNationalite(false);
             ($request->get('sexe')) ? $critere->setSexe(true) : $critere->setSexe(false);
 
-            if($request->get('date-naissance')){
-                $critere->setDateNissance(true);
-                $poste->setDateFin((new \DateTime($request->get('dateFin'))));
-            }else{
-                $critere->setDateNissance(false);
-            }
-
             if($request->get('ageExige')){
                 $critere->setAgeExige(true);
                 $poste->setAge($request->get('poste')['age']);
+                $poste->setDateFin((new \DateTime($request->get('dateFin'))));
             }
             else{
                 $critere->setAgeExige(false);
@@ -151,16 +145,10 @@ class PosteController extends AbstractController
             ($request->get('nationalite')) ? $critere->setNationalite(true) : $critere->setNationalite(false);
             ($request->get('sexe')) ? $critere->setSexe(true) : $critere->setSexe(false);
 
-            if($request->get('date-naissance')){
-                $critere->setDateNissance(true);
-                $poste->setDateFin((new \DateTime($request->get('dateFin'))));
-            }else{
-                $critere->setDateNissance(false);
-            }
-
             if($request->get('ageExige')){
                 $critere->setAgeExige(true);
                 $poste->setAge($request->get('poste')['age']);
+                $poste->setDateFin((new \DateTime($request->get('dateFin'))));
             }
             else{
                 $critere->setAgeExige(false);
@@ -244,7 +232,7 @@ class PosteController extends AbstractController
     public function listePoste(PosteRepository $posteRepository): Response
     {
         return $this->render('poste/liste_poste.html.twig', [
-            'postes' => $posteRepository->findAll(),
+            'postes' => $posteRepository->findBy(['deleted' => false]),
         ]);
     }
 }

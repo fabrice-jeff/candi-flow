@@ -23,6 +23,12 @@ class MatriceEvaluation
     #[ORM\JoinColumn(nullable: false)]
     private ?Poste $poste = null;
 
+    #[ORM\Column]
+    private ?bool $critereAtout = null;
+
+    #[ORM\Column]
+    private ?bool $critereExigence = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -36,6 +42,30 @@ class MatriceEvaluation
     public function setPoste(?Poste $poste): static
     {
         $this->poste = $poste;
+
+        return $this;
+    }
+
+    public function isCritereAtout(): ?bool
+    {
+        return $this->critereAtout;
+    }
+
+    public function setCritereAtout(bool $critereAtout): static
+    {
+        $this->critereAtout = $critereAtout;
+
+        return $this;
+    }
+
+    public function isCritereExigence(): ?bool
+    {
+        return $this->critereExigence;
+    }
+
+    public function setCritereExigence(bool $critereExigence): static
+    {
+        $this->critereExigence = $critereExigence;
 
         return $this;
     }

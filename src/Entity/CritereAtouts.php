@@ -29,6 +29,8 @@ class CritereAtouts
     #[ORM\JoinColumn(nullable: false)]
     private ?AutreInformation $autreInformation = null;
 
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -60,6 +62,7 @@ class CritereAtouts
 
         return $this;
     }
+
 
 
 }

@@ -13,7 +13,9 @@
         </div>
     </div>
 {% endblock %}
-{% block title %}New MatriceEvaluationCv{% endblock %}
+
+{% block title %}CandiFlow|Création de la matrice d'évaluation{% endblock %}
+
 {% block stylesheets %}
     <style>
     
@@ -23,7 +25,7 @@
             font-size: 10px;
             max-height: 40px;
         }
-        .bareme {
+        .bareme,.bareme-autre-information{
             width: 60px;
         }
     </style>
@@ -123,76 +125,75 @@
         </div>
     
         <div class="card">
-            <div class="card-body">
-                <div class="panel-group1" id="accordion1">
-                    <div class="panel panel-default">
-                        <div class="panel-heading1">
-                            <h4 class="panel-title1">
-                                <a class="accordion-toggle active" data-bs-toggle="collapse" data-bs-parent="#accordion" href="#collapseSix" aria-expanded="false">Les critères concernant les autres exigences</a>
-                            </h4>
-                        </div>
-                        <div id="collapseSix" class="panel-collapse collapse show" role="tabpanel" aria-expanded="true">
-                            <div class="panel-body">
-                                <input type="hidden" id="exigences" name="exigences">
-                                <div class="row mb-2">
-                                    <div class="col-11">
-                                        <input type="text" class="form-control" id="input-exigence" placeholder="Entrer le critère">
-                                    </div>
-                                    <div class="col-1">
-                                        <button type="button" class="btn btn-warning" id="add-exigence">
-                                            <i class="fa fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <table class="table table-bordered" id="table-exigence">
-                                    <tr>
-                                        <th>Les critères</th>
-                                        <th>Barèmes</th>
-                                        <th class="btn-action">Actions</th>
-                                    </tr>
-                                </table>
+            <div class="card-header">
+                <div class="form-group mg-b-10">
+                    <label class="custom-switch ps-0">
+                        <input type="checkbox" name="critere_exigence" class="custom-switch-input" id="critere_exigence">
+                        <span class="custom-switch-indicator me-3"></span>
+                        <span class="custom-switch-description mg-l-10">Critères concernant les autres exigences</span>
+                    </label>
+                </div>
+            </div>
+            <div class="card-body d-none" id="form-exigence">
+                <div class="container">
+                    <input type="hidden" id="exigences" name="exigences">
+                    {% for information_exigence in autre_informations_exigence %}
+                        <h5>{{ information_exigence.nomColonne }} : {{ information_exigence.information }}</h5>
+                        <div class="row mb-2">
+                            <div class="col-11">
+                                <input type="text" class="form-control" id="input-exigence-{{ information_exigence.code }}" placeholder="Entrer le critère">
+                            </div>
+                            <div class="col-1">
+                                <button type="button" class="btn btn-warning" id="add-exigence-{{ information_exigence.code }}">
+                                    <i class="fa fa-plus"></i>
+                                </button>
                             </div>
                         </div>
-                    </div>
+                        <table class="table table-bordered" id="table-exigence-{{ information_exigence.code }}">
+                            <tr>
+                                <th>Les critères</th>
+                                <th>Barèmes</th>
+                                <th class="btn-action">Actions</th>
+                            </tr>
+                        </table>
+                    {% endfor %}
+                    
                 </div>
             </div>
         </div>
-        
         <div class="card">
-            <div class="card-body">
-                <div class="panel-group1" id="accordion1">
-                    <div class="panel panel-default">
-                        <div class="panel-heading1">
-                            <h4 class="panel-title1">
-                                <a class="accordion-toggle active" data-bs-toggle="collapse" data-bs-parent="#accordion" href="#collapseServen" aria-expanded="false">Les critères concernant les atouts</a>
-                            </h4>
-                        </div>
-                        <div id="collapseServen" class="panel-collapse collapse show" role="tabpanel" aria-expanded="true">
-                            <div class="panel-body">
-                                <input type="hidden" id="atouts" name="atouts">
-                                {% for information in autre_informations %}
-                                    <h5>{{ information.nomColonne }} : {{ information.information }}</h5>
-                                    <div class="row mb-2">
-                                        <div class="col-11">
-                                            <input type="text" class="form-control" id="input-atout-{{ information.code }}" placeholder="Entrer le critère">
-                                        </div>
-                                        <div class="col-1">
-                                            <button type="button" class="btn btn-warning" id="add-atout-{{ information.code }}">
-                                                <i class="fa fa-plus"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <table class="table table-bordered" id="table-atout-{{ information.code }}">
-                                        <tr>
-                                            <th>Les critères</th>
-                                            <th>Barèmes</th>
-                                            <th class="btn-action">Actions</th>
-                                        </tr>
-                                    </table>
-                                {% endfor %}
+            <div class="card-header">
+                <div class="form-group mg-b-10">
+                    <label class="custom-switch ps-0">
+                        <input type="checkbox" name="critere_atout" class="custom-switch-input" id="critere_atout">
+                        <span class="custom-switch-indicator me-3"></span>
+                        <span class="custom-switch-description mg-l-10">Critères concernant les atouts</span>
+                    </label>
+                </div>
+            </div>
+            <div class="card-body d-none" id="form-atout">
+                <div class="container">
+                    <input type="hidden" id="atouts" name="atouts">
+                    {% for information_atout in autre_informations_atouts %}
+                        <h5>{{ information_atout.nomColonne }} : {{ information_atout.information }}</h5>
+                        <div class="row mb-2">
+                            <div class="col-11">
+                                <input type="text" class="form-control" id="input-atout-{{ information_atout.code }}" placeholder="Entrer le critère">
+                            </div>
+                            <div class="col-1">
+                                <button type="button" class="btn btn-warning" id="add-atout-{{ information_atout.code }}">
+                                    <i class="fa fa-plus"></i>
+                                </button>
                             </div>
                         </div>
-                    </div>
+                        <table class="table table-bordered" id="table-atout-{{ information_atout.code }}">
+                            <tr>
+                                <th>Les critères</th>
+                                <th>Barèmes</th>
+                                <th class="btn-action">Actions</th>
+                            </tr>
+                        </table>
+                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -210,8 +211,31 @@
         var exigences = [];
         var atouts = [];
         var atoutsArray = {};
+        var exigenceArray = {}
         
         $(document).ready(function(){
+            $('#critere_exigence').on('click', function (){
+                if( $('#critere_exigence').is(':checked')){
+                    $('#form-exigence').removeClass('d-none')
+                    $('#form-exigence').addClass('d-block')
+                }
+                else{
+                    $('#form-exigence').removeClass('d-block')
+                    $('#form-exigence').addClass('d-none')
+                }
+            })
+            
+            $('#critere_atout').on('click', function (){
+                if( $('#critere_atout').is(':checked')){
+                    $('#form-atout').removeClass('d-none')
+                    $('#form-atout').addClass('d-block')
+                }
+                else{
+                    $('#form-atout').removeClass('d-block')
+                    $('#form-atout').addClass('d-none')
+                }
+            })
+            
             // Ajouter des expériences
             $('#add-experience').on('click', function (){
                 let libelle = $('#input-experience').val().trim();
@@ -237,19 +261,33 @@
                 $('#table-exigence').append(html);
                 $('#input-exigence').val(" ")
             })
-    
+            
+            // Ajouter des exigences
+            {% for information_exigence in autre_informations_exigence %}
+            $('#add-exigence-{{ information_exigence.code }}').on('click', function (){
+                let libelle = $('#input-exigence-{{ information_exigence.code }}').val().trim();
+                if(libelle === ""){
+                    warning_noti("Veuillez renseigner une valeur")
+                    system.stop()
+                    return false;
+                }
+                let html = "<tr class='line'><td class='libelle'>"+ libelle +"</td><td class='bareme-autre-information'><input type='text' class='form-control'></td><td><button type='button' class='btn btn-danger p-1 delete-atout'><i class='fa fa-minus'></i></td></tr>";
+                $('#table-exigence-{{ information_exigence.code }}').append(html);
+                $('#input-exigence-{{ information_exigence.code }}').val(" ")
+            })
+            {% endfor %}
             // Ajouter des atout
-            {% for information in autre_informations %}
-                $('#add-atout-{{ information.code }}').on('click', function (){
-                    let libelle = $('#input-atout-{{ information.code }}').val().trim();
+            {% for information_atout in autre_informations_atouts %}
+                $('#add-atout-{{ information_atout.code }}').on('click', function (){
+                    let libelle = $('#input-atout-{{ information_atout.code }}').val().trim();
                     if(libelle === ""){
                         warning_noti("Veuillez renseigner une valeur")
                         system.stop()
                         return false;
                     }
-                    let html = "<tr class='line'><td class='libelle'>"+ libelle +"</td><td class='bareme'><input type='text' class='form-control'></td><td><button type='button' class='btn btn-danger p-1 delete-atout'><i class='fa fa-minus'></i></td></tr>";
-                    $('#table-atout-{{ information.code }}').append(html);
-                    $('#input-atout-{{ information.code }}').val(" ")
+                    let html = "<tr class='line'><td class='libelle'>"+ libelle +"</td><td class='bareme-autre-information'><input type='text' class='form-control'></td><td><button type='button' class='btn btn-danger p-1 delete-atout'><i class='fa fa-minus'></i></td></tr>";
+                    $('#table-atout-{{ information_atout.code }}').append(html);
+                    $('#input-atout-{{ information_atout.code }}').val(" ")
                 })
             {% endfor %}
     
@@ -269,23 +307,44 @@
             })
             
             
-            //Enregistrer
+            //Lors du click sur le bouton enregistrer
             $('#enregistrer').on('click', function (e){
                 e.preventDefault();
                 //Faire les contrôles sur les champs
-                if ($('table .line').length === 0){
+                if ($('table .line .bareme').length === 0){
                     return
                 }else{
-                    $('table .line').each(function (){
-                        if (isNaN(parseInt($(this).find('.bareme input').val().trim())) || parseInt($(this).find('.bareme input').val().trim()) < 0){
+                    $('table .line .bareme').each(function (){
+                        if (isNaN(parseInt($(this).find('input').val().trim())) || parseInt($(this).find('input').val().trim()) < 0){
                             warning_noti("Vous devez donner une note valide pour tous les critères")
                             system.stop()
                             return false;
                         }
                     })
                 }
-               
-        
+                
+                //Controls sur les atouts
+                if ($('#critere_atout').is(':checked')){
+                    $('#form-atout .line').each(function (){
+                        
+                        if (isNaN(parseInt($(this).find('.bareme-autre-information input').val().trim())) || parseInt($(this).find('.bareme-autre-information input').val().trim()) < 0){
+                            warning_noti("Vous devez donner une note valide pour tous les critères")
+                            system.stop()
+                            return false;
+                        }
+                    })
+                }
+                //Controls sur les exigences
+                if ($('#critere_exigence').is(':checked')){
+                    $('#form-exigence .line').each(function (){
+                        if (isNaN(parseInt($(this).find('.bareme-autre-information input').val().trim())) || parseInt($(this).find('.bareme-autre-information input').val().trim()) < 0){
+                            warning_noti("Vous devez donner une note valide pour tous les critères")
+                            system.stop()
+                            return false;
+                        }
+                    })
+                }
+                
                 //Les diplômes
                 $('#table-diplome .line').each(function (){
                     var diplome = {
@@ -305,25 +364,33 @@
                 })
         
                 //Les exigences
-                $('#table-exigence .line').each(function (){
-                    var exigence = {
-                        libelle :$(this).find('.libelle').text(),
-                        bareme : $(this).find('.bareme input').val(),
+                {% for information_exigence in autre_informations_exigence %}
+                    exigenceArray = {}
+                    exigenceArray = {
+                        autre_information : '{{ information_exigence.code }}',
+                        exigence : []
                     }
-                    exigences.push(exigence)
-                })
-        
+                    
+                    $('#table-exigence-{{ information_exigence.code }} .line').each(function (){
+                        var exigence = {
+                            libelle :$(this).find('.libelle').text(),
+                            bareme : $(this).find('.bareme-autre-information input').val(),
+                        }
+                        exigenceArray.exigence.push(exigence)
+                    })
+                    exigences.push(exigenceArray)
+                {% endfor %}
                 //Les Atouts
-                {% for information in autre_informations %}
+                {% for information_atout in autre_informations_atouts %}
                     atoutsArray = {}
                     atoutsArray = {
-                        autre_information : '{{ information.code }}',
+                        autre_information : '{{ information_atout.code }}',
                         atouts : []
                     }
-                    $('#table-atout-{{ information.code }} .line').each(function (){
+                    $('#table-atout-{{ information_atout.code }} .line').each(function (){
                         var atout = {
                             libelle :$(this).find('.libelle').text(),
-                            bareme : $(this).find('.bareme input').val(),
+                            bareme : $(this).find('.bareme-autre-information input').val(),
                         }
                         atoutsArray.atouts.push(atout)
                     })
@@ -334,6 +401,7 @@
                 $('#experiences').val(JSON.stringify(experiences))
                 $('#exigences').val(JSON.stringify(exigences))
                 $('#atouts').val(JSON.stringify(atouts))
+                
                 
                 //Soumettre le formulaire
                 $('#form-matrice').submit();

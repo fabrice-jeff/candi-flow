@@ -25,6 +25,9 @@
             font-size: 10px;
             max-height: 40px;
         }
+        .mise-en-forme{
+            width: 40px;
+        }
         .bareme,.bareme-autre-information{
             width: 60px;
         }
@@ -53,6 +56,7 @@
                                             Les critères
                                         </th>
                                         <th class="">Barèmes</th>
+                                        <th class="mise-en-forme">Mise en forme</th>
                                     </tr>
                                     <tr class="line">
                                         <td style="padding-top: 30px" class="libelle">
@@ -60,6 +64,13 @@
                                         </td>
                                         <td class="bareme">
                                             <input type="text" class="form-control">
+                                        </td>
+                                        <td class="text-center">
+                                            <label class="custom-switch ps-0">
+                                                <input type="checkbox" class="custom-switch-input showModal">
+                                                <span class="custom-switch-indicator me-3"></span>
+                                                <span class="custom-switch-description mg-l-10"></span>
+                                            </label>
                                         </td>
                                     </tr>
         
@@ -70,6 +81,13 @@
                                         <td class="bareme">
                                             <input type="text" class="form-control">
                                         </td>
+                                        <td class="text-center">
+                                            <label class="custom-switch ps-0">
+                                                <input type="checkbox" class="custom-switch-input showModal">
+                                                <span class="custom-switch-indicator me-3"></span>
+                                                <span class="custom-switch-description mg-l-10"></span>
+                                            </label>
+                                        </td>
                                     </tr>
         
                                     <tr class="line">
@@ -78,6 +96,13 @@
                                         </td>
                                         <td class="bareme">
                                             <input type="text" class="form-control">
+                                        </td>
+                                        <td class="text-center">
+                                            <label class="custom-switch ps-0">
+                                                <input type="checkbox" class="custom-switch-input showModal">
+                                                <span class="custom-switch-indicator me-3"></span>
+                                                <span class="custom-switch-description mg-l-10"></span>
+                                            </label>
                                         </td>
                                     </tr>
                                 </table>
@@ -111,11 +136,17 @@
                                     </div>
                                 </div>
                                 <table class="table table-bordered" id="table-experience">
-                                    <tr>
-                                        <th>Les critères</th>
-                                        <th class="">Barèmes</th>
-                                        <th class="btn-action">Actions</th>
-                                    </tr>
+                                    <thead>
+                                        <tr>
+                                            <th>Les critères</th>
+                                            <th class="btn-action">Barèmes</th>
+                                            <th class="mise-en-forme">Mise en forme</th>
+                                            <th class="btn-action">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
@@ -150,11 +181,17 @@
                             </div>
                         </div>
                         <table class="table table-bordered" id="table-exigence-{{ information_exigence.code }}">
-                            <tr>
-                                <th>Les critères</th>
-                                <th>Barèmes</th>
-                                <th class="btn-action">Actions</th>
-                            </tr>
+                            <thead>
+                                <tr>
+                                    <th>Les critères</th>
+                                    <th class="btn-action">Barèmes</th>
+                                    <th class="mise-en-forme">Mise en forme</th>
+                                    <th class="btn-action">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            
+                            </tbody>
                         </table>
                     {% endfor %}
                     
@@ -187,11 +224,17 @@
                             </div>
                         </div>
                         <table class="table table-bordered" id="table-atout-{{ information_atout.code }}">
-                            <tr>
-                                <th>Les critères</th>
-                                <th>Barèmes</th>
-                                <th class="btn-action">Actions</th>
-                            </tr>
+                           <thead>
+                               <tr>
+                                   <th>Les critères</th>
+                                   <th class="btn-action">Barèmes</th>
+                                   <th class="mise-en-forme">Mise en forme</th>
+                                   <th class="btn-action">Actions</th>
+                               </tr>
+                           </thead>
+                            <tbody>
+                            
+                            </tbody>
                         </table>
                     {% endfor %}
                 </div>
@@ -202,6 +245,61 @@
             <button class="btn btn-primary" style="" id="enregistrer">Enregistrer</button>
         </div>
     </form>
+    
+    
+    <!-- MODAL EFFECTS -->
+    <div class="modal fade" id="modaldemo8">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content country-select-modal">
+                <div class="modal-header">
+                    <h6 class="modal-title">Décision et  justification</h6>
+                    <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Mise en forme pour les critères de base</h3>
+                        </div>
+                        <div class=" card-body">
+                            <div class="form-group ">
+                                <div class="row">
+                                    <label for="">Police et couleurs</label>
+                                    <div class="col-10">
+                                        <select name="police_critere" id="police_critere" class="form-control">
+                                            <option value="">Sélectionner une police</option>
+                                            {% for police in polices %}
+                                                <option value="{{ police.id }}">{{ police.libelle }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="col-2 mt-1">
+                                        <input id="showPaletteOnly" type="text">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group mg-b-10" >
+                                <label class="custom-switch ps-0">
+                                    <input type="checkbox" name="gras" class="custom-switch-input">
+                                    <span class="custom-switch-indicator me-3"></span>
+                                    <span class="custom-switch-description mg-l-10">Gras</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" type="submit" id="enregistrer">Enregistrer</button>
+                        <button class="btn btn-light" data-bs-dismiss="modal">Fermer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+    
 {% endblock %}
 
 {% block javascripts %}
@@ -214,6 +312,17 @@
         var exigenceArray = {}
         
         $(document).ready(function(){
+            
+            $('body').on('click','.showModal', function (){
+                if ($(this).is(':checked')){
+                    $('#modaldemo8').modal('show');
+                }
+                else{
+                    $('#modaldemo8').modal('hide');
+                }
+            })
+            
+            
             $('#critere_exigence').on('click', function (){
                 if( $('#critere_exigence').is(':checked')){
                     $('#form-exigence').removeClass('d-none')
@@ -244,8 +353,22 @@
                     system.stop()
                     return false;
                 }
-                let html = "<tr class='line'><td class='libelle'>"+ libelle +"</td><td class='bareme'><input type='text' class='form-control'></td><td><button type='button' class='btn btn-danger p-1 delete-experience'><i class='fa fa-minus'></i></td></tr>";
-                $('#table-experience').append(html);
+                let html = `
+                    <tr class='line'>
+                        <td class='libelle'>${libelle}</td>
+                        <td class='bareme'><input type='text' class='form-control'></td>
+                        <td class="text-center pt-4">
+                            <label class="custom-switch ps-0">
+                              
+                               <input type="checkbox" class="custom-switch-input showModal">
+                               <span class="custom-switch-indicator me-3"></span>
+                               <span class="custom-switch-description mg-l-10"></span>
+                            </label>
+                        </td>
+                        <td><button type='button' class='btn btn-danger p-1 delete-experience'><i class='fa fa-minus'></i></td>
+                    </tr>
+                `;
+                $('#table-experience tbody').append(html);
                 $('#input-experience').val(" ")
             })
     
@@ -271,8 +394,21 @@
                     system.stop()
                     return false;
                 }
-                let html = "<tr class='line'><td class='libelle'>"+ libelle +"</td><td class='bareme-autre-information'><input type='text' class='form-control'></td><td><button type='button' class='btn btn-danger p-1 delete-atout'><i class='fa fa-minus'></i></td></tr>";
-                $('#table-exigence-{{ information_exigence.code }}').append(html);
+                let html = `
+                    <tr class='line'>
+                        <td class='libelle'>${libelle}</td>
+                        <td class='bareme-autre-information'><input type='text' class='form-control'></td>
+                        <td class="text-center pt-4">
+                            <label class="custom-switch ps-0">
+                               <input type="checkbox" class="custom-switch-input showModal">
+                               <span class="custom-switch-indicator me-3"></span>
+                               <span class="custom-switch-description mg-l-10"></span>
+                            </label>
+                        </td>
+                        <td><button type='button' class='btn btn-danger p-1 delete-atout'><i class='fa fa-minus'></i></td>
+                    </tr>
+                `;
+                $('#table-exigence-{{ information_exigence.code }} tbody').append(html);
                 $('#input-exigence-{{ information_exigence.code }}').val(" ")
             })
             {% endfor %}
@@ -285,8 +421,21 @@
                         system.stop()
                         return false;
                     }
-                    let html = "<tr class='line'><td class='libelle'>"+ libelle +"</td><td class='bareme-autre-information'><input type='text' class='form-control'></td><td><button type='button' class='btn btn-danger p-1 delete-atout'><i class='fa fa-minus'></i></td></tr>";
-                    $('#table-atout-{{ information_atout.code }}').append(html);
+                    let html = `
+                        <tr class='line'>
+                            <td class='libelle'>${libelle}</td>
+                            <td class='bareme-autre-information'><input type='text' class='form-control'></td>
+                            <td class="text-center pt-4">
+                                <label class="custom-switch ps-0">
+                                   <input type="checkbox" class="custom-switch-input showModal">
+                                   <span class="custom-switch-indicator me-3"></span>
+                                   <span class="custom-switch-description mg-l-10"></span>
+                                </label>
+                            </td>
+                            <td><button type='button' class='btn btn-danger p-1 delete-atout'><i class='fa fa-minus'></i></td>
+                        </tr>
+                    `;
+                    $('#table-atout-{{ information_atout.code }} tbody').append(html);
                     $('#input-atout-{{ information_atout.code }}').val(" ")
                 })
             {% endfor %}

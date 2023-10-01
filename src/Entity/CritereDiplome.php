@@ -24,7 +24,7 @@ class CritereDiplome
     #[ORM\Column(length: 255)]
     private ?string $bareme = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(cascade: ["persist"])]
     #[ORM\JoinColumn(nullable: false)]
     private ?MatriceEvaluation $matriceEvaluation = null;
 

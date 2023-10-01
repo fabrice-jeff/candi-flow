@@ -17,6 +17,24 @@
     </div>
 {% endblock %}
 
+{% block stylesheets %}
+    <style>
+    
+        .detail{
+            {% if poste.police is not null %}
+                font-family: "{{ poste.police.libelle }}";
+                color: {{ poste.couleurCritere }};
+            {% endif %}
+
+            {% if poste.gras == 1 %}
+                font-weight: bold;
+            {% endif %}
+            font-size: 17px;
+        }
+
+    </style>
+{% endblock %}
+
 {% block content %}
     
     <div class="row">
@@ -40,45 +58,55 @@
                                     {% endif %}
                                     {% if critere.ageExige == 1 %}
                                         <th style="vertical-align: top;">Age<br>
-                                            ({{ poste.age }})
+                                            <span class="detail">({{ poste.age }})</span>
                                         </th>
                                     {% endif %}
                                     {% if critere.diplome == 1 %}
-                                        <th style="vertical-align: top;">Diplôme/Niveau/Domaine <br> ({{ poste.niveauEtude.libelle }})</th>
+                                        <th style="vertical-align: top;">
+                                            Diplôme/Niveau/Domaine <br>
+                                            <span class="detail">({{ poste.niveauEtude.libelle }})</span>
+                                        </th>
                                     {% endif %}
                                     {% if critere.formationPoste == 1 %}
                                         <th style="vertical-align: top;"> Formations pertinentes en lien avec le poste</th>
                                     {% endif %}
                                     {% if critere.logicielSpecifique == 1 %}
-                                        <th style="vertical-align: top;">Outil Informatique <br>({{ poste.logicielSpecifique }}) </th>
+                                        <th style="vertical-align: top;">Outil Informatique <br>
+                                            <span class="detail">({{ poste.logicielSpecifique }})</span>
+                                        </th>
                                     {% endif %}
                                     {% if critere.autreOutils %}
                                         <th style="vertical-align: top;">Autres outils informatiques</th>
                                     {% endif %}
                                     {% if critere.totalExperiance == 1 %}
-                                        <th style="vertical-align: top;">Total expérience sur CV (Durée, Poste, Organisme)</th>
+                                        <th style="vertical-align: top;">Total expérience sur CV <br>
+                                            <span class="detail">(Durée, Poste, Organisme)</span>
+                                        </th>
                                     {% endif %}
                                     {% if critere.parcoursGlobal == 1 %}
                                         <th style="vertical-align: top;">Parcours professionnel global prouvé
                                             Durée, Poste, Organisme <br>
-                                            ({{ poste.dureeParcoursGlobal }} {{ extract_words(poste.posteParcoursGlobal)| html_entity_decode }})
+                                            <span class="detail">({{ poste.dureeParcoursGlobal }} {{ extract_words(poste.posteParcoursGlobal)| html_entity_decode }})</span>
                                         </th>
                                     {% endif %}
                                     {% if critere.parcoursSpecifique == 1 %}
                                         <th style="vertical-align: top;">Parcours professionnel spécifique prouvé
                                             Durée, Poste, Organisme <br>
-                                            ({{ poste.dureeParcoursSpecifique }} {{ extract_words(poste.posteParcoursSpecifique)| html_entity_decode }})
+                                            <span class="detail">({{ poste.dureeParcoursSpecifique }} {{ extract_words(poste.posteParcoursSpecifique)| html_entity_decode }})</span>
                                         </th>
                                     {% endif %}
                                     {% if critere.autreInformation == 1 %}
                                         {% for autre_info in autres_informations %}
-                                            <th style="vertical-align: top;">{{ autre_info.nomColonne}} <br>( {{ autre_info.information }})</th>
+                                            <th style="vertical-align: top;">{{ autre_info.nomColonne}} <br>
+                                                <span class="detail">( {{ autre_info.information }})</span>
+                                            </th>
                                         {% endfor %}
                                     {% endif %}
                                     
                                     {% if critere.contact == 1 %}
                                         <th style="vertical-align: top;">Contact <br>
-                                            (Téléphone et E-mail)</th>
+                                            <span class="detail">(Téléphone et E-mail)</span>
+                                        </th>
                                     {% endif %}
                                     <th style="vertical-align: top" class="btn-action">Actions</th>
                                 </tr>

@@ -72,7 +72,7 @@ class Candidature
     #[ORM\JoinColumn(nullable: false)]
     private ?Statut $statut = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $age = null;
 
     #[ORM\Column(length: 255, nullable: true)]

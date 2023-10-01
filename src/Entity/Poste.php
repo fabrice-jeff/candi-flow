@@ -61,6 +61,16 @@ class Poste
     #[ORM\Column(type: Types::DATE_MUTABLE,  nullable: true)]
     private ?\DateTimeInterface $dateFin = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $couleurCritere = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Police $police = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $gras = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -208,6 +218,42 @@ class Poste
     public function setDateFin(\DateTimeInterface $dateFin): static
     {
         $this->dateFin = $dateFin;
+
+        return $this;
+    }
+
+    public function getCouleurCritere(): ?string
+    {
+        return $this->couleurCritere;
+    }
+
+    public function setCouleurCritere(string $couleurCritere): static
+    {
+        $this->couleurCritere = $couleurCritere;
+
+        return $this;
+    }
+
+    public function getPolice(): ?Police
+    {
+        return $this->police;
+    }
+
+    public function setPolice(?Police $police): static
+    {
+        $this->police = $police;
+
+        return $this;
+    }
+
+    public function isGras(): ?bool
+    {
+        return $this->gras;
+    }
+
+    public function setGras(bool $gras): static
+    {
+        $this->gras = $gras;
 
         return $this;
     }

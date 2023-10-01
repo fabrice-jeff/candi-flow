@@ -13,6 +13,7 @@ use App\Entity\Candidature;
 use App\Entity\TotalExperience;
 use App\Form\CandidatureType;
 use App\Repository\AtoutRepository;
+use App\Repository\AutreExigenceRepository;
 use App\Repository\AutreInformationCandidatureRepository;
 use App\Repository\AutreInformationRepository;
 use App\Repository\CritereAtoutsRepository;
@@ -60,8 +61,9 @@ class CandidatureController extends AbstractController
     private CritereExigenceRepository $critereExigenceRepository;
     private CritereAtoutsRepository $critereAtoutsRepository;
     private AtoutRepository $atoutRepository;
+    private AutreExigenceRepository $autreExigenceRepository;
 
-    public function __construct(AutreInformationRepository $autreInformationRepository,CandidatureRepository $candidatureRepository, EntityManagerInterface $manager, OutilsInformatiqueRepository $outilsInformatiqueRepository, NiveauEtudeRepository $niveauEtudeRepository, FormationRepository $formationRepository, TotalExperienceRepository $totalExperienceRepository, OutilInformatiqueCandidatureRepository $outilInformatiqueCandidatureRepository, ParcoursGlobalRepository $parcoursGlobalRepository, ParcoursSpecifiqueRepository $parcoursSpecifiqueRepository, AutreInformationCandidatureRepository $autreInformationCandidatureRepository, StatutRepository $statutRepository, MatriceEvaluationRepository $matriceEvaluationRepository, CritereDiplomeRepository $critereDiplomeRepository,  CritereExperienceRepository $critereExperienceRepository, CritereExigenceRepository $critereExigenceRepository, CritereAtoutsRepository $critereAtoutsRepository, AtoutRepository $atoutRepository)
+    public function __construct(AutreInformationRepository $autreInformationRepository,CandidatureRepository $candidatureRepository, EntityManagerInterface $manager, OutilsInformatiqueRepository $outilsInformatiqueRepository, NiveauEtudeRepository $niveauEtudeRepository, FormationRepository $formationRepository, TotalExperienceRepository $totalExperienceRepository, OutilInformatiqueCandidatureRepository $outilInformatiqueCandidatureRepository, ParcoursGlobalRepository $parcoursGlobalRepository, ParcoursSpecifiqueRepository $parcoursSpecifiqueRepository, AutreInformationCandidatureRepository $autreInformationCandidatureRepository, StatutRepository $statutRepository, MatriceEvaluationRepository $matriceEvaluationRepository, CritereDiplomeRepository $critereDiplomeRepository,  CritereExperienceRepository $critereExperienceRepository, CritereExigenceRepository $critereExigenceRepository, CritereAtoutsRepository $critereAtoutsRepository, AtoutRepository $atoutRepository, AutreExigenceRepository $autreExigenceRepository)
     {
         $this->autreInformationRepository = $autreInformationRepository;
         $this->candidatureRepository = $candidatureRepository;
@@ -81,6 +83,7 @@ class CandidatureController extends AbstractController
         $this->critereExigenceRepository = $critereExigenceRepository;
         $this->critereAtoutsRepository = $critereAtoutsRepository;
         $this->atoutRepository = $atoutRepository;
+        $this->autreExigenceRepository = $autreExigenceRepository;
     }
 
     #[Route('/liste/{code}', name: 'app_candidature_index', methods: ['GET','POST'])]
@@ -210,8 +213,17 @@ class CandidatureController extends AbstractController
         $matriceEvaluation = $this->matriceEvaluationRepository->findOneBy(['deleted' => false, 'poste' => $poste]);
         $critereDiplome =  $this->critereDiplomeRepository->findBy(['deleted' => false, 'matriceEvaluation' => $matriceEvaluation], ['id' => 'DESC']);
         $critereExperience = $this->critereExperienceRepository->findBy(['deleted' => false, 'matriceEvaluation'  => $matriceEvaluation],['id' => 'DESC']);
-        $critereExigence = $this->critereExigenceRepository->findBy(['deleted' =>false, 'matriceEvaluation' => $matriceEvaluation],['id' => 'DESC']);
-
+        $critereExigences = $this->critereExigenceRepository->findBy(['deleted' =>false, 'matriceEvaluation' => $matriceEvaluation],['id' => 'DESC']);
+        $exigencesArray =  [];
+        foreach ($critereExigences as $critereExigence) {
+            $exigences = $this->autreExigenceRepository->findBy(['deleted' => false, 'critereExigence' => $critereExigence],['id' => 'DESC']);
+            $objet = [
+                'critere_exigence' =>$critereExigence,
+                'exigences' =>$exigences
+            ];
+            array_push($exigencesArray,$objet);
+        }
+//        dd($exigencesArray);
         $atoutsArray = [];
         $critereAtouts = $this->critereAtoutsRepository->findBy(['deleted' => false, 'matriceEvaluation' => $matriceEvaluation],['id' => 'DESC']);
         foreach ($critereAtouts as $critereAtout) {
@@ -369,7 +381,7 @@ class CandidatureController extends AbstractController
             'autres_informations' => $autresInformations,
             'citeres_diplome' => $critereDiplome,
             'critere_experience' => $critereExperience,
-            'critere_exigence' => $critereExigence,
+            'critere_exigence' => $exigencesArray,
             'critere_atout' => $atoutsArray,
         ]);
     }

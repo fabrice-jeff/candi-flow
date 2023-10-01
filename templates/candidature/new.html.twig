@@ -152,26 +152,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-body">
-                        <div class="card mt-3">
-                            <ul class="list-group">
-                                {% for exigence in critere_exigence %}
-                                    <li class="list-group-item">
-                                        <div class="row">
-                                            <div class="col-10">
-                                                <label for="{{ exigence.code }}">{{ exigence.libelle }}</label>
-                                            </div>
-                                            <div class="col-2 pt-4">
-                                                <div class="material-switch pull-right">
-                                                    <input value="{{ exigence.code }}" id="{{ exigence.code }}" name="exigence" type="radio" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    </div>
                 </div>
             </div>
         {% endif %}
@@ -345,7 +325,7 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <div class="card-title">Autres Informations (Cannaissances/Atouts)</div>
+                    <div class="card-title">Autres Informations (Autres exigences/Atouts)</div>
                 </div>
                 {% for infos in autres_informations %}
                     <div class="card-body">
@@ -359,7 +339,32 @@
                             <span class="p-4">Oui</span>
                         </div>
                     </div>
-    
+                    {% for exigence in critere_exigence %}
+                        {% if exigence.critere_exigence.autreInformation ==  infos %}
+                            <div class="card-body">
+                                <div class="card mt-3">
+                                    <ul class="list-group">
+                                        {% for item in exigence['exigences'] %}
+                                            <li class="list-group-item">
+                                                <div class="row">
+                                                    <div class="col-10">
+                                                        <label for="{{ item.code }}">{{ item.libelle }}</label>
+                                                    </div>
+                                                    <div class="col-2 pt-4">
+                                                        <div class="material-switch pull-right">
+                                                            <input value="{{ item.code }}" id="{{ item.code }}" name="atout-{{ exigence.critere_exigence.code }}" type="radio"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    
+                    
                     {% for atout in critere_atout %}
                         {% if atout.critere_atouts.autreInformation ==  infos %}
                             <div class="card-body">

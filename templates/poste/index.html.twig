@@ -87,7 +87,7 @@
                                         {% endif %}
                                     </td>
                                     <td>
-                                        {% if poste.age is null %}
+                                        {% if poste.age is null or poste.age == "" %}
                                             Non précisé
                                         {% else %}
                                             {{ poste.age }}

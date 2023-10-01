@@ -18,6 +18,7 @@ use App\Repository\CritereDiplomeRepository;
 use App\Repository\CritereExigenceRepository;
 use App\Repository\CritereExperienceRepository;
 use App\Repository\MatriceEvaluationRepository;
+use App\Repository\PoliceRepository;
 use App\Repository\TypeTypeRepository;
 use App\Utils\Constants\FixedValuesConstants;
 use Doctrine\ORM\EntityManagerInterface;
@@ -39,8 +40,9 @@ class MatriceEvaluationCvController extends AbstractController
     private AtoutRepository $atoutRepository;
     private TypeTypeRepository $typeTypeRepository;
     private AutreExigenceRepository $autreExigenceRepository;
+    private PoliceRepository $policeRepository;
 
-    public function __construct(EntityManagerInterface $entityManager,AutreInformationRepository $autreInformationRepository, CritereDiplomeRepository $critereDiplomeRepository, CritereExigenceRepository $critereExigenceRepository, CritereExperienceRepository $critereExperienceRepository, CritereAtoutsRepository $critereAtoutsRepository, MatriceEvaluationRepository $matriceEvaluationRepository, AtoutRepository $atoutRepository, TypeTypeRepository $typeTypeRepository,AutreExigenceRepository $autreExigenceRepository)
+    public function __construct(EntityManagerInterface $entityManager,AutreInformationRepository $autreInformationRepository, CritereDiplomeRepository $critereDiplomeRepository, CritereExigenceRepository $critereExigenceRepository, CritereExperienceRepository $critereExperienceRepository, CritereAtoutsRepository $critereAtoutsRepository, MatriceEvaluationRepository $matriceEvaluationRepository, AtoutRepository $atoutRepository, TypeTypeRepository $typeTypeRepository,AutreExigenceRepository $autreExigenceRepository, PoliceRepository $policeRepository)
     {
         $this->entityManager = $entityManager;
         $this->autreInformationRepository = $autreInformationRepository;
@@ -52,11 +54,13 @@ class MatriceEvaluationCvController extends AbstractController
         $this->atoutRepository = $atoutRepository;
         $this->typeTypeRepository = $typeTypeRepository;
         $this->autreExigenceRepository = $autreExigenceRepository;
+        $this->policeRepository = $policeRepository;
     }
 
     #[Route('/new/{code}', name: 'app_matrice_evaluation_cv_new', methods: ['GET', 'POST'])]
     public function new(Request $request, Poste $poste): Response
     {
+        $polices =  $this->policeRepository->findAll();
         $autreInformationsAtouts = $this->autreInformationRepository->findBy(['deleted'=> false, 'poste' => $poste, 'typeType' => $this->typeTypeRepository->findOneBy(['codeReference' => FixedValuesConstants::TYPE_AUTRE_INFORMATION_ATOUT])]);
 
         $autreInformationsExigence = $this->autreInformationRepository->findBy(['deleted'=> false, 'poste' => $poste, 'typeType' => $this->typeTypeRepository->findOneBy(['codeReference' => FixedValuesConstants::TYPE_AUTRE_INFORMATION_AUTRE_EXIGENCE])]);
@@ -141,6 +145,7 @@ class MatriceEvaluationCvController extends AbstractController
             'poste' => $poste,
             'autre_informations_atouts' => $autreInformationsAtouts,
             'autre_informations_exigence' => $autreInformationsExigence,
+            'polices' => $polices,
         ]);
     }
 

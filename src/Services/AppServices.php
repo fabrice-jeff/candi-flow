@@ -127,67 +127,19 @@ class AppServices
         return new BinaryFileResponse($filePath);
     }
 
-    public function hsvToHex($hue, $saturation, $value) {
-        $hue = $hue % 360;
-        $saturation = max(0, min(100, $saturation));
-        $value = max(0, min(100, $value));
-
-        $chroma = ($value / 100) * ($saturation / 100);
-        $h_prime = $hue / 60;
-        $x = $chroma * (1 - abs($h_prime % 2 - 1));
-
-        $r = $g = $b = 0;
-
-        if ($h_prime >= 0 && $h_prime < 1) {
-            $r = $chroma;
-            $g = $x;
-        } elseif ($h_prime >= 1 && $h_prime < 2) {
-            $r = $x;
-            $g = $chroma;
-        } elseif ($h_prime >= 2 && $h_prime < 3) {
-            $g = $chroma;
-            $b = $x;
-        } elseif ($h_prime >= 3 && $h_prime < 4) {
-            $g = $x;
-            $b = $chroma;
-        } elseif ($h_prime >= 4 && $h_prime < 5) {
-            $r = $x;
-            $b = $chroma;
-        } elseif ($h_prime >= 5 && $h_prime < 6) {
-            $r = $chroma;
-            $b = $x;
-        }
-
-        $m = ($value / 100) - $chroma;
-        $r = ($r + $m) * 255;
-        $g = ($g + $m) * 255;
-        $b = ($b + $m) * 255;
-
-        return sprintf("#%02x%02x%02x", round($r), round($g), round($b));
-    }
-
-
-    public function extractHSV($colorString) {
-        preg_match('/hsv\((\d+), (\d+)%, (\d+)%\)/', $colorString, $matches);
+    function rgbCssToHex($cssColor) {
+        // Utilisez une expression régulière pour extraire les composantes R, G et B
+        preg_match('/rgb\((\d+), (\d+), (\d+)\)/', $cssColor, $matches);
 
         if (count($matches) == 4) {
-            return array(
-                'hue' => intval($matches[1]),
-                'saturation' => intval($matches[2]),
-                'value' => intval($matches[3])
-            );
-        } else {
-            return false; // Le format HSV est incorrect
-        }
-    }
+            $red = intval($matches[1]);
+            $green = intval($matches[2]);
+            $blue = intval($matches[3]);
 
-    public function hsvStringToHex($colorString) {
-        $hsv = $this->extractHSV($colorString);
-
-        if ($hsv !== false) {
-            return $this->hsvToHex($hsv['hue'], $hsv['saturation'], $hsv['value']);
+            // Utilisez la fonction sprintf pour formater le code hexadécimal
+            return sprintf("#%02x%02x%02x", $red, $green, $blue);
         } else {
-            return false;
+            return false; // Le format CSS n'est pas correct
         }
     }
 

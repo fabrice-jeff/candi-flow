@@ -87,7 +87,6 @@ class PosteController extends AbstractController
         $form->handleRequest($request);
         $polices =  $this->policeRepository->findAll();
         if ($form->isSubmitted() && $form->isValid()) {
-//            dd($request);
             $critere = new Critere();
             $poste->setLibelle($request->get('poste')['libelle']);
             ($request->get('nomPrenom')) ? $critere->setNomPrenoms(true) : $critere->setNomPrenoms(false);
@@ -165,12 +164,14 @@ class PosteController extends AbstractController
             ($request->get('justification')) ? $critere->setJustification(true) : $critere->setJustification(false);
             ($request->get('gras'))? $poste->setGras(true) : $poste->setGras(false);
             $poste->setPolice($this->policeRepository->find($request->get('police_critere')));
-
             $colorString = $request->get('color_critere');
-            $hexColor = $this->appServices->hsvStringToHex($colorString);
-
-
-            $poste->setCouleurCritere($hexColor);
+            if($colorString == ""){
+                $colorString =  "#DC3545";
+                $poste->setCouleurCritere($colorString);
+            }else{
+                $hexColor = $this->appServices->rgbCssToHex($colorString);
+                $poste->setCouleurCritere($hexColor);
+            }
             $poste->setCritere($critere);
             $entityManager->persist($poste);
             $entityManager->persist($critere);
@@ -252,6 +253,9 @@ class PosteController extends AbstractController
                         $exigence->setDeleted(true);
                     }
                 }
+            }
+            foreach ($informationComplementaires as $informationComplementaire) {
+                $informationComplementaire->setDeleted(true);
             }
             $poste->getCritere()->setDeleted(true);
             $poste->setDeleted(true);
@@ -421,15 +425,20 @@ class PosteController extends AbstractController
             ($request->get('gras'))? $poste->setGras(true) : $poste->setGras(false);
             $poste->setPolice($this->policeRepository->find($request->get('police_critere')));
             $colorString = $request->get('color_critere');
-            $hexColor = $this->appServices->hsvStringToHex($colorString);
-            $poste->setCouleurCritere($hexColor);
+            if($colorString == ""){
+                $colorString =  "#DC3545";
+                $poste->setCouleurCritere($colorString);
+            }else{
+                $hexColor = $this->appServices->rgbCssToHex($colorString);
+                $poste->setCouleurCritere($hexColor);
+            }
+            
             $poste->setCritere($critere);
             if($matriceEvaluation){
                 $entityManager->persist($matriceEvaluationNew);
             }
             $entityManager->persist($poste);
             $entityManager->persist($critere);
-
             $entityManager->flush();
             $this->addFlash('success', "Poste enregistrée avec succès");
             return $this->redirectToRoute('app_poste_index', [], Response::HTTP_SEE_OTHER);

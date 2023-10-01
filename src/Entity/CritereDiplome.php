@@ -31,6 +31,15 @@ class CritereDiplome
     #[ORM\Column(type: Types::TEXT)]
     private ?string $libelle = null;
 
+    #[ORM\ManyToOne]
+    private ?Police $police = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $couleurCritere = null;
+
+    #[ORM\Column]
+    private ?bool $gras = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -69,6 +78,42 @@ class CritereDiplome
     public function setLibelle(string $libelle): static
     {
         $this->libelle = $libelle;
+
+        return $this;
+    }
+
+    public function getPolice(): ?Police
+    {
+        return $this->police;
+    }
+
+    public function setPolice(?Police $police): static
+    {
+        $this->police = $police;
+
+        return $this;
+    }
+
+    public function getCouleurCritere(): ?string
+    {
+        return $this->couleurCritere;
+    }
+
+    public function setCouleurCritere(string $couleurCritere): static
+    {
+        $this->couleurCritere = $couleurCritere;
+
+        return $this;
+    }
+
+    public function isGras(): ?bool
+    {
+        return $this->gras;
+    }
+
+    public function setGras(bool $gras): static
+    {
+        $this->gras = $gras;
 
         return $this;
     }

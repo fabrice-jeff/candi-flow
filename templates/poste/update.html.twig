@@ -388,15 +388,15 @@
 								
 								<div class="mt-3">
 									<div class="row mb-3" id="button-autre-information">
-										<div class="col-3">
 											{% for type in type_autre_information %}
+											<div class="col-2">
 												<button class="btn btn-warning button" id="{{ type.codeReference }}" type="button" data-code="{{ type.codeReference }}">{{ type.libelle }}</button>
+											</div>
 											{% endfor %}
-										</div>
 										<div class="col-4">
 										</div>
 									</div>
-									<div class="row d-none"  id="form-connaissance">
+									<div class="row" id="form-connaissance">
 										<div class="col-6">
 											<input type="text" class="form-control ml-4"  placeholder="Nom de la colonne" id="nomConnaissance">
 										</div>
@@ -412,11 +412,19 @@
 										<div class="p-5">
 											<table class="table table-bordered" id="table-connaissance">
 												<thead>
-												<th>Nom de la colonne</th>
-												<th>Expériance/Formation/Atouts</th>
-												<th class="btn-action">Actions</th>
+													<th>Nom de la colonne</th>
+													<th>Expériance/Formation/Atouts</th>
+													<th class="btn-action">Actions</th>
 												</thead>
 												<tbody>
+												{% for information in autre_informations %}
+													<tr class="line">
+														<td class="nomConnaissance">{{ information.nomColonne }}</td>
+														<td class="domaineConnaissance">{{ information.information }}</td>
+														<td class="typeCode" hidden>{{ information.typeType.codeReference }}</td>
+														<td><button type="button" class="btn btn-danger p-1 delete-connaissance"><i class="fa fa-minus"></i></button></td>
+													</tr>
+												{% endfor %}
 												</tbody>
 											</table>
 										</div>
@@ -432,13 +440,11 @@
 								
 								<div class="mt-3">
 									<div class="row d-none mb-3" id="button-autre-information">
-										<div class="col-3">
 											{% for type in type_autre_information %}
-												<button class="btn btn-warning button" id="{{ type.codeReference }}" type="button" data-code="{{ type.codeReference }}">{{ type.libelle }}</button>
+												<div class="col-2">
+													<button class="btn btn-warning button" id="{{ type.codeReference }}" type="button" data-code="{{ type.codeReference }}">{{ type.libelle }}</button>
+												</div>
 											{% endfor %}
-										</div>
-										<div class="col-4">
-										</div>
 									</div>
 									<div class="row d-none"  id="form-connaissance">
 										<div class="col-6">
@@ -538,7 +544,7 @@
 									</select>
 								</div>
 								<div class="col-2 mt-1">
-									<input id="colorpicker" type="text" name="color_critere" class="col-2">
+									<input id="showPaletteOnly" type="text" name="color_critere">
 								</div>
 							</div>
 						</div>
@@ -609,10 +615,9 @@
          })
          $("#connaissance").on('click', function(){
              if($("#connaissance").is(":checked")){
-
                  $('#button-autre-information').removeClass('d-none')
              }else{
-                 $('#form-connaissance').addClass('d-none')
+                 $('#button-autre-information').addClass('d-none')
              }
          })
 		
@@ -657,6 +662,8 @@
              var nomConnaissance = $('#nomConnaissance').val().trim();
              var domaineConnaissance= $('#domaineConnaissance').val().trim()
              var typeCode = $("#type-autre-information").val();
+             console.log(typeCode)
+             debugger
              var html = "<tr class='line'><td class='nomConnaissance'>"+ nomConnaissance +"</td><td class='domaineConnaissance'>"+domaineConnaissance+"</td><td class='typeCode' hidden>"+typeCode+"</td><td><button type='button' class='btn btn-danger p-1 delete-connaissance'><i class='fa fa-minus'></i></button></td></tr>";
              $('#table-connaissance tbody .line').each(function(i){
                  if($(this).find('.nomConnaissance').text() === nomConnaissance && $(this).find('.domaineConnaissance').text() === domaineConnaissance  ){
@@ -675,8 +682,12 @@
                  system.stop()
                  return  false;
              }
-
-
+             if (typeCode === ""){
+                 warning_noti("Un type doit être choisi")
+                 system.stop()
+                 return  false;
+             }
+	         
              $('#table-connaissance tbody').append(html)
              $('#nomConnaissance').val("")
              $('#domaineConnaissance').val("")
